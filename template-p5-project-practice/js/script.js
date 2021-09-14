@@ -1,6 +1,8 @@
 /*
-Template p5 project
+Template p5 Drawing Experiments
 Anthony Lum
+
+Practicing and following along with the Youtube tutorials at 12:30am.
 */
 
 /*Function to setup space*/
@@ -22,5 +24,5 @@ function setup() {
 }
 
 
-/*Function to execute draw*/
+// Function to execute draw
 function draw() {}
