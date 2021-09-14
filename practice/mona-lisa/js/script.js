@@ -1,33 +1,38 @@
 /**
-Title of Project
-Author Name
+Will I make the Mona Lisa? Maybe I will, maybe I won't.
+Anthony Lum
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+Week 2 in class practice activity.
+
+Plan:
+  x Create a a reasonable sized canvas
+  x fill the background
+  x
 */
 
-"use strict";
 
-
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
-
-/**
-Description of setup
-*/
+// Masterpiece Setup
 function setup() {
 
-}
+  // Initial bg
+  createCanvas(300,400); // (w,h)
+  background(125, 134, 91); // rgb
 
+  // Secondary bg
+  noStroke();
+  fill(85, 84, 54); // rgb
+  rect(0,100,400,300); // (x,y,w,h)
 
-/**
-Description of draw()
-*/
-function draw() {
+  // Tertiary bg
+  noStroke();
+  fill(84, 64, 57); // rgb
+  rect(0,200,400,200); // (x,y,w,h)
 
+  // Head
+  fill(222,182,93);
+  ellipse(120,85,60,80);
+
+  // Smile
+  stroke(0);
+  line(100,100,120,105);
 }
