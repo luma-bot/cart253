@@ -14,8 +14,8 @@ let backgroundShade = 0;
 // let circleAcceleration = 0.25;
 
 let circle = {
-  x:250,
-  y:250,
+  x: 250,
+  y: 250,
   size: 200,
   speed: 1,
   fill: 0
@@ -32,11 +32,15 @@ function draw() {
 
   circle.x += circle.speed;
   // is the same as circleX = circleX + circleSpeed;
+  circle.x = constrain(circle.x,0,width);
 
+
+  circle.fill = map(circle.x, 0, width, 0, 255);
+  fill(circle.fill);
   ellipse(circle.x, circle.y, circle.size);
 
   let randomNumber = random();
-  console.log(randomNumber);
+  // console.log(randomNumber);
 
   // console.log(`circleX: ${circle.x}, circleY${circle.y}, circleSize${circle.size}, circleSpeed${circle.speed}`)
 }
