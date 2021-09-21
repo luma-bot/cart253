@@ -1,33 +1,22 @@
-/**
-Title of Project
-Author Name
+/*
+Introducing Variables
+Anthony Lum
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+Practicing and following along with the Youtube tutorials at 2:30am.
 */
-
-"use strict";
-
-
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
 
 /**
 Description of setup
 */
 function setup() {
+  createCanvas(windowWidth , windowHeight);
 
 }
 
 
-/**
-Description of draw()
-*/
+/** Where the action is in p5. Gets run once per frame, 60 times per second */
 function draw() {
-
+  background(255, 0, 0);
+  rectMode(CENTER);
+  rect(mouseX, mouseY, 100, 100);
 }
