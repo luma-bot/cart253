@@ -14,10 +14,11 @@ let backgroundShade = 0;
 // let circleAcceleration = 0.25;
 
 let circle = {
-  x:0,
+  x:250,
   y:250,
   size: 200,
-  speed: 2,
+  speed: 1,
+  fill: 0
 };
 
 /** Description of setup */
@@ -28,7 +29,14 @@ function setup() {
 /** Where the action is in p5. Gets run once per frame, 60 times per second */
 function draw() {
   background(backgroundShade);
+
   circle.x += circle.speed;
   // is the same as circleX = circleX + circleSpeed;
+
   ellipse(circle.x, circle.y, circle.size);
+
+  let randomNumber = random();
+  console.log(randomNumber);
+
+  // console.log(`circleX: ${circle.x}, circleY${circle.y}, circleSize${circle.size}, circleSpeed${circle.speed}`)
 }
