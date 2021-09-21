@@ -24,7 +24,7 @@ Table Of Contents:
 
 /*****************************************
 Colors:
-- Backgrounds, headings text - navy blue #1b1e7b
+- Backgrounds, headings text - navy blue #21252B
 - Backgrounds - light gray #f2f3fd
 - Buttons, icons - blue #026cfe
 - Body text - dark gray #6b747b
@@ -51,17 +51,17 @@ h1 {
 }
 
 h2 {
-	color: #1b1e7b;
+	color: #21252B;
 	font: 600 2.125rem/2.75rem "Poppins", sans-serif;
 }
 
 h3 {
-	color: #1b1e7b;
+	color: #21252B;
 	font: 600 1.75rem/2.375rem "Poppins", sans-serif;
 }
 
 h4 {
-	color: #1b1e7b;
+	color: #21252B;
 	font: 600 1.5rem/2.125rem "Poppins", sans-serif;
 }
 
@@ -420,7 +420,7 @@ input[type='checkbox'] {
 /*     Navigation     */
 /**********************/
 .navbar {
-	background-color: #1b1e7b;
+	background-color: #21252B;
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 0.875rem;
@@ -849,7 +849,7 @@ input[type='checkbox'] {
 }
 
 .counter #counter .counter-value {
-	color: #1b1e7b;
+	color: #21252B;
 	font-weight: 700;
 	font-size: 3.25rem;
 	line-height: 3.75rem;
@@ -935,7 +935,7 @@ input[type='checkbox'] {
 }
 
 .footer .fa-stack .fa-stack-1x {
-    color: #1b1e7b;
+    color: #21252B;
 	transition: all 0.2s ease;
 }
 
@@ -949,7 +949,7 @@ input[type='checkbox'] {
 }
 
 .footer .fa-stack:hover .fa-stack-2x {
-    color: #1b1e7b;
+    color: #21252B;
 }
 
 
@@ -984,7 +984,7 @@ a.back-to-top {
 	width: 42px;
 	height: 42px;
 	border-radius: 30px;
-	background: #1b1e7b url("../images/up-arrow.png") no-repeat center 47%;
+	background: #21252B url("../images/up-arrow.png") no-repeat center 47%;
 	background-size: 18px 18px;
 	text-indent: -9999px;
 }
