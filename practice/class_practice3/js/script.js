@@ -27,4 +27,5 @@ function draw() {
   rect(rectangle.x, rectangle.y, rectangle.size);
 
   rectangle.y -= rectangle.speed;
+  console.log();
 }
