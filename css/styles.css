@@ -169,6 +169,8 @@ a:hover {
 	line-height: 0;
 	text-decoration: none;
 	transition: all 0.2s;
+  margin: 10px 5px;
+  text-align: center;
 }
 
 .btn-solid-lg:hover {
