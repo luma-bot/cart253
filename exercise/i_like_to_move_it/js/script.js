@@ -166,6 +166,7 @@ function setup() {
 
 // Drawing Time, please work!
 function draw() {
+
   // background color
   background(bg.r, bg.g, bg.b);
   bg.r = map(mouseX, 0, width, 0, windowWidth);
