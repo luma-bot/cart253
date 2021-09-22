@@ -13,7 +13,7 @@ PLAN:
 - x Include size changes
 - x Include color changes
 - x Use map()
--  Use constrain()
+- x Use constrain()
 - x Respond to the mouse position using mouseX and mouseY
 */
 
@@ -64,22 +64,31 @@ let shape3 = {
   b: 0,
 }
 
+// backup circle for when the triangle is too random
+let shape4 = {
+  x: 0,
+  y: 0,
+  size: 0,
+  speed: 0,
+  r: 0,
+  g: 0,
+  b: 0,
+}
+
 // text
 let text1 = {
-  x: 100,
-  y: 50,
+  x: 200,
+  y: 150,
   fill: 0,
   size: 25,
 }
 
-let wid = {
-  min: 0,
-  max: 0,
-}
-
-let hei = {
-  min: 0,
-  max: 0,
+// padding
+let padding = {
+  xmin: 50,
+  ymin: 50,
+  right: 335,
+  bottom: 50,
 }
 
 // It's a trap! No it's a setup.
@@ -108,9 +117,17 @@ function setup() {
   shape3.x1 = random(0, windowWidth);
   shape3.x2 = random(0, windowWidth);
   shape3.x3 = random(0, windowWidth);
-  shape3.y1 = random(0, windowWidth);
-  shape3.y2 = random(0, windowWidth);
-  shape3.y3 = random(0, windowWidth);
+  shape3.y1 = random(0, windowHeight);
+  shape3.y2 = random(0, windowHeight);
+  shape3.y3 = random(0, windowHeight);
+
+  // random circle location
+  shape4.x = random(0, windowWidth);
+  shape4.y = random(0, windowHeight);
+
+  // random circle size
+  shape4.size = random(50, 250);
+
 
   // random shape colors
   shape1.r = random(0, 255);
@@ -125,26 +142,26 @@ function setup() {
   shape3.g = random(0, 255);
   shape3.b = random(0, 255);
 
+  shape4.r = random(0, 255);
+  shape4.g = random(0, 255);
+  shape4.b = random(0, 255);
+
+
   // background color random blue
   bg.b = random(0, 255)
 
   // random shape speeds
-  shape1.speed = random(-1, 1);
-  shape2.speed = random(-1, 1);
-  shape3.speed = random(-1, 1);
+  shape1.speed = random(-1, 2);
+  shape2.speed = random(-1, 2);
+  shape3.speed = random(-1, 2);
+  shape4.speed = random(-1, 2);
 
   // contrain text location
   text1.x = random(0, windowWidth);
-  text1.y = random(0, windowWidth);
+  text1.y = random(0, windowHeight);
 
-  wid.max = windowWidth + 50;
-  hei.max = windowHeight + 50;
-
-  text1.x = constrain(text1.x, wid.min, wid.max);
-  text1.y = constrain(text1.y, hei.min, hei.max);
-
-  console.log('x is: ',text1.x);
-    console.log('y is: ', text1.y);
+  console.log('x is: ', text1.x);
+  console.log('y is: ', text1.y);
 }
 
 // Drawing Time, please work!
@@ -158,13 +175,13 @@ function draw() {
   shape1.x += shape1.speed;
   shape1.y += shape1.speed;
   shape1.size = map(mouseY, 0, height, 0, windowHeight);
-  fill(shape1.r, shape1.g, shape1.b, shape1.alpha);
+  fill(shape1.r, shape1.g, shape1.b);
   ellipse(shape1.x, shape1.y, shape1.size);
 
   // shape2 render
   shape2.x += shape2.speed;
   shape2.y += shape2.speed;
-  fill(shape2.r, shape2.g, shape2.b, shape2.alpha);
+  fill(shape2.r, shape2.g, shape2.b);
   rect(shape2.x, shape2.y, shape2.w, shape2.h);
 
   // shape3 render
@@ -174,14 +191,28 @@ function draw() {
   shape3.y2 += shape3.speed;
   shape3.x3 += shape3.speed;
   shape3.y3 += shape3.speed;
-  fill(shape3.r, shape3.g, shape3.b, shape3.alpha);
+  fill(shape3.r, shape3.g, shape3.b);
   triangle(shape3.x1, shape3.y1, shape3.x2, shape3.y2, shape3.x3, shape3.y3);
+
+  // shape4 render
+  shape4.x += shape1.speed;
+  shape4.y += shape1.speed;
+  fill(shape4.r, shape4.g, shape4.b);
+  ellipse(shape4.x, shape4.y, shape4.size);
+
 
   // text render
   fill(text1.fill);
   textSize(text1.size);
   textStyle(BOLD);
   text('Click to refresh the page', text1.x, text1.y);
+
+  text1.x = map(mouseX, 0, width, 0, windowWidth);
+  text1.y = map(mouseY, 0, height, 0, windowHeight);
+
+  text1.x = constrain(mouseX, padding.xmin, windowWidth - padding.right);
+  text1.y = constrain(mouseY, padding.ymin, windowHeight - padding.bottom);
+
 }
 
 function mouseClicked() {
