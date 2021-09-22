@@ -64,6 +64,23 @@ let shape3 = {
   b: 0,
 }
 
+// text
+let text1 = {
+  x: 100,
+  y: 50,
+  fill: 0,
+  size: 25,
+}
+
+let wid = {
+  min: 0,
+  max: 0,
+}
+
+let hei = {
+  min: 0,
+  max: 0,
+}
 
 // It's a trap! No it's a setup.
 function setup() {
@@ -116,7 +133,18 @@ function setup() {
   shape2.speed = random(-1, 1);
   shape3.speed = random(-1, 1);
 
-  // contrain alphas
+  // contrain text location
+  text1.x = random(0, windowWidth);
+  text1.y = random(0, windowWidth);
+
+  wid.max = windowWidth + 50;
+  hei.max = windowHeight + 50;
+
+  text1.x = constrain(text1.x, wid.min, wid.max);
+  text1.y = constrain(text1.y, hei.min, hei.max);
+
+  console.log('x is: ',text1.x);
+    console.log('y is: ', text1.y);
 }
 
 // Drawing Time, please work!
@@ -148,6 +176,12 @@ function draw() {
   shape3.y3 += shape3.speed;
   fill(shape3.r, shape3.g, shape3.b, shape3.alpha);
   triangle(shape3.x1, shape3.y1, shape3.x2, shape3.y2, shape3.x3, shape3.y3);
+
+  // text render
+  fill(text1.fill);
+  textSize(text1.size);
+  textStyle(BOLD);
+  text('Click to refresh the page', text1.x, text1.y);
 }
 
 function mouseClicked() {
