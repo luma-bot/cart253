@@ -70,6 +70,10 @@ function setup() {
 
   noCursor();
 
+  // User Spawn
+  user.x = windowWidth / 2 + 200;
+  user.y = windowHeight / 2;
+
 } /** End of setup() */
 
 
@@ -128,8 +132,7 @@ function draw() {
 
   if (user.size <= 0) {
     noLoop();
-  }
-  else{
+  } else {
     covid19.size = covid19.size + covid19.passiveGrow;
     covid19.speed = covid19.speed + covid19.passiveGrow;
   }
