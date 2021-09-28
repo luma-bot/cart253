@@ -11,8 +11,7 @@ What's the plan stan?
 
 Objectives::
   1) Change the way the user controls their circle
-  2) Add at least one new if-statement (including at least an else) that changes the nature of
-        the simulation
+  2) Add at least one new if-statement (including at least an else) that changes the nature of the simulation
   3) Change the way the simulation looks
   4) Use at least one image
 */
@@ -33,8 +32,8 @@ let covid19 = {
 };
 
 let user = {
-  x: 0,
-  y: 0,
+  x: 100,
+  y: 100,
   size: 100,
   up: -10,
   down: 10,
