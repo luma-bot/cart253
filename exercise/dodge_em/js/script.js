@@ -10,7 +10,7 @@ Section B (Tuesdays): 11:59PM, 28 September 2021
 What's the plan stan?
 
 Objectives::
-  1) Change the way the user controls their circle
+  1) x Change the way the user controls their circle
   2) Add at least one new if-statement (including at least an else) that changes the nature of the simulation
   3) Change the way the simulation looks
   4) Use at least one image
@@ -23,7 +23,7 @@ let covid19 = {
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 5,
+  speed: 10,
   fill: {
     r: 255,
     g: 42,
@@ -47,6 +47,15 @@ let user = {
 }
 
 let numStatic = 1000;
+
+let covid19Image;
+let userImage;
+
+/** Making sure things are loaded before the function runs **/
+function preload() {
+  covid19Image = loadImage('assets/images/virus.png');
+  userImage = loadImage('assets/images/mask.png');
+}
 
 /** Setting up the Mainframe or the simulation */
 function setup() {
@@ -108,11 +117,12 @@ function draw() {
 
 
   // Display Covid 19
-  fill(covid19.fill.r, covid19.fill.g, covid19.fill.b);
-  ellipse(covid19.x, covid19.y, covid19.size);
+  // fill(covid19.fill.r, covid19.fill.g, covid19.fill.b);
+  // ellipse(covid19.x, covid19.y, covid19.size);
+  image(covid19Image, covid19.x, covid19.y);
 
   // Display user
-  fill(user.fill.r, user.fill.g, user.fill.b);
-  ellipse(user.x, user.y, user.size);
+  // fill(user.fill.r, user.fill.g, user.fill.b);
+  image(userImage, user.x, user.y);
 
 } /** End of draw() */
