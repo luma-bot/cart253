@@ -1,33 +1,49 @@
-/**
-Title of Project
-Author Name
+/*
+Conditionals!
+Anthony Lum
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+Practicing and following along with the Youtube tutorials at 8:30pm this time!!
+
+if (homework.start >= time.midnight){
+  coffee(make);
+}
 */
 
-"use strict";
 
-
-/**
-Description of preload
-*/
-function preload() {
-
+let backgroundShade = 0;
+let circle = {
+  x: 250,
+  y: 250,
+  size: 100,
+  vx: 0,
+  vy: 0,
+  ax: 0,
+  ay: 0,
+  speed: 5,
 }
 
-
-/**
-Description of setup
-*/
 function setup() {
-
+  createCanvas(500, 500);
 }
 
-
-/**
-Description of draw()
-*/
 function draw() {
+  background(backgroundShade);
 
+
+  if (mouseX < circle.x) {
+    circle.vx = -circle.speed;
+  } else {
+    circle.vx = circle.speed;
+  }
+
+  if (mouseY < circle.y) {
+    circle.vy = -circle.speed;
+  } else {
+    circle.vy = circle.speed;
+  }
+
+
+  circle.x += circle.vx;
+  circle.y += circle.vy;
+  ellipse(circle.x, circle.y, circle.size);
 }
