@@ -65,8 +65,10 @@ let text1 = {
 
 }
 
+// Bg Static
 let numStatic = 1000;
 
+// Images of Player + Virus
 let covid19Image;
 let userImage;
 
@@ -118,7 +120,6 @@ function draw() {
   }
 
   // User Movement
-
   // user.x = mouseX;
   // user.y = mouseY;
 
