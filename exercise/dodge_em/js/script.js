@@ -162,7 +162,7 @@ function draw() {
   user.x = constrain(user.x, 0, windowWidth);
   user.y = constrain(user.y, 0, windowHeight);
 
-
+  //test
   // Check for catching covid19
   // object.size = diameter, object.size/2 = radius
   let distance = dist(user.x, user.y, covid19.x, covid19.y); // only need now and won't need it later, declaring where we need it
