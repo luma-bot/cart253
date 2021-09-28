@@ -22,15 +22,11 @@ let covid19 = {
   y: 250,
   size: 120,
   grow: 2,
+  shrink: 2,
   passiveGrow: 0.25,
   vx: 0,
   vy: 0,
   speed: 10,
-  fill: {
-    r: 255,
-    g: 42,
-    b: 0
-  }
 };
 
 let user = {
@@ -44,11 +40,17 @@ let user = {
   left: -10,
   right: 10,
   //speed end
-  fill: {
-    r: 50,
-    g: 60,
-    b: 100
-  }
+};
+
+let vaccine = {
+  x: 0,
+  y: 0,
+  size: 120,
+  grow: 2,
+  vx: 0,
+  vy: 0,
+  speed: 10,
+  count: 0,
 };
 
 // text
@@ -68,14 +70,16 @@ let text1 = {
 // Bg Static
 let numStatic = 1000;
 
-// Images of Player + Virus
+// Images of Player + Virus + Vaccine
 let covid19Image;
 let userImage;
+let vaccineIamge;
 
 /** Making sure things are loaded before the function runs **/
 function preload() {
   covid19Image = loadImage('assets/images/virus.png');
   userImage = loadImage('assets/images/mask.png');
+  vaccineImage = loadImage('assets/images/needle.png');
 }
 
 /** Setting up the Mainframe or the simulation */
@@ -85,6 +89,10 @@ function setup() {
   covid19.vx = covid19.speed; //move in pos direction
 
   noCursor();
+
+  // Vaccine Spawn
+  vaccine.x = random(0, windowWidth);
+  vaccine.y = random(0, windowHeight);
 
   // User Spawn
   user.x = windowWidth / 2 + 200;
@@ -142,6 +150,9 @@ function draw() {
   // fill(covid19.fill.r, covid19.fill.g, covid19.fill.b);
   // ellipse(covid19.x, covid19.y, covid19.size);
 
+  // Display vaccine  imageMode(CENTER);
+  image(vaccineImage, vaccine.x, vaccine.y, vaccine.size, vaccine.size);
+
   // Display user
   imageMode(CENTER);
   image(userImage, user.x, user.y, user.size, user.size);
@@ -160,6 +171,38 @@ function draw() {
     console.log(distance);
     user.size = user.size - user.shrink;
     covid19.size = covid19.size + covid19.grow;
+  }
+
+  // Check if vaccinated
+  let distance2 = dist(user.x, user.y, vaccine.x, vaccine.y); // only need now and won't need it later, declaring where we need it
+  if (distance2 < vaccine.size / 2 + user.size / 2) {
+    user.size = user.size + user.shrink; // opposite of grow but you know
+    covid19.size = covid19.size - covid19.grow; // same idea, opposite but using the same number
+    vaccine.x = random(0, windowWidth);
+    vaccine.y = random(0, windowHeight);
+    vaccine.count = vaccine.count + 1;
+    console.log(vaccine.count);
+  }
+
+  if (vaccine.count >= 5) {
+
+    // Text render
+    fill(text1.fill.r, fill.g, fill.b);
+    textSize(text1.size);
+    textStyle(BOLD);
+    text('You are super vaccinated', user.x + text1.padding, user.y + text1.padding); // right
+
+    fill(text1.fill.r, fill.g, fill.b);
+    textSize(text1.size);
+    textStyle(BOLD);
+    text('You are immune to Covid19!', user.x - text1.padding, user.y - text1.padding); // left
+
+    fill(text1.fill.r, fill.g, fill.b);
+    textSize(text1.size);
+    textStyle(BOLD);
+    text('Super Soldier Serum', windowWidth / 2, windowHeight / 2); // center
+
+    noLoop();
   }
 
   // Passive Game End
