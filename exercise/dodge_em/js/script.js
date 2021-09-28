@@ -11,16 +11,18 @@ What's the plan stan?
 
 Objectives::
   1) x Change the way the user controls their circle
-  2) Add at least one new if-statement (including at least an else) that changes the nature of the simulation
+  2) x Add at least one new if-statement (including at least an else) that changes the nature of the simulation
   3) Change the way the simulation looks
-  4) Use at least one image
+  4) x Use at least one image
 */
 
 // Variables that are relevant and want to keep track of throughout the program
 let covid19 = {
   x: 0,
   y: 250,
-  size: 100,
+  size: 120,
+  grow: 2,
+  passiveGrow: 0.25,
   vx: 0,
   vy: 0,
   speed: 10,
@@ -34,17 +36,20 @@ let covid19 = {
 let user = {
   x: 100,
   y: 100,
-  size: 100,
+  size: 120,
+  shrink: 10,
+  //speed start
   up: -10,
   down: 10,
   left: -10,
   right: 10,
+  //speed end
   fill: {
     r: 50,
     g: 60,
     b: 100
   }
-}
+};
 
 let numStatic = 1000;
 
@@ -70,7 +75,11 @@ function setup() {
 
 /** Displaying the simulation */
 function draw() {
-  background(0);
+  if (user.x > windowWidth || user.x < 0 || user.y > windowHeight || user.y < 0) {
+    background(255, 0, 0); // green
+  } else {
+    background(0); // black
+  }
 
   // Display Static, wrap in for loop, decorative static
   for (let i = 0; i < numStatic; i++) {
@@ -111,18 +120,29 @@ function draw() {
   // object.size = diameter, object.size/2 = radius
   let distance = dist(user.x, user.y, covid19.x, covid19.y); // only need now and won't need it later, declaring where we need it
   if (distance < covid19.size / 2 + user.size / 2) {
-    noLoop();
+    // noLoop();
     console.log(distance);
+    user.size = user.size - user.shrink;
+    covid19.size = covid19.size + covid19.grow;
+  }
+
+  if (user.size <= 0) {
+    noLoop();
+  }
+  else{
+    covid19.size = covid19.size + covid19.passiveGrow;
+    covid19.speed = covid19.speed + covid19.passiveGrow;
   }
 
 
   // Display Covid 19
+  imageMode(CENTER);
+  image(covid19Image, covid19.x, covid19.y, covid19.size, covid19.size);
   // fill(covid19.fill.r, covid19.fill.g, covid19.fill.b);
   // ellipse(covid19.x, covid19.y, covid19.size);
-  image(covid19Image, covid19.x, covid19.y);
 
   // Display user
+  imageMode(CENTER);
+  image(userImage, user.x, user.y, user.size, user.size);
   // fill(user.fill.r, user.fill.g, user.fill.b);
-  image(userImage, user.x, user.y);
-
 } /** End of draw() */
