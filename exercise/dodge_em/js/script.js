@@ -1,33 +1,29 @@
 /**
-Title of Project
-Author Name
+Exercise: Dodge-em
+Anthony Lum
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+4% of final grade
+Section B (Tuesdays): 11:59PM, 28 September 2021
 */
-
-"use strict";
-
 
 /**
-Description of preload
+What's the plan stan?
+
+Objectives::
+  1) Change the way the user controls their circle
+  2) Add at least one new if-statement (including at least an else) that changes the nature of
+        the simulation
+  3) Change the way the simulation looks
+  4) Use at least one image
 */
-function preload() {
 
-}
-
-
-/**
-Description of setup
-*/
+/** Setting up the Mainframe or the simulation */
 function setup() {
 
 }
 
 
-/**
-Description of draw()
-*/
+/** Displaying the simulation */
 function draw() {
 
 }
