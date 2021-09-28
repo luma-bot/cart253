@@ -12,7 +12,7 @@ What's the plan stan?
 Objectives::
   1) x Change the way the user controls their circle
   2) x Add at least one new if-statement (including at least an else) that changes the nature of the simulation
-  3) Change the way the simulation looks
+  3) x Change the way the simulation looks
   4) x Use at least one image
 */
 
@@ -58,7 +58,7 @@ let text1 = {
   x: 200,
   y: 150,
   size: 25,
-  padding: 150,
+  padding: 50,
   fill: {
     r: 255,
     g: 255,
@@ -68,7 +68,8 @@ let text1 = {
 }
 
 // Bg Static
-let numStatic = 1000;
+let numStatic = 10;
+let bgImage;
 
 // Images of Player + Virus + Vaccine
 let covid19Image;
@@ -80,12 +81,13 @@ function preload() {
   covid19Image = loadImage('assets/images/virus.png');
   userImage = loadImage('assets/images/mask.png');
   vaccineImage = loadImage('assets/images/needle.png');
+  bgImage = loadImage('assets/images/bg.jpg');
 }
 
 /** Setting up the Mainframe or the simulation */
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  covid19.y = random(0, height); // height better than windowHeight incase you change it
+  createCanvas(windowWidth, windowHeight); // attempting set numbers for the canvas
+  covid19.y = random(0, windowHeight);
   covid19.vx = covid19.speed; //move in pos direction
 
   noCursor();
@@ -108,23 +110,25 @@ function draw() {
   //   background(0); // black
   // }
 
-  background(0); // black
+background('#222222');
 
   // Display Static, wrap in for loop, decorative static
   for (let i = 0; i < numStatic; i++) {
-    let x = random(0, width); // immediately using them once
-    let y = random(0, height); // immediately using them once
-    stroke(255);
-    point(x, y);
+    let x = random(0, windowWidth); // immediately using them once
+    let y = random(0, windowHeight); // immediately using them once
+    fill(145, 209, 46);
+    circle(x, y, 20);
   }
+  //
+  // background(bgImage);
 
   // Covid 19 Movement
   covid19.x += covid19.vx;
   covid19.y += covid19.vy;
 
-  if (covid19.x > width) { //if it goes past width, do this
+  if (covid19.x > windowWidth) { //if it goes past windowWidth, do this
     covid19.x = 0;
-    covid19.y = random(0, height);
+    covid19.y = random(0, windowHeight);
   }
 
   // User Movement
@@ -162,7 +166,6 @@ function draw() {
   user.x = constrain(user.x, 0, windowWidth);
   user.y = constrain(user.y, 0, windowHeight);
 
-  //test
   // Check for catching covid19
   // object.size = diameter, object.size/2 = radius
   let distance = dist(user.x, user.y, covid19.x, covid19.y); // only need now and won't need it later, declaring where we need it
@@ -230,5 +233,9 @@ function draw() {
     covid19.speed = covid19.speed + covid19.passiveGrow;
   }
 
+  fill(text1.fill.r, fill.g, fill.b);
+  textSize(text1.size);
+  textStyle(BOLD);
+  text('Get Vaccinated!', windowWidth / 2 - text1.padding, 50);
 
 } /** End of draw() */
