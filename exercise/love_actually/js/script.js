@@ -125,8 +125,21 @@ function move() {
 
 function checkOffScreen() {
   // Check if circles have gone off screen
-  if (circle1.x < 0 || circle1.x > width || circle1.y < 0 || circle1.y > height || circle2.x < 0 || circle2.x > width || circle2.y < 0 || circle2.y > height) {
-    sadness();
+  // if (circle1.x < 0 || circle1.x > width || circle1.y < 0 || circle1.y > height || circle2.x < 0 || circle2.x > width || circle2.y < 0 || circle2.y > height) {
+  //   sadness();
+  // }
+
+  if (isOffscreen(circle1)|| isOffscreen(circle2)){
+    state = `sadness`;
+  }
+}
+
+function isOffscreen(circle){
+  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height){
+    return true;
+  }
+  else{
+    return false;
   }
 }
 
