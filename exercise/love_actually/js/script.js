@@ -53,16 +53,16 @@ let circle2 = {
 
 
 // Images of Player + NPC
-let playerImg;
-let npcImg;
+// let playerImg;
+// let npcImg;
 
 let state = `title`; // Options : title, simulation, love, sadness
 
 // -----------------------------------------------------------------------------
-function preload() {
-  playerImage = loadImage('assets/images/hearteyes.png');
-  npcImage = loadImage('assets/images/smile.png');
-}
+// function preload() {
+//     playerImage = loadImage('assets/images/hearteyes.png');
+//     npcImage = loadImage('assets/images/smile.png');
+// }
 
 // -----------------------------------------------------------------------------
 // The playbook & setup
@@ -217,9 +217,9 @@ function display() {
   ellipse(circle1.x, circle1.y, circle1.size);
   ellipse(circle2.x, circle2.y, circle2.size);
 
-  // Display player
-  imageMode(CENTER);
-  image(playerImage, circle1.x, circle1.y,circle1.size);
+  // // Display player
+  // imageMode(CENTER);
+  // image(playerImage, circle1.x, circle1.y,circle1.size);
 }
 
 function mousePressed() {
