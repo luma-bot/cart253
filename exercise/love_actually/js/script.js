@@ -7,13 +7,16 @@ Change the “looking for love” simulation activity. Ideally, you could think 
 
 Make your changes to the simulation with the following requirements:
 
-1) Allow the user to control one of the circles
+x 1) Allow the circle1 to control one of the circles
 - Anything goes, from clicking to position it, to having it follow the mouse, to using the arrow keys, to something else
-2) Make the non-user circle move differently
+
+2) Make the non-circle1 circle move differently
 - Use random movement or Perlin noise or teleportation or something else!
-3) Add at least one extra function
+
+x 3) Add at least one extra function
 - including functions any built-in p5 functions like keyPressed()
 - Maybe you could add a function that checks if one circle has grown too large (if they grow) or shrunk too small (if they shrink), or faded too much (if their alpha fades)
+
 4) Add at least one extra ending
 - Maybe it could be an “easter egg” and hard to discover? (Moving the mouse to a really specific location?)
 - Maybe it offers a different dimension of thinking about love and loss?
@@ -30,7 +33,11 @@ let circle1 = {
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 3,
+  speed: 5,
+  up: -5,
+  down: 5,
+  left: -5,
+  right: 5,
 }
 
 let circle2 = {
@@ -48,7 +55,7 @@ let state = `title`; // Options : title, simulation, love, sadness
 // The playbook & setup
 function setup() {
   // Canvas
-  createCanvas(500, 500);
+  createCanvas(windowWidth, windowHeight);
   setupCircles();
 }
 
@@ -86,6 +93,9 @@ function title() {
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
   text(`LOVE?`, width / 2, height / 2);
+  textSize(24);
+  fill(255);
+  text(`Press Space to Start`, width / 2, height / 2 + 64);
   pop();
 }
 
@@ -118,9 +128,29 @@ function sadness() {
 // -----------------------------------------------------------------------------
 function move() {
   // Move circles
-  circle1.x += circle1.vx;
-  circle1.y += circle1.vy;
 
+  // //circle 1 === player 1
+  // circle1.x += circle1.vx;
+  // circle1.y += circle1.vy;
+
+  if (keyIsDown(LEFT_ARROW)) {
+     circle1.x -= 5;
+   }
+
+   if (keyIsDown(RIGHT_ARROW)) {
+     circle1.x += 5;
+   }
+
+   if (keyIsDown(UP_ARROW)) {
+     circle1.y -= 5;
+   }
+
+   if (keyIsDown(DOWN_ARROW)) {
+     circle1.y += 5;
+   }
+
+
+  // circle 2 === npc
   circle2.x += circle2.vx;
   circle2.y += circle2.vy;
 }
@@ -131,16 +161,15 @@ function checkOffScreen() {
   //   sadness();
   // }
 
-  if (isOffscreen(circle1)|| isOffscreen(circle2)){
+  if (isOffscreen(circle1) || isOffscreen(circle2)) {
     state = `sadness`;
   }
 }
 
-function isOffscreen(circle){
-  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height){
+function isOffscreen(circle) {
+  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
 }
@@ -162,5 +191,11 @@ function display() {
 function mousePressed() {
   if (state === `title`) {
     state = `simulation`;
+  }
+}
+
+function keyPressed() {
+  if (key === ' ') {
+    state = `simulation` // space to start
   }
 }
