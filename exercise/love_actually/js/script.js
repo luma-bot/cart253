@@ -34,11 +34,11 @@ let circle1 = {
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 5,
-  up: -5,
-  down: 5,
-  left: -5,
-  right: 5,
+  speed: 3,
+  up: -3,
+  down: 3,
+  left: -3,
+  right: 3,
 }
 
 // Love Intrest
@@ -49,12 +49,13 @@ let circle2 = {
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 5,
+  speed: 7.5,
 }
 
+
 // Images of Player + Love Intrest
-// let playerImg;
-// let loveImg;
+let playerImage;
+let loveImage;
 
 let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwhy (easteregg)
 
@@ -62,13 +63,13 @@ let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwh
 // The playbook & setup
 
 function preload() {
-  //  playerImage = loadImage('assets/images/hearteyes.png');
-  //  loveImage = loadImage('assets/images/smile.png');
+   playerImage = loadImage('assets/images/hearteyes.png');
+   loveImage = loadImage('assets/images/smile.png');
 }
 
 function setup() {
   // Canvas
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight); // use once
   setupCircles();
   noCursor();
 }
@@ -79,8 +80,8 @@ function setupCircles() {
   circle2.x = 2 * width / 3;
 
   // Circles moving in a random direction
-  circle2.x = random(0, windowWidth);
-  circle2.y = random(0, windowHeight);
+  circle2.x = random(0, width); // not here
+  circle2.y = random(0, height); // not here
   circle2.vx = random(-circle2.speed, circle2.speed);
   circle2.vy = random(-circle2.speed, circle2.speed);
 }
@@ -135,7 +136,7 @@ function love() {
 function sadness() {
   push();
   textSize(64);
-  fill(200, 150, 150); // pink
+  fill(255); // white
   textAlign(CENTER, CENTER);
   text(`:( 5everalone`, width / 2, height / 2);
   pop();
@@ -144,7 +145,7 @@ function sadness() {
 function why() {
   push();
   textSize(24);
-  fill(255); // pink
+  fill(255); // white
   textAlign(CENTER, CENTER);
   text(`Who needs love right?`, width / 2, height / 2);
   text(`You're an independent person who doesn't need no other!`, width / 2, height / 2 + 24);
@@ -178,6 +179,19 @@ function move() {
   // circle 2 === Love Intrest
   circle2.x += circle2.vx;
   circle2.y += circle2.vy;
+
+  //Random?
+  let change = random();
+  if (change < 0.01) {
+    //speed faster
+    // 1% not bad
+
+    circle2.vx = random(-circle2.speed, circle2.speed);
+    circle2.vy = random(-circle2.speed, circle2.speed);
+
+    circle2.x += circle2.vx;
+    circle2.y += circle2.vy;
+  }
 
 }
 
@@ -242,5 +256,41 @@ function mousePressed() {
 function keyPressed() {
   if (state === `title` && key === ' ') {
     state = `simulation` // space to start
+  }
+
+  // Reset?
+  if (state === `love` && key === ' ' || state === `sadness` && key === ' ') {
+    resetVariables();
+    setupCircles();
+    state = `simulation` // space to start
+  }
+
+}
+
+//somewhere else
+function resetVariables() {
+  circle1 = {
+    // player
+    x: 150,
+    y: 250,
+    size: 100,
+    vx: 0,
+    vy: 0,
+    speed: 3,
+    up: -3,
+    down: 3,
+    left: -3,
+    right: 3,
+  }
+
+  // Love Intrest
+  circle2 = {
+    // Love Intrest
+    x: 350,
+    y: 250,
+    size: 100,
+    vx: 0,
+    vy: 0,
+    speed: 7.5,
   }
 }
