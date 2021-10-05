@@ -17,7 +17,7 @@ x 3) Add at least one extra function
 - including functions any built-in p5 functions like keyPressed()
 - Maybe you could add a function that checks if one circle has grown too large (if they grow) or shrunk too small (if they shrink), or faded too much (if their alpha fades)
 
-4) Add at least one extra ending
+x 4) Add at least one extra ending
 - Maybe it could be an “easter egg” and hard to discover? (Moving the mouse to a really specific location?)
 - Maybe it offers a different dimension of thinking about love and loss?
 - Maybe it’s connected to the new function in the previous step?
@@ -28,6 +28,7 @@ x 3) Add at least one extra function
 // -----------------------------------------------------------------------------
 // Global Variables
 let circle1 = {
+  // player
   x: 150,
   y: 250,
   size: 100,
@@ -41,15 +42,27 @@ let circle1 = {
 }
 
 let circle2 = {
+  // npc
   x: 350,
   y: 250,
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 3,
+  speed: 5,
 }
 
+
+// Images of Player + NPC
+let playerImg;
+let npcImg;
+
 let state = `title`; // Options : title, simulation, love, sadness
+
+// -----------------------------------------------------------------------------
+function preload() {
+  playerImage = loadImage('assets/images/hearteyes.png');
+  npcImage = loadImage('assets/images/smile.png');
+}
 
 // -----------------------------------------------------------------------------
 // The playbook & setup
@@ -65,9 +78,9 @@ function setupCircles() {
   circle2.x = 2 * width / 3;
 
   // Circles moving in a random direction
-  circle1.vx = random(-circle1.speed, circle1.speed);
+  circle2.x = random(0, windowWidth);
+  circle2.y = random(0, windowHeight);
   circle2.vx = random(-circle2.speed, circle2.speed);
-  circle1.vy = random(-circle1.speed, circle1.speed);
   circle2.vy = random(-circle2.speed, circle2.speed);
 }
 
@@ -84,6 +97,8 @@ function draw() {
     love();
   } else if (state === `sadness`) {
     sadness();
+  } else if (state === `waitwhatwhy`) {
+    why();
   }
 }
 
@@ -125,6 +140,16 @@ function sadness() {
   pop();
 }
 
+function why() {
+  push();
+  textSize(24);
+  fill(200, 150, 150);
+  textAlign(CENTER, CENTER);
+  text(`Who needs love right?`, width / 2, height / 2);
+  text(`You're an independent person who doesn't need no other!`, width / 2, height / 2 + 24);
+  pop();
+}
+
 // -----------------------------------------------------------------------------
 function move() {
   // Move circles
@@ -134,20 +159,20 @@ function move() {
   // circle1.y += circle1.vy;
 
   if (keyIsDown(LEFT_ARROW)) {
-     circle1.x -= 5;
-   }
+    circle1.x -= 5;
+  }
 
-   if (keyIsDown(RIGHT_ARROW)) {
-     circle1.x += 5;
-   }
+  if (keyIsDown(RIGHT_ARROW)) {
+    circle1.x += 5;
+  }
 
-   if (keyIsDown(UP_ARROW)) {
-     circle1.y -= 5;
-   }
+  if (keyIsDown(UP_ARROW)) {
+    circle1.y -= 5;
+  }
 
-   if (keyIsDown(DOWN_ARROW)) {
-     circle1.y += 5;
-   }
+  if (keyIsDown(DOWN_ARROW)) {
+    circle1.y += 5;
+  }
 
 
   // circle 2 === npc
@@ -161,9 +186,14 @@ function checkOffScreen() {
   //   sadness();
   // }
 
-  if (isOffscreen(circle1) || isOffscreen(circle2)) {
+  if (isOffscreen(circle2)) {
     state = `sadness`;
   }
+
+  if (isOffscreen(circle1)) {
+    state = `waitwhatwhy`;
+  }
+
 }
 
 function isOffscreen(circle) {
@@ -178,7 +208,7 @@ function checkOverlap() {
   // Check if the circles are overlapping
   let d = dist(circle1.x, circle1.y, circle2.x, circle2.y);
   if (d < circle1.size / 2 + circle2.size / 2) {
-    love();
+    state = `love`;
   }
 }
 
@@ -186,6 +216,10 @@ function display() {
   // Draw circles
   ellipse(circle1.x, circle1.y, circle1.size);
   ellipse(circle2.x, circle2.y, circle2.size);
+
+  // Display player
+  imageMode(CENTER);
+  image(playerImage, circle1.x, circle1.y,circle1.size);
 }
 
 function mousePressed() {
@@ -195,7 +229,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (key === ' ') {
+  if (state === `title` && key === ' ') {
     state = `simulation` // space to start
   }
 }
