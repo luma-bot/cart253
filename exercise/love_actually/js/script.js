@@ -41,8 +41,9 @@ let circle1 = {
   right: 5,
 }
 
+// Love Intrest
 let circle2 = {
-  // npc
+  // Love Intrest
   x: 350,
   y: 250,
   size: 100,
@@ -51,25 +52,35 @@ let circle2 = {
   speed: 5,
 }
 
+let circle3 = {
+  // NPC
+  x: 350,
+  y: 250,
+  size: 75,
+  vx: 0,
+  vy: 0,
+  speed: 5,
+}
 
-// Images of Player + NPC
+// Images of Player + Love Intrest
 // let playerImg;
-// let npcImg;
+// let loveImg;
 
-let state = `title`; // Options : title, simulation, love, sadness
-
-// -----------------------------------------------------------------------------
-// function preload() {
-//     playerImage = loadImage('assets/images/hearteyes.png');
-//     npcImage = loadImage('assets/images/smile.png');
-// }
+let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwhy (easteregg)
 
 // -----------------------------------------------------------------------------
 // The playbook & setup
+
+function preload() {
+  //  playerImage = loadImage('assets/images/hearteyes.png');
+  //  loveImage = loadImage('assets/images/smile.png');
+}
+
 function setup() {
   // Canvas
   createCanvas(windowWidth, windowHeight);
   setupCircles();
+  noCursor();
 }
 
 function setupCircles() {
@@ -82,6 +93,9 @@ function setupCircles() {
   circle2.y = random(0, windowHeight);
   circle2.vx = random(-circle2.speed, circle2.speed);
   circle2.vy = random(-circle2.speed, circle2.speed);
+
+  circle3.x = random(0, windowWidth);
+  circle3.y = random(0, windowHeight);
 }
 
 // -----------------------------------------------------------------------------
@@ -125,25 +139,25 @@ function simulation() {
 function love() {
   push();
   textSize(64);
-  fill(200, 150, 150);
+  fill(255); // white
   textAlign(CENTER, CENTER);
-  text(`LOVE!`, width / 2, height / 2);
+  text(`I LOVE YOU 3000`, width / 2, height / 2);
   pop();
 }
 
 function sadness() {
   push();
   textSize(64);
-  fill(200, 150, 150);
+  fill(200, 150, 150); // pink
   textAlign(CENTER, CENTER);
-  text(`:(`, width / 2, height / 2);
+  text(`:( 5everalone`, width / 2, height / 2);
   pop();
 }
 
 function why() {
   push();
   textSize(24);
-  fill(200, 150, 150);
+  fill(255); // pink
   textAlign(CENTER, CENTER);
   text(`Who needs love right?`, width / 2, height / 2);
   text(`You're an independent person who doesn't need no other!`, width / 2, height / 2 + 24);
@@ -174,10 +188,10 @@ function move() {
     circle1.y += 5;
   }
 
-
-  // circle 2 === npc
+  // circle 2 === Love Intrest
   circle2.x += circle2.vx;
   circle2.y += circle2.vy;
+
 }
 
 function checkOffScreen() {
@@ -214,8 +228,18 @@ function checkOverlap() {
 
 function display() {
   // Draw circles
+
+  // Player
+  push();
+  fill(255); // White
   ellipse(circle1.x, circle1.y, circle1.size);
+  pop();
+
+  // Love Intrest
+  push();
+  fill(255, 51, 153); // Pink
   ellipse(circle2.x, circle2.y, circle2.size);
+  pop();
 
   // // Display player
   // imageMode(CENTER);
