@@ -20,6 +20,8 @@ Make your changes to the simulation with the following requirements:
 - Maybe it’s connected to the new function in the previous step?
 */
 
+// add things
+
 // -----------------------------------------------------------------------------
 // Global Variables
 let circle1 = {
