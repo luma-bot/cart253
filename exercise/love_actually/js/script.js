@@ -52,16 +52,6 @@ let circle2 = {
   speed: 5,
 }
 
-let circle3 = {
-  // NPC
-  x: 350,
-  y: 250,
-  size: 75,
-  vx: 0,
-  vy: 0,
-  speed: 5,
-}
-
 // Images of Player + Love Intrest
 // let playerImg;
 // let loveImg;
@@ -93,9 +83,6 @@ function setupCircles() {
   circle2.y = random(0, windowHeight);
   circle2.vx = random(-circle2.speed, circle2.speed);
   circle2.vy = random(-circle2.speed, circle2.speed);
-
-  circle3.x = random(0, windowWidth);
-  circle3.y = random(0, windowHeight);
 }
 
 // -----------------------------------------------------------------------------
