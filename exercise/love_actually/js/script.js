@@ -58,7 +58,7 @@ let human = {
   // Love interest
   x: 350,
   y: 250,
-  size: 120,
+  size: 100,
   vx: 0,
   vy: 0,
   speed: 7.5,
@@ -333,7 +333,7 @@ function resetVariables() {
     // Love interest
     x: 350,
     y: 250,
-    size: 120,
+    size: 100,
     vx: 0,
     vy: 0,
     speed: 7.5,
