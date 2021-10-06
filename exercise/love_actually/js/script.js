@@ -53,8 +53,8 @@ let loveinterest = {
 }
 
 // Images of Player + Love interest
-let playerImage;
-let loveImage;
+let loverImage;
+let loveinterestImage;
 
 let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwhy (easteregg)
 
@@ -62,8 +62,8 @@ let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwh
 // The playbook & setup
 
 function preload() {
-  playerImage = loadImage('assets/images/hearteyes.png');
-  loveImage = loadImage('assets/images/smile.png');
+  loverImage = loadImage('assets/images/hearteyes.png');
+  loveinterestImage = loadImage('assets/images/smile.png');
 }
 
 function setup() {
@@ -202,7 +202,7 @@ function checkOffScreen() {
     state = `sadness`;
   }
 
-// Easter Egg Mode
+  // Easter Egg Mode
   if (isOffscreen(lover)) {
     state = `waitwhatwhy`;
   }
@@ -228,13 +228,10 @@ function checkOverlap() {
 
 // -----------------------------------------------------------------------------
 function display() {
-  // Draw circles
 
-  // Player
-  push();
-  fill(255); // White
-  ellipse(lover.x, lover.y, lover.size);
-  pop();
+  // Display player
+  imageMode(CENTER);
+  image(loverImage, lover.x, lover.y, lover.size);
 
   // Love interest
   push();
@@ -242,9 +239,6 @@ function display() {
   ellipse(loveinterest.x, loveinterest.y, loveinterest.size);
   pop();
 
-  // Display player
-  imageMode(CENTER);
-  image(playerImage, lover.x, lover.y,lover.size);
 }
 
 // -----------------------------------------------------------------------------
