@@ -231,14 +231,11 @@ function display() {
 
   // Display player
   imageMode(CENTER);
-  image(loverImage, lover.x, lover.y, lover.size);
+  image(loverImage, lover.x, lover.y, lover.size, loveinterest.size);
 
-  // Love interest
-  push();
-  fill(255, 51, 153); // Pink
-  ellipse(loveinterest.x, loveinterest.y, loveinterest.size);
-  pop();
-
+  // Display NPC Love interest
+  imageMode(CENTER);
+  image(loveinterestImage, loveinterest.x, loveinterest.y, loveinterest.size, loveinterest.size);
 }
 
 // -----------------------------------------------------------------------------
