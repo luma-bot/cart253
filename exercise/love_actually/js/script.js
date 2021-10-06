@@ -46,7 +46,7 @@ let loveinterest = {
   // Love interest
   x: 350,
   y: 250,
-  size: 100,
+  size: 120,
   vx: 0,
   vy: 0,
   speed: 7.5,
@@ -134,6 +134,8 @@ function love() {
   fill(255); // white
   textAlign(CENTER, CENTER);
   text(`I LOVE YOU 3000`, width / 2, height / 2);
+  textSize(24);
+  text(`Press Space to Replay`, width / 2, height / 2 + 64);
   pop();
 }
 
@@ -144,6 +146,8 @@ function sadness() {
   fill(255); // white
   textAlign(CENTER, CENTER);
   text(`:( 5everalone`, width / 2, height / 2);
+  textSize(24);
+  text(`Press Space to Replay`, width / 2, height / 2 + 64);
   pop();
 }
 
@@ -155,6 +159,8 @@ function why() {
   textAlign(CENTER, CENTER);
   text(`Who needs love right? It's all about self love.`, width / 2, height / 2);
   text(`You're an independent person who doesn't need no other!`, width / 2, height / 2 + 24);
+  textSize(24);
+  text(`Press Space to Replay`, width / 2, height / 2 + 64);
   pop();
 }
 
@@ -267,7 +273,7 @@ function resetVariables() {
     // player
     x: 150,
     y: 250,
-    size: 100,
+    size: 120,
     vx: 0,
     vy: 0,
     speed: 3,
@@ -282,7 +288,7 @@ function resetVariables() {
     // Love interest
     x: 350,
     y: 250,
-    size: 100,
+    size: 120,
     vx: 0,
     vy: 0,
     speed: 7.5,
