@@ -52,9 +52,22 @@ let loveinterest = {
   speed: 7.5,
 }
 
+
+// human npc
+let human = {
+  // Love interest
+  x: 350,
+  y: 250,
+  size: 120,
+  vx: 0,
+  vy: 0,
+  speed: 7.5,
+}
+
 // Images of Player + Love interest
 let loverImage;
 let loveinterestImage;
+let humanImage;
 
 let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwhy (easteregg)
 
@@ -64,6 +77,7 @@ let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwh
 function preload() {
   loverImage = loadImage('assets/images/hearteyes.png');
   loveinterestImage = loadImage('assets/images/smile.png');
+  humanImage = loadImage('assets/images/slight.png');
 }
 
 function setup() {
@@ -74,15 +88,21 @@ function setup() {
 }
 
 function setupCircles() {
-  // Circle Positions, different from eachother
-  lover.x = width / 3;
-  loveinterest.x = 2 * width / 3;
+  // Player Spawn Point
+  lover.x = random(0, width);
+  lover.y = random(0, height);
 
-  // Circles moving in a random direction
-  loveinterest.x = random(0, width); // not here
-  loveinterest.y = random(0, height); // not here
+  // Love interest Spawn Point
+  loveinterest.x = random(0, width);
+  loveinterest.y = random(0, height);
   loveinterest.vx = random(-loveinterest.speed, loveinterest.speed);
   loveinterest.vy = random(-loveinterest.speed, loveinterest.speed);
+
+  // NPC Spawn Point
+  human.x = random(0, width);
+  human.y = random(0, height);
+  human.vx = random(-human.speed, human.speed);
+  human.vy = random(-human.speed, human.speed);
 }
 
 // -----------------------------------------------------------------------------
@@ -188,6 +208,10 @@ function move() {
   loveinterest.x += loveinterest.vx;
   loveinterest.y += loveinterest.vy;
 
+  // human npc
+  human.x += human.vx;
+  human.y += human.vy;
+
   //Random love interest movement
   let change = random();
   if (change < 0.01) {
@@ -199,6 +223,12 @@ function move() {
 
     loveinterest.x += loveinterest.vx;
     loveinterest.y += loveinterest.vy;
+
+    human.vx = random(-human.speed, human.speed);
+    human.vy = random(-human.speed, human.speed);
+
+    human.x += human.vx;
+    human.y += human.vy;
   }
 }
 
@@ -242,6 +272,10 @@ function display() {
   // Display NPC Love interest
   imageMode(CENTER);
   image(loveinterestImage, loveinterest.x, loveinterest.y, loveinterest.size, loveinterest.size);
+
+  // Display NPC Love interest
+  imageMode(CENTER);
+  image(humanImage, human.x, human.y, human.size, human.size);
 }
 
 // -----------------------------------------------------------------------------
@@ -285,6 +319,17 @@ function resetVariables() {
 
   // Love interest
   loveinterest = {
+    // Love interest
+    x: 350,
+    y: 250,
+    size: 120,
+    vx: 0,
+    vy: 0,
+    speed: 7.5,
+  }
+
+  // human npc
+  let human = {
     // Love interest
     x: 350,
     y: 250,
