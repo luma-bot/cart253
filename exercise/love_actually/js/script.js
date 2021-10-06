@@ -7,10 +7,10 @@ Change the “looking for love” simulation activity. Ideally, you could think 
 
 Make your changes to the simulation with the following requirements:
 
-x 1) Allow the circle1 to control one of the circles
+x 1) Allow the lover to control one of the circles
 - Anything goes, from clicking to position it, to having it follow the mouse, to using the arrow keys, to something else
 
-2) Make the non-circle1 circle move differently
+x 2) Make the non-lover circle move differently
 - Use random movement or Perlin noise or teleportation or something else!
 
 x 3) Add at least one extra function
@@ -27,11 +27,11 @@ x 4) Add at least one extra ending
 
 // -----------------------------------------------------------------------------
 // Global Variables
-let circle1 = {
+let lover = {
   // player
   x: 150,
   y: 250,
-  size: 100,
+  size: 120,
   vx: 0,
   vy: 0,
   speed: 3,
@@ -41,9 +41,9 @@ let circle1 = {
   right: 3,
 }
 
-// Love Intrest
-let circle2 = {
-  // Love Intrest
+// Love interest
+let loveinterest = {
+  // Love interest
   x: 350,
   y: 250,
   size: 100,
@@ -52,8 +52,7 @@ let circle2 = {
   speed: 7.5,
 }
 
-
-// Images of Player + Love Intrest
+// Images of Player + Love interest
 let playerImage;
 let loveImage;
 
@@ -63,31 +62,33 @@ let state = `title`; // Options : title, simulation, love, sadness, & waitwhatwh
 // The playbook & setup
 
 function preload() {
-   playerImage = loadImage('assets/images/hearteyes.png');
-   loveImage = loadImage('assets/images/smile.png');
+  playerImage = loadImage('assets/images/hearteyes.png');
+  loveImage = loadImage('assets/images/smile.png');
 }
 
 function setup() {
   // Canvas
   createCanvas(windowWidth, windowHeight); // use once
-  setupCircles();
-  noCursor();
+  setupCircles(); // set up characters
+  noCursor(); // hide cursor
 }
 
 function setupCircles() {
   // Circle Positions, different from eachother
-  circle1.x = width / 3;
-  circle2.x = 2 * width / 3;
+  lover.x = width / 3;
+  loveinterest.x = 2 * width / 3;
 
   // Circles moving in a random direction
-  circle2.x = random(0, width); // not here
-  circle2.y = random(0, height); // not here
-  circle2.vx = random(-circle2.speed, circle2.speed);
-  circle2.vy = random(-circle2.speed, circle2.speed);
+  loveinterest.x = random(0, width); // not here
+  loveinterest.y = random(0, height); // not here
+  loveinterest.vx = random(-loveinterest.speed, loveinterest.speed);
+  loveinterest.vy = random(-loveinterest.speed, loveinterest.speed);
 }
 
 // -----------------------------------------------------------------------------
 // Draw & Display the goods
+// Display the different states between start, simulation, love, sadness, and why.
+// State options
 function draw() {
   background(0);
 
@@ -104,6 +105,7 @@ function draw() {
   }
 }
 
+// start screen state
 function title() {
   push();
   textSize(64);
@@ -116,6 +118,7 @@ function title() {
   pop();
 }
 
+// game screen state
 function simulation() {
   // functions
   move();
@@ -124,6 +127,7 @@ function simulation() {
   display();
 }
 
+// win screen state
 function love() {
   push();
   textSize(64);
@@ -133,6 +137,7 @@ function love() {
   pop();
 }
 
+// lose screen state
 function sadness() {
   push();
   textSize(64);
@@ -142,75 +147,69 @@ function sadness() {
   pop();
 }
 
+// I choose self love state
 function why() {
   push();
   textSize(24);
   fill(255); // white
   textAlign(CENTER, CENTER);
-  text(`Who needs love right?`, width / 2, height / 2);
+  text(`Who needs love right? It's all about self love.`, width / 2, height / 2);
   text(`You're an independent person who doesn't need no other!`, width / 2, height / 2 + 24);
   pop();
 }
 
 // -----------------------------------------------------------------------------
+// Object Movement
 function move() {
-  // Move circles
-
-  // //circle 1 === player 1
-  // circle1.x += circle1.vx;
-  // circle1.y += circle1.vy;
-
+  // Move Player
   if (keyIsDown(LEFT_ARROW)) {
-    circle1.x -= 5;
+    lover.x -= 5;
   }
 
   if (keyIsDown(RIGHT_ARROW)) {
-    circle1.x += 5;
+    lover.x += 5;
   }
 
   if (keyIsDown(UP_ARROW)) {
-    circle1.y -= 5;
+    lover.y -= 5;
   }
 
   if (keyIsDown(DOWN_ARROW)) {
-    circle1.y += 5;
+    lover.y += 5;
   }
 
-  // circle 2 === Love Intrest
-  circle2.x += circle2.vx;
-  circle2.y += circle2.vy;
+  // circle 2 === Love interest
+  loveinterest.x += loveinterest.vx;
+  loveinterest.y += loveinterest.vy;
 
-  //Random?
+  //Random love interest movement
   let change = random();
   if (change < 0.01) {
     //speed faster
     // 1% not bad
 
-    circle2.vx = random(-circle2.speed, circle2.speed);
-    circle2.vy = random(-circle2.speed, circle2.speed);
+    loveinterest.vx = random(-loveinterest.speed, loveinterest.speed);
+    loveinterest.vy = random(-loveinterest.speed, loveinterest.speed);
 
-    circle2.x += circle2.vx;
-    circle2.y += circle2.vy;
+    loveinterest.x += loveinterest.vx;
+    loveinterest.y += loveinterest.vy;
   }
-
 }
 
+// Can't find love
 function checkOffScreen() {
-  // Check if circles have gone off screen
-  // if (circle1.x < 0 || circle1.x > width || circle1.y < 0 || circle1.y > height || circle2.x < 0 || circle2.x > width || circle2.y < 0 || circle2.y > height) {
-  //   sadness();
-  // }
-
-  if (isOffscreen(circle2)) {
+  if (isOffscreen(loveinterest)) {
     state = `sadness`;
   }
 
-  if (isOffscreen(circle1)) {
+// Easter Egg Mode
+  if (isOffscreen(lover)) {
     state = `waitwhatwhy`;
   }
 
 }
 
+// Check if circles are in the play zone
 function isOffscreen(circle) {
   if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
     return true;
@@ -219,47 +218,51 @@ function isOffscreen(circle) {
   }
 }
 
+// Check if the circles are overlapping
 function checkOverlap() {
-  // Check if the circles are overlapping
-  let d = dist(circle1.x, circle1.y, circle2.x, circle2.y);
-  if (d < circle1.size / 2 + circle2.size / 2) {
+  let d = dist(lover.x, lover.y, loveinterest.x, loveinterest.y);
+  if (d < lover.size / 2 + loveinterest.size / 2) {
     state = `love`;
   }
 }
 
+// -----------------------------------------------------------------------------
 function display() {
   // Draw circles
 
   // Player
   push();
   fill(255); // White
-  ellipse(circle1.x, circle1.y, circle1.size);
+  ellipse(lover.x, lover.y, lover.size);
   pop();
 
-  // Love Intrest
+  // Love interest
   push();
   fill(255, 51, 153); // Pink
-  ellipse(circle2.x, circle2.y, circle2.size);
+  ellipse(loveinterest.x, loveinterest.y, loveinterest.size);
   pop();
 
-  // // Display player
-  // imageMode(CENTER);
-  // image(playerImage, circle1.x, circle1.y,circle1.size);
+  // Display player
+  imageMode(CENTER);
+  image(playerImage, lover.x, lover.y,lover.size);
 }
 
+// -----------------------------------------------------------------------------
+// Mouse click to start game
 function mousePressed() {
   if (state === `title`) {
     state = `simulation`;
   }
 }
 
+// Press Space to start game
 function keyPressed() {
   if (state === `title` && key === ' ') {
     state = `simulation` // space to start
   }
 
-  // Reset?
-  if (state === `love` && key === ' ' || state === `sadness` && key === ' ') {
+  // Reset game at the end
+  if (state === `love` && key === ' ' || state === `sadness` && key === ' ' || state === `waitwhatwhy` && key === ' ') {
     resetVariables();
     setupCircles();
     state = `simulation` // space to start
@@ -267,9 +270,9 @@ function keyPressed() {
 
 }
 
-//somewhere else
+//somewhere else, reset variables to continue playing
 function resetVariables() {
-  circle1 = {
+  lover = {
     // player
     x: 150,
     y: 250,
@@ -283,9 +286,9 @@ function resetVariables() {
     right: 3,
   }
 
-  // Love Intrest
-  circle2 = {
-    // Love Intrest
+  // Love interest
+  loveinterest = {
+    // Love interest
     x: 350,
     y: 250,
     size: 100,
@@ -294,3 +297,5 @@ function resetVariables() {
     speed: 7.5,
   }
 }
+// End of Code
+// -----------------------------------------------------------------------------
