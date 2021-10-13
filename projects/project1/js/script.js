@@ -12,6 +12,21 @@ There are ways and coping mechanismns that you can do to shrink the trauma until
 // Global Variables Start
 
 let state = `title`; // Options : title, simulation, win, lose
+let bg = {
+  r: 0,
+  g: 0,
+  b: 0,
+}
+
+let player ={
+  x: 0,
+  y: 0,
+  size: 0,
+  growth: 0,
+  vx: 0,
+  vy: 0,
+  fill: 60,
+}
 
 // Global Variables End
 
@@ -73,6 +88,21 @@ function title() {
 function simulation() {
   // Simulation & Game Functions Here
   //  display();
+
+  fill(player.fill);
+  textSize(player.size);
+  textStyle(BOLD);
+  text('Click to refresh the page', player.x, player.y);
+
+  // contrain text location
+  player.x = mouseX;
+  player.y = mouseY;
+
+  console.log('x is: ', player.x);
+  console.log('y is: ', player.y);
+
+
+
 }
 // Simulation Screen State End
 
