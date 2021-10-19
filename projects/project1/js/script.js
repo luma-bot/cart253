@@ -25,6 +25,7 @@ let player = {
   growth: 0,
   vx: 0,
   vy: 0,
+  multi: 2,
   fill: 60,
   r: 255,
   g: 53,
@@ -36,8 +37,9 @@ let trauma = {
   y: 0,
   size: 20,
   growth: 0,
-  vx: 2,
-  vy: 2,
+  vx: 0,
+  vy: 0,
+  multi: 2,
   fill: 60,
   r: 145,
   g: 22,
@@ -70,6 +72,9 @@ function setup() {
   // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
   trauma.x = random(0, width);
   trauma.y = random(0, height)
+  trauma.vx = random(-1, 1);
+  trauma.vy = random(-1, 1);
+
 }
 /* Setup function End */
 
@@ -86,6 +91,8 @@ function draw() {
     title(); // run start screen
   } else if (state === `howto`) {
     howto(); // run howto play screen
+  } else if (state === 'simulation') {
+    simulation(); // run simulation screen
   }
 }
 /* Draw function End */
@@ -124,29 +131,38 @@ function howto() {
 
 // Simulation Screen State Start
 function simulation() {
-
   // Simulation & Game Functions Here
-  //  display();
+  playerUser();
+  traumaNPC();
+}
+// Simulation Screen State End
 
+// Functions that go inside of the simulation Start
+function playerUser() {
   // Player Render
-  player.x = mouseX; // player x location = mouse x
-  player.y = mouseY; // player y location = mouse y
+  player.x = mouseX;
+  player.y = mouseY;
   push();
-  noCursor(); // remove cursor, replace with below
+  noCursor(); // remove cursor, replace with character below
   fill(player.r, player.g, player.b);
   ellipse(player.x, player.y, player.size);
   pop();
+}
 
+function traumaNPC() {
   // Trauma Render
-  trauma.x += trauma.vx;
-  trauma.y += trauma.vy;
+  trauma.x += trauma.vx * trauma.multi;
+  trauma.y += trauma.vy * trauma.multi;
   push();
   fill(trauma.r, trauma.g, trauma.b);
   ellipse(trauma.x, trauma.y, trauma.size);
   pop();
 
+  // Trauma constrain bounce
+  trauma.x = constrain(trauma.x, 0, width);
+  trauma.y = constrain(trauma.y, 0, height);
 }
-// Simulation Screen State End
+// Functions that go inside of the simulation Start
 
 // -----------------------------------------------------------------------------
 
@@ -161,3 +177,5 @@ function keyPressed() {
   }
 }
 // onKeyPress End
+
+// Event Functions End
