@@ -23,8 +23,6 @@ let player = {
   y: 0,
   size: 20,
   growth: 0,
-  vx: 0,
-  vy: 0,
   multi: 2,
   fill: 60,
   r: 255,
@@ -44,6 +42,7 @@ let trauma = {
   r: 145,
   g: 22,
   b: 22,
+  radius: 10,
 }
 
 // Global Variables End
@@ -161,6 +160,14 @@ function traumaNPC() {
   // Trauma constrain bounce
   trauma.x = constrain(trauma.x, 0, width);
   trauma.y = constrain(trauma.y, 0, height);
+
+  // Trauma collision bounce
+  if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
+    trauma.vx *= -1;
+  }
+  if (trauma.y > height - trauma.radius || trauma.y < trauma.radius) {
+    trauma.vy *= -1;
+  }
 }
 // Functions that go inside of the simulation Start
 
