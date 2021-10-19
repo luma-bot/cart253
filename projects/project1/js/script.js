@@ -70,7 +70,6 @@ function setup() {
   // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
   trauma.x = random(0, width);
   trauma.y = random(0, height)
-
 }
 /* Setup function End */
 
@@ -82,17 +81,19 @@ of the program outputed to the user to view.
 */
 function draw() {
   background(0);
+  //console.log(state);
 
   if (state === `title`) {
     title(); // run start screen
-  } else if (state === `simulation`) {
-    simulation(); // run game
+  } else if (state === `howto`) {
+    howto();
   }
 }
 /* Draw function End */
 
 // Start Screen State Start
 function title() {
+  //console.log(state);
   push();
   textSize(64);
   fill(200, 100, 100);
@@ -105,8 +106,25 @@ function title() {
 }
 // Start Screen State End
 
+// howto Screen Start
+function howto() {
+  //console.log(state);
+  push();
+  textSize(64);
+  fill(200, 100, 100);
+  textAlign(CENTER, CENTER);
+  text(`How To Play`, width / 2, height / 2); // Insert Title Here
+  textSize(24);
+  fill(255);
+  text(`Control your mental health "guardian" with your mouse.`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  pop();
+  console.log(state);
+}
+// howto Screen End
+
 // Simulation Screen State Start
 function simulation() {
+  //console.log(state);
   // Simulation & Game Functions Here
   //  display();
 
@@ -133,18 +151,13 @@ function simulation() {
 // -----------------------------------------------------------------------------
 
 // Event Functions Start
-// onMousePress Start
-function mousePressed() {
-  if (state === `title`) {
-    state = `simulation`;
-  }
-}
-// onMousePress End
 
 // onKeyPress Start
 function keyPressed() {
   if (state === `title` && key === ' ') {
-    state = `simulation` // space to start
+    state = `howto` // title screen to insuctions
+  } else if (state === `howto` && key === ' ') {
+    state = `simulation` // howto screen to simulation
   }
 }
 // onKeyPress End
