@@ -81,24 +81,22 @@ of the program outputed to the user to view.
 */
 function draw() {
   background(0);
-  //console.log(state);
 
   if (state === `title`) {
     title(); // run start screen
   } else if (state === `howto`) {
-    howto();
+    howto(); // run howto play screen
   }
 }
 /* Draw function End */
 
 // Start Screen State Start
 function title() {
-  //console.log(state);
   push();
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
-  text(`Mental Health in a Box`, width / 2, height / 2); // Insert Title Here
+  text(`Mental Health in a Box`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
   text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 64); // Insert Subtitle Here
@@ -108,23 +106,25 @@ function title() {
 
 // howto Screen Start
 function howto() {
-  //console.log(state);
   push();
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
-  text(`How To Play`, width / 2, height / 2); // Insert Title Here
+  text(`How To Play:`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
-  text(`Control your mental health "guardian" with your mouse.`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`Control your mental health "guardian" with your mouse.`, width / 2, height / 2 + 64);
+  text(`Keep your trauma at bay using your guardian / coping mechanism to fight it.`, width / 2, height / 2 + 88);
+  text(`Everytime your trauma touches the edge, you'll be reminded of the trauma.`, width / 2, height / 2 + 112);
+  text(`Win: If you successfully cope and shrink down the trauma.`, width / 2, height / 2 + 160);
+  text(`Lose: If you unsuccessfully cope and let the trauma grow.`, width / 2, height / 2 + 184);
   pop();
-  console.log(state);
 }
 // howto Screen End
 
 // Simulation Screen State Start
 function simulation() {
-  //console.log(state);
+
   // Simulation & Game Functions Here
   //  display();
 
