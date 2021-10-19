@@ -21,7 +21,7 @@ let bg = {
 let player = {
   x: 0,
   y: 0,
-  size: 20,
+  size: 40,
   growth: 0,
   multi: 2,
   fill: 60,
@@ -34,6 +34,7 @@ let trauma = {
   x: 0,
   y: 0,
   size: 20,
+  radius: 10,
   growth: 0,
   vx: 0,
   vy: 0,
@@ -42,7 +43,7 @@ let trauma = {
   r: 145,
   g: 22,
   b: 22,
-  radius: 10,
+
 }
 
 // Global Variables End
@@ -133,14 +134,21 @@ function simulation() {
   // Simulation & Game Functions Here
   playerUser();
   traumaNPC();
+  collisionCheck();
 }
 // Simulation Screen State End
 
 // Functions that go inside of the simulation Start
 function playerUser() {
-  // Player Render
+  // Player Movement
   player.x = mouseX;
   player.y = mouseY;
+
+  // Player constrain
+  player.x = constrain(player.x, 0, width);
+  player.y = constrain(player.y, 0, height);
+
+  // Player Render
   push();
   noCursor(); // remove cursor, replace with character below
   fill(player.r, player.g, player.b);
@@ -149,19 +157,30 @@ function playerUser() {
 }
 
 function traumaNPC() {
-  // Trauma Render
+  // Trauma Movement
   trauma.x += trauma.vx * trauma.multi;
   trauma.y += trauma.vy * trauma.multi;
-  push();
-  fill(trauma.r, trauma.g, trauma.b);
-  ellipse(trauma.x, trauma.y, trauma.size);
-  pop();
 
   // Trauma constrain bounce
   trauma.x = constrain(trauma.x, 0, width);
   trauma.y = constrain(trauma.y, 0, height);
 
-  // Trauma collision bounce
+  // Trauma Render
+  push();
+  fill(trauma.r, trauma.g, trauma.b);
+  ellipse(trauma.x, trauma.y, trauma.size);
+  pop();
+}
+
+function collisionCheck(){
+  // Player collision check
+  // Check if the circles are overlapping
+    let d = dist(player.x, player.y, trauma.x, trauma.y);
+    if (d < player.size / 2 + trauma.radius / 2) {
+      console.log('collision_true');
+    }
+
+  // Trauma collision bounce against walls
   if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
     trauma.vx *= -1;
   }
@@ -169,7 +188,7 @@ function traumaNPC() {
     trauma.vy *= -1;
   }
 }
-// Functions that go inside of the simulation Start
+// Functions that go inside of the simulation End
 
 // -----------------------------------------------------------------------------
 
