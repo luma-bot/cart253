@@ -18,14 +18,17 @@ let bg = {
   b: 0,
 }
 
-let player ={
+let player = {
   x: 0,
   y: 0,
-  size: 0,
+  size: 20,
   growth: 0,
   vx: 0,
   vy: 0,
   fill: 60,
+  r: 255,
+  g: 53,
+  b: 22,
 }
 
 // Global Variables End
@@ -89,17 +92,17 @@ function simulation() {
   // Simulation & Game Functions Here
   //  display();
 
-  fill(player.fill);
-  textSize(player.size);
-  textStyle(BOLD);
-  text('Click to refresh the page', player.x, player.y);
-
-  // contrain text location
+  // Player Render
   player.x = mouseX;
   player.y = mouseY;
+  push();
+  noCursor(); // remove cursor, replace with below
+  fill(player.r, player.g, player.b);
+  ellipse(player.x, player.y, player.size);
+  pop();
 
-  console.log('x is: ', player.x);
-  console.log('y is: ', player.y);
+  // console.log('x is: ', player.x);
+  // console.log('y is: ', player.y);
 
 
 
