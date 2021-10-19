@@ -31,6 +31,19 @@ let player = {
   b: 22,
 }
 
+let trauma = {
+  x: 0,
+  y: 0,
+  size: 20,
+  growth: 0,
+  vx: 2,
+  vy: 2,
+  fill: 60,
+  r: 145,
+  g: 22,
+  b: 22,
+}
+
 // Global Variables End
 
 // -----------------------------------------------------------------------------
@@ -53,6 +66,11 @@ of the program is stored.
 */
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
+
+  // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
+  trauma.x = random(0, width);
+  trauma.y = random(0, height)
+
 }
 /* Setup function End */
 
@@ -93,18 +111,21 @@ function simulation() {
   //  display();
 
   // Player Render
-  player.x = mouseX;
-  player.y = mouseY;
+  player.x = mouseX; // player x location = mouse x
+  player.y = mouseY; // player y location = mouse y
   push();
   noCursor(); // remove cursor, replace with below
   fill(player.r, player.g, player.b);
   ellipse(player.x, player.y, player.size);
   pop();
 
-  // console.log('x is: ', player.x);
-  // console.log('y is: ', player.y);
-
-
+  // Trauma Render
+  trauma.x += trauma.vx;
+  trauma.y += trauma.vy;
+  push();
+  fill(trauma.r, trauma.g, trauma.b);
+  ellipse(trauma.x, trauma.y, trauma.size);
+  pop();
 
 }
 // Simulation Screen State End
