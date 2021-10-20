@@ -21,6 +21,7 @@ let studentUserImage;
 let mouseUserImage;
 let assignmentMobImage;
 let assignmentMobImage0;
+let assignmentMobImage1;
 
 let studentUser = {
   x: 0,
@@ -53,7 +54,7 @@ let assignmentMob = {
   radius: 50,
   vx: 10,
   vy: 10,
-  r: 255,
+  r: 200,
   g: 0,
   b: 0,
 }
@@ -65,12 +66,25 @@ let assignmentMob0 = {
   radius: 50,
   vx: 10,
   vy: 10,
-  r: 255,
+  r: 200,
+  g: 0,
+  b: 0,
+}
+
+let assignmentMob1 = {
+  x: 0,
+  y: 0,
+  size: 50,
+  radius: 50,
+  vx: 10,
+  vy: 10,
+  r: 200,
   g: 0,
   b: 0,
 }
 
 let winNum = 0;
+let winMax = 15;
 // Global Variables End
 
 // -----------------------------------------------------------------------------
@@ -83,6 +97,7 @@ function preload() {
   mouseUserImage = loadImage('assets/images/mouseUser.svg');
   assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
   assignmentMobImage0 = loadImage('assets/images/imageMob.svg');
+  assignmentMobImage1 = loadImage('assets/images/codeMob.svg');
 }
 /* Preload function End */
 
@@ -97,6 +112,7 @@ function setup() {
   studentUserSpawn();
   assignmentMobSpawn();
   assignmentMobSpawn0();
+  assignmentMobSpawn1();
   scoreReset();
 }
 /* Setup function End */
@@ -106,6 +122,7 @@ function studentUserSpawn() {
   studentUser.y = height / 2;
 }
 
+// mob spawns must stay separated to be called properly
 function assignmentMobSpawn() {
   // AssignmentMob random spawn location
   assignmentMob.x = random(0, width);
@@ -116,6 +133,12 @@ function assignmentMobSpawn0() {
   // AssignmentMob0 random spawn location
   assignmentMob0.x = random(0, width);
   assignmentMob0.y = random(0, height);
+}
+
+function assignmentMobSpawn1() {
+  // AssignmentMob0 random spawn location
+  assignmentMob1.x = random(0, width);
+  assignmentMob1.y = random(0, height);
 }
 
 function scoreReset() {
@@ -186,7 +209,7 @@ function howto() {
 function win() {
   push();
   textSize(64);
-  fill(200, 100, 100);
+  fill(0, 153, 51);
   textAlign(CENTER, CENTER);
   text(`You Win!`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
@@ -276,6 +299,7 @@ function student() {
 function multipleAssignments() {
   assignments();
   assignments0();
+  assignments1();
 
   function assignments() {
     // assignmentMob Movement
@@ -330,13 +354,40 @@ function multipleAssignments() {
     image(assignmentMobImage0, assignmentMob0.x, assignmentMob0.y, assignmentMob0.size)
     pop();
   }
+
+  function assignments1() {
+    // assignmentMob Movement
+    assignmentMob1.x += assignmentMob1.vx;
+    assignmentMob1.y += assignmentMob1.vy;
+
+    // Trauma constrain bounce
+    assignmentMob1.x = constrain(assignmentMob1.x, 0, width);
+    assignmentMob1.y = constrain(assignmentMob1.y, 0, height);
+
+    // assignmentMob collision bounce against walls
+    if (assignmentMob1.x > width - assignmentMob1.radius || assignmentMob1.x < assignmentMob1.radius) {
+      assignmentMob1.vx = -assignmentMob1.vx;
+    }
+    if (assignmentMob1.y > height - assignmentMob1.radius || assignmentMob1.y < assignmentMob1.radius) {
+      assignmentMob1.vy = -assignmentMob1.vy;
+    }
+
+    // assignmentMob Render
+    push();
+    fill(assignmentMob1.r, assignmentMob1.g, assignmentMob1.b);
+    ellipseMode(RADIUS);
+    ellipse(assignmentMob1.x, assignmentMob1.y, assignmentMob1.size);
+    imageMode(CENTER);
+    image(assignmentMobImage1, assignmentMob1.x, assignmentMob1.y, assignmentMob1.size)
+    pop();
+  }
 }
 
 function scoreDisplay() {
   push();
   textSize(24);
   fill(255);
-  text(`Assignments Submitted: ` + winNum + ` /10`, width / 50, height / 25); // Insert Subtitle Here
+  text(`Assignments Submitted: ` + winNum + ` /` + winMax, width / 50, height / 25); // Insert Subtitle Here
   pop();
 }
 
@@ -350,6 +401,7 @@ function scoreDisplay() {
 function mousePressed() {
   clickedCollisionCheck();
   clickedCollisionCheck0()
+  clickedCollisionCheck1()
 }
 // mousePressed End
 
@@ -384,9 +436,7 @@ function studentUserCollisionCheck() {
     state = `lose`;
   }
 }
-// studentUserCollisionCheck End
 
-// clickedCollisionCheck Start
 function clickedCollisionCheck() {
   // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
@@ -397,7 +447,6 @@ function clickedCollisionCheck() {
   }
 }
 
-// clickedCollisionCheck Start
 function clickedCollisionCheck0() {
   // this function will only run when mouse is pressed, find function above
   let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
@@ -407,6 +456,17 @@ function clickedCollisionCheck0() {
     assignmentMobSpawn0();
   }
 }
+
+// clickedCollisionCheck Start
+function clickedCollisionCheck1() {
+  // this function will only run when mouse is pressed, find function above
+  let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob1.x, assignmentMob1.y);
+  if (d0 < assignmentMob1.size * 2) {
+    console.log("clicked");
+    winCounter();
+    assignmentMobSpawn1();
+  }
+}
 // clickedCollisionCheck End
 // clickedCollisionCheck End
 
@@ -414,7 +474,7 @@ function clickedCollisionCheck0() {
 function winCounter() {
   winNum++;
   console.log("winNum is:" + winNum);
-  if (winNum === 10) {
+  if (winNum === winMax) { // number of assignments handed in to win
     state = `win`;
   }
 }
