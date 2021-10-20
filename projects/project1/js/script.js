@@ -97,7 +97,7 @@ function assignmentMobSpawn() {
   assignmentMob.y = random(0, height);
 }
 
-function scoreReset(){
+function scoreReset() {
   winNum = 0;
 }
 
@@ -170,7 +170,8 @@ function win() {
   text(`You Win!`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
-  text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`Wow that was an easy A+ right?`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`Press 'Spacebar' to move to your next semester`, width / 2, height / 2 + 88); // Insert Subtitle Here
   pop();
 }
 // Win State End
@@ -184,7 +185,8 @@ function lose() {
   text(`You Lose...`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
-  text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`That DEADline came out of nowhere huh?`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`Press 'Spacebar' to redo your semester`, width / 2, height / 2 + 88); // Insert Subtitle Here
   pop();
 }
 // Lose State End
@@ -283,7 +285,7 @@ function multipleAssignments() {
   }
 }
 
-function scoreDisplay(){
+function scoreDisplay() {
   push();
   textSize(24);
   fill(255);
@@ -340,6 +342,7 @@ function clickedCollisionCheck() {
     console.log("clicked");
     //state = `win`;
     winCounter();
+    assignmentMobSpawn();
   }
 }
 // clickedCollisionCheck End
