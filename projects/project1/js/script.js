@@ -156,7 +156,7 @@ function simulation() {
 
   // Game Mechanic Functions
   studentUserCollisionCheck();
-  mouseUserCollisionCheck()
+  mouseUserCollisionCheck();
 }
 // Simulation Screen State End
 
@@ -237,6 +237,10 @@ function assignments() {
 
 // Event Functions Start
 
+function mousePressed(){
+  clickedCollisionCheck();
+}
+
 // onKeyPress Start
 function keyPressed() {
   if (state === `title` && key === ' ') {
@@ -265,6 +269,13 @@ function mouseUserCollisionCheck() {
   if (d < mouseUser.size / 2 + assignmentMob.radius * 2) {
     console.log('mouseUser-assignmentMob collision');
     // if this happens, delete the assignment
+  }
+}
+
+function clickedCollisionCheck() {
+  let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
+  if (d < assignmentMob.radius) {
+    console.log("clicked");
   }
 }
 // studentUserCollisionCheck End
