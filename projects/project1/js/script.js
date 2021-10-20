@@ -217,11 +217,11 @@ function assignments() {
   // assignmentMob collision bounce against walls
   if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
     assignmentMob.vx = -assignmentMob.vx;
-    console.log('assignmentMob-wall collision');
+    //console.log('assignmentMob-wall collision');
   }
   if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
     assignmentMob.vy = -assignmentMob.vy;
-    console.log('assignmentMob-wall collision');
+    //console.log('assignmentMob-wall collision');
   }
 
   // assignmentMob Render
@@ -237,9 +237,11 @@ function assignments() {
 
 // Event Functions Start
 
-function mousePressed(){
+// mousePressed Start
+function mousePressed() {
   clickedCollisionCheck();
 }
+// mousePressed End
 
 // onKeyPress Start
 function keyPressed() {
@@ -256,7 +258,7 @@ function studentUserCollisionCheck() {
   // Player collision check
   let d = dist(studentUser.x, studentUser.y, assignmentMob.x, assignmentMob.y);
   if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
-    console.log('studentUser-assignmentMob collision');
+    //console.log('studentUser-assignmentMob collision');
     // if this happens, gameover
   }
 }
@@ -267,17 +269,20 @@ function mouseUserCollisionCheck() {
   // Player collision check
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < mouseUser.size / 2 + assignmentMob.radius * 2) {
-    console.log('mouseUser-assignmentMob collision');
+    //console.log('mouseUser-assignmentMob collision');
     // if this happens, delete the assignment
   }
 }
+// studentUserCollisionCheck End
 
+// clickedCollisionCheck Start
 function clickedCollisionCheck() {
+  // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob.radius) {
     console.log("clicked");
   }
 }
-// studentUserCollisionCheck End
+// clickedCollisionCheck End
 
 // Event Functions End
