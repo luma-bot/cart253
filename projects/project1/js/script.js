@@ -150,7 +150,7 @@ function howto() {
 function simulation() {
   // Simulation & Game Functions Here
   // Ordered this way for z-index purposes
-  assignments(); // on bottom
+  multipleAssignments(); // on bottom
   student(); // middle
   mouse(); // on top
 
@@ -205,32 +205,45 @@ function student() {
   pop();
 }
 
-function assignments() {
-  // assignmentMob Movement
-  assignmentMob.x += assignmentMob.vx;
-  assignmentMob.y += assignmentMob.vy;
+function multipleAssignments() {
+  assignments();
 
-  // Trauma constrain bounce
-  assignmentMob.x = constrain(assignmentMob.x, 0, width);
-  assignmentMob.y = constrain(assignmentMob.y, 0, height);
+  function assignments() {
+    // assignmentMob Movement
+    assignmentMob.x += assignmentMob.vx;
+    assignmentMob.y += assignmentMob.vy;
 
-  // assignmentMob collision bounce against walls
-  if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
-    assignmentMob.vx = -assignmentMob.vx;
-    //console.log('assignmentMob-wall collision');
+    // Trauma constrain bounce
+    assignmentMob.x = constrain(assignmentMob.x, 0, width);
+    assignmentMob.y = constrain(assignmentMob.y, 0, height);
+
+    // assignmentMob collision bounce against walls
+    if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
+      assignmentMob.vx = -assignmentMob.vx;
+      //console.log('assignmentMob-wall collision');
+    }
+    if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
+      assignmentMob.vy = -assignmentMob.vy;
+      //console.log('assignmentMob-wall collision');
+    }
+
+    // assignmentMob Render
+    push();
+    fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
+    ellipseMode(RADIUS);
+    ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
+    pop();
   }
-  if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
-    assignmentMob.vy = -assignmentMob.vy;
-    //console.log('assignmentMob-wall collision');
+
+    // assignmentMob Render
+    push();
+    fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
+    ellipseMode(RADIUS);
+    ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
+    pop();
   }
 
-  // assignmentMob Render
-  push();
-  fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
-  ellipseMode(RADIUS);
-  ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
-  pop();
-}
+
 // Functions that go inside of the simulation End
 
 // -----------------------------------------------------------------------------
