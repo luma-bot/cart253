@@ -23,6 +23,7 @@ let player = {
   y: 0,
   size: 40,
   growth: 0,
+  shrink: 0,
   multi: 2,
   fill: 60,
   r: 255,
@@ -33,12 +34,12 @@ let player = {
 let trauma = {
   x: 0,
   y: 0,
-  size: 20,
-  radius: 10,
+  radius: 100,
   growth: 0,
-  vx: 0,
-  vy: 0,
-  multi: 2,
+  shrink: 0,
+  vx: 1,
+  vy: 1,
+  multi: 10,
   fill: 60,
   r: 145,
   g: 22,
@@ -68,13 +69,9 @@ of the program is stored.
 */
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
-
-  // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
-  trauma.x = random(0, width);
-  trauma.y = random(0, height)
-  trauma.vx = random(-1, 1);
-  trauma.vy = random(-1, 1);
-
+  for (var i = 0; i < 10; i++) {
+    traumaLocation();
+  }
 }
 /* Setup function End */
 
@@ -134,6 +131,8 @@ function simulation() {
   // Simulation & Game Functions Here
   playerUser();
   traumaNPC();
+  playerRender();
+  traumaRender();
   collisionCheck();
 }
 // Simulation Screen State End
@@ -147,7 +146,9 @@ function playerUser() {
   // Player constrain
   player.x = constrain(player.x, 0, width);
   player.y = constrain(player.y, 0, height);
+}
 
+function playerRender() {
   // Player Render
   push();
   noCursor(); // remove cursor, replace with character below
@@ -164,29 +165,49 @@ function traumaNPC() {
   // Trauma constrain bounce
   trauma.x = constrain(trauma.x, 0, width);
   trauma.y = constrain(trauma.y, 0, height);
+}
 
+function traumaRender() {
   // Trauma Render
   push();
   fill(trauma.r, trauma.g, trauma.b);
-  ellipse(trauma.x, trauma.y, trauma.size);
+  ellipse(trauma.x, trauma.y, trauma.radius * 2);
   pop();
 }
 
-function collisionCheck(){
+function collisionCheck() {
   // Player collision check
-  // Check if the circles are overlapping
-    let d = dist(player.x, player.y, trauma.x, trauma.y);
-    if (d < player.size / 2 + trauma.radius / 2) {
-      console.log('collision_true');
-    }
+  let d = dist(player.x, player.y, trauma.x, trauma.y);
+  if (d < player.size / 2 + trauma.radius / 2) {
+    console.log('collision_true');
+    traumaShrink();
+  }
 
   // Trauma collision bounce against walls
   if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
     trauma.vx *= -1;
+    traumaLocation();
+    traumaGrow();
   }
   if (trauma.y > height - trauma.radius || trauma.y < trauma.radius) {
     trauma.vy *= -1;
+    traumaLocation();
+    traumaGrow();
   }
+}
+
+function traumaLocation() {
+  // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
+  trauma.x = random(0, width);
+  trauma.y = random(0, height);
+}
+
+function traumaGrow() {
+  trauma.radius = trauma.radius * .5;
+}
+
+function traumaShrink() {
+  trauma.radius = trauma.radius / .5;
 }
 // Functions that go inside of the simulation End
 
