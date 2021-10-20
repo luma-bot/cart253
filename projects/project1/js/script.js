@@ -183,11 +183,11 @@ function title() {
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
   textStyle(BOLD);
-  text(`Attack of the Assignments`, width / 2, height / 2 - 24); // Insert Title Here
+  text(`Attack of the Assignments`, width / 2, height / 2 - 24);
   textSize(24);
   fill(255);
   text(`Are you ready?`, width / 2, height / 2 + 64);
-  text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 88); // Insert Subtitle Here
+  text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 88);
   pop();
 }
 // Start Screen State End
@@ -198,7 +198,7 @@ function howto() {
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
-  text(`How To Play:`, width / 2, height / 2 - 24); // Insert Title Here
+  text(`How To Play:`, width / 2, height / 2 - 24);
   textSize(24);
   fill(255);
   text(`Avoid getting hit with assignments.`, width / 2, height / 2 + 64);
@@ -216,11 +216,11 @@ function win() {
   textSize(64);
   fill(0, 153, 51);
   textAlign(CENTER, CENTER);
-  text(`You Win!`, width / 2, height / 2 - 24); // Insert Title Here
+  text(`You Win!`, width / 2, height / 2 - 24);
   textSize(24);
   fill(255);
-  text(`Wow that was an easy A+ right?`, width / 2, height / 2 + 64); // Insert Subtitle Here
-  text(`Press 'Spacebar' to move to your next semester`, width / 2, height / 2 + 88); // Insert Subtitle Here
+  text(`Wow that was an easy A+ right?`, width / 2, height / 2 + 64);
+  text(`Press 'Spacebar' to move to your next semester`, width / 2, height / 2 + 88);
   pop();
 }
 // Win State End
@@ -231,11 +231,11 @@ function lose() {
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
-  text(`You Lose...`, width / 2, height / 2 - 24); // Insert Title Here
+  text(`You Lose...`, width / 2, height / 2 - 24);
   textSize(24);
   fill(255);
-  text(`That DEADline came out of nowhere huh?`, width / 2, height / 2 + 64); // Insert Subtitle Here
-  text(`Press 'Spacebar' to redo your semester`, width / 2, height / 2 + 88); // Insert Subtitle Here
+  text(`That DEADline came out of nowhere huh?`, width / 2, height / 2 + 64);
+  text(`Press 'Spacebar' to redo your semester`, width / 2, height / 2 + 88);
   pop();
 }
 // Lose State End
@@ -460,7 +460,6 @@ function clickedCollisionCheck() {
   // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob0.size * 2) {
-    console.log("clicked");
     winCounter();
     assignmentMobSpawn();
   }
@@ -470,7 +469,6 @@ function clickedCollisionCheck0() {
   // this function will only run when mouse is pressed, find function above
   let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
   if (d0 < assignmentMob0.size * 2) {
-    console.log("clicked");
     winCounter();
     assignmentMobSpawn0();
   }
@@ -480,7 +478,6 @@ function clickedCollisionCheck1() {
   // this function will only run when mouse is pressed, find function above
   let d1 = dist(mouseUser.x, mouseUser.y, assignmentMob1.x, assignmentMob1.y);
   if (d1 < assignmentMob1.size * 2) {
-    console.log("clicked");
     winCounter();
     assignmentMobSpawn1();
   }
@@ -490,7 +487,6 @@ function clickedCollisionCheck1() {
 // UI Display Start
 function winCounter() {
   winNum++;
-  console.log("winNum is:" + winNum);
   if (winNum === winMax) { // number of assignments handed in to win
     state = `win`;
   }
