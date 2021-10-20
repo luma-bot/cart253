@@ -197,6 +197,7 @@ function simulation() {
   student(); // middle
   mouse(); // on top
   studentUserCollisionCheck();
+  scoreDisplay();
 }
 // Simulation Screen State End
 
@@ -282,6 +283,13 @@ function multipleAssignments() {
   }
 }
 
+function scoreDisplay(){
+  push();
+  textSize(24);
+  fill(255);
+  text(`Assignments Submitted: ` + winNum, width / 50, height / 25); // Insert Subtitle Here
+  pop();
+}
 
 // Functions that go inside of the simulation End
 
