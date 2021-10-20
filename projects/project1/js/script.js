@@ -46,8 +46,8 @@ let assignmentMob = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 15,
-  vy: 15,
+  vx: 10,
+  vy: 10,
   r: 255,
   g: 0,
   b: 0,
@@ -110,7 +110,7 @@ function gameState() {
     howto(); // run howto play screen
   } else if (state === 'simulation') {
     simulation(); // run simulation screen
-  }  else if (state === 'win') {
+  } else if (state === 'win') {
     win(); // run simulation screen
   } else if (state === 'lose') {
     lose(); // run simulation screen
@@ -185,10 +185,7 @@ function simulation() {
   multipleAssignments(); // on bottom
   student(); // middle
   mouse(); // on top
-
-  // Game Mechanic Functions
   studentUserCollisionCheck();
-  mouseUserCollisionCheck();
 }
 // Simulation Screen State End
 
@@ -267,13 +264,13 @@ function multipleAssignments() {
     pop();
   }
 
-    // assignmentMob Render
-    push();
-    fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
-    ellipseMode(RADIUS);
-    ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
-    pop();
-  }
+  // assignmentMob Render
+  push();
+  fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
+  ellipseMode(RADIUS);
+  ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
+  pop();
+}
 
 
 // Functions that go inside of the simulation End
@@ -312,19 +309,7 @@ function studentUserCollisionCheck() {
   let d = dist(studentUser.x, studentUser.y, assignmentMob.x, assignmentMob.y);
   if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
     //console.log('studentUser-assignmentMob collision');
-      state = `lose`;
-  }
-}
-// studentUserCollisionCheck End
-
-// mouseUserCollisionCheck Start
-function mouseUserCollisionCheck() {
-  // not exactly using this yet
-  // Player collision check
-  let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
-  if (d < mouseUser.size / 2 + assignmentMob.radius * 2) {
-    //console.log('mouseUser-assignmentMob collision');
-    // if this happens, delete the assignment
+    state = `lose`;
   }
 }
 // studentUserCollisionCheck End
@@ -333,7 +318,7 @@ function mouseUserCollisionCheck() {
 function clickedCollisionCheck() {
   // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
-  if (d < assignmentMob.radius) {
+  if (d < assignmentMob.size * 2) {
     console.log("clicked");
     state = `win`;
   }
