@@ -21,7 +21,7 @@ let bg = {
 let player = {
   x: 0,
   y: 0,
-  size: 40,
+  size: 50,
   growth: 0,
   shrink: 0,
   multi: 2,
@@ -69,9 +69,7 @@ of the program is stored.
 */
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
-  for (var i = 0; i < 10; i++) {
-    traumaLocation();
-  }
+  spawnNewTrauma();
 }
 /* Setup function End */
 
@@ -134,6 +132,7 @@ function simulation() {
   playerRender();
   traumaRender();
   collisionCheck();
+  gameState();
 }
 // Simulation Screen State End
 
@@ -181,17 +180,17 @@ function collisionCheck() {
   if (d < player.size / 2 + trauma.radius / 2) {
     console.log('collision_true');
     traumaShrink();
+    traumaLocation();
+    //spawnNewTrauma();
   }
 
   // Trauma collision bounce against walls
   if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
     trauma.vx *= -1;
-    traumaLocation();
     traumaGrow();
   }
   if (trauma.y > height - trauma.radius || trauma.y < trauma.radius) {
     trauma.vy *= -1;
-    traumaLocation();
     traumaGrow();
   }
 }
@@ -203,11 +202,23 @@ function traumaLocation() {
 }
 
 function traumaGrow() {
-  trauma.radius = trauma.radius * .5;
+  trauma.radius += .1;
 }
 
 function traumaShrink() {
-  trauma.radius = trauma.radius / .5;
+  trauma.radius -= .1;
+}
+
+function spawnNewTrauma(){
+  for (var i = 0; i < 10; i++) {
+    traumaLocation();
+  }
+}
+
+function gameState() {
+  if (trauma.radius < 10) {
+    console.log('win');
+  }
 }
 // Functions that go inside of the simulation End
 
