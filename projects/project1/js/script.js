@@ -24,7 +24,6 @@ let player = {
   size: 50,
   growth: 0,
   shrink: 0,
-  multi: 2,
   fill: 60,
   r: 255,
   g: 53,
@@ -37,8 +36,8 @@ let trauma = {
   radius: 50,
   growth: 0,
   shrink: 0,
-  vx: 1,
-  vy: 1,
+  vx: 25,
+  vy: 25,
   multi: 10,
   fill: 60,
   r: 145,
@@ -138,8 +137,8 @@ function simulation() {
 // Functions that go inside of the simulation Start
 function traumaNPC() {
   // Trauma Movement
-  trauma.x += trauma.vx * trauma.multi;
-  trauma.y += trauma.vy * trauma.multi;
+  trauma.x += trauma.vx;
+  trauma.y += trauma.vy;
 
   // Trauma constrain bounce
   trauma.x = constrain(trauma.x, 0, width);
@@ -166,12 +165,12 @@ function collisionCheck() {
 
   // Trauma collision bounce against walls
   if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
-    trauma.vx *= -1;
+    trauma.vx = -trauma.vx;
     traumaGrow();
     console.log('trauma-wall collision');
   }
   if (trauma.y > height - trauma.radius || trauma.y < trauma.radius) {
-    trauma.vy *= -1;
+    trauma.vy = -trauma.vy;
     traumaGrow();
     console.log('trauma-wall collision');
   }
