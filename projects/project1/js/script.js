@@ -45,6 +45,9 @@ let assignmentMob = {
   x: 0,
   y: 0,
   size: 50,
+  radius: 50,
+  vx: 15,
+  vy: 15,
   r: 255,
   g: 0,
   b: 0,
@@ -95,7 +98,12 @@ of the program outputed to the user to view.
 */
 function draw() {
   background(0);
+  gameState();
+}
+/* Draw function End */
 
+// Game State Start
+function gameState() {
   if (state === `title`) {
     title(); // run start screen
   } else if (state === `howto`) {
@@ -104,7 +112,7 @@ function draw() {
     simulation(); // run simulation screen
   }
 }
-/* Draw function End */
+// Game State End
 
 // Start Screen State Start
 function title() {
@@ -141,9 +149,14 @@ function howto() {
 // Simulation Screen State Start
 function simulation() {
   // Simulation & Game Functions Here
-  mouse();
-  student();
-  assignments();
+  // Ordered this way for z-index purposes
+  assignments(); // on bottom
+  student(); // middle
+  mouse(); // on top
+
+  // Game Mechanic Functions
+  studentUserCollisionCheck();
+  mouseUserCollisionCheck()
 }
 // Simulation Screen State End
 
@@ -193,7 +206,25 @@ function student() {
 }
 
 function assignments() {
-  // Assignment Mob Render
+  // assignmentMob Movement
+  assignmentMob.x += assignmentMob.vx;
+  assignmentMob.y += assignmentMob.vy;
+
+  // Trauma constrain bounce
+  assignmentMob.x = constrain(assignmentMob.x, 0, width);
+  assignmentMob.y = constrain(assignmentMob.y, 0, height);
+
+  // assignmentMob collision bounce against walls
+  if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
+    assignmentMob.vx = -assignmentMob.vx;
+    console.log('assignmentMob-wall collision');
+  }
+  if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
+    assignmentMob.vy = -assignmentMob.vy;
+    console.log('assignmentMob-wall collision');
+  }
+
+  // assignmentMob Render
   push();
   fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
   ellipseMode(RADIUS);
@@ -215,5 +246,27 @@ function keyPressed() {
   }
 }
 // onKeyPress End
+
+// studentUserCollisionCheck Start
+function studentUserCollisionCheck() {
+  // Player collision check
+  let d = dist(studentUser.x, studentUser.y, assignmentMob.x, assignmentMob.y);
+  if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
+    console.log('studentUser-assignmentMob collision');
+    // if this happens, gameover
+  }
+}
+// studentUserCollisionCheck End
+
+// mouseUserCollisionCheck Start
+function mouseUserCollisionCheck() {
+  // Player collision check
+  let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
+  if (d < mouseUser.size / 2 + assignmentMob.radius * 2) {
+    console.log('mouseUser-assignmentMob collision');
+    // if this happens, delete the assignment
+  }
+}
+// studentUserCollisionCheck End
 
 // Event Functions End
