@@ -53,8 +53,8 @@ let assignmentMob = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 1,
+  vy: 1,
   r: 200,
   g: 0,
   b: 0,
@@ -65,8 +65,8 @@ let assignmentMob0 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 1,
+  vy: 1,
   r: 200,
   g: 0,
   b: 0,
@@ -77,8 +77,8 @@ let assignmentMob1 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 1,
+  vy: 1,
   r: 200,
   g: 0,
   b: 0,
@@ -413,7 +413,15 @@ function keyPressed() {
   if (state === `title` && key === ' ') {
     state = `howto` // title screen to insuctions
 
+    let sampleIsLooping = false;
     gameMusic.play();
+    if (!sampleIsLooping) {
+      gameMusic.loop();
+      sampleIsLooping = true;
+    } else {
+      gameMusic.stop();
+      sampleIsLooping = false;
+    }
 
   } else if (state === `howto` && key === ' ') {
     state = `simulation` // howto screen to simulation
@@ -436,9 +444,12 @@ function studentUserCollisionCheck() {
   if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
     state = `lose`;
   }
-
   let d0 = dist(studentUser.x, studentUser.y, assignmentMob0.x, assignmentMob0.y);
   if (d0 < studentUser.size / 2 + assignmentMob0.radius * 2) {
+    state = `lose`;
+  }
+  let d1 = dist(studentUser.x, studentUser.y, assignmentMob1.x, assignmentMob1.y);
+  if (d1 < studentUser.size / 2 + assignmentMob1.radius * 2) {
     state = `lose`;
   }
 }
@@ -446,7 +457,7 @@ function studentUserCollisionCheck() {
 function clickedCollisionCheck() {
   // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
-  if (d < assignmentMob.size * 2) {
+  if (d < assignmentMob0.size * 2) {
     console.log("clicked");
     winCounter();
     assignmentMobSpawn();
@@ -463,17 +474,15 @@ function clickedCollisionCheck0() {
   }
 }
 
-// clickedCollisionCheck Start
 function clickedCollisionCheck1() {
   // this function will only run when mouse is pressed, find function above
-  let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob1.x, assignmentMob1.y);
-  if (d0 < assignmentMob1.size * 2) {
+  let d1 = dist(mouseUser.x, mouseUser.y, assignmentMob1.x, assignmentMob1.y);
+  if (d1 < assignmentMob1.size * 2) {
     console.log("clicked");
     winCounter();
     assignmentMobSpawn1();
   }
 }
-// clickedCollisionCheck End
 // clickedCollisionCheck End
 
 // UI Display Start
