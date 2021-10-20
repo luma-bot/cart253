@@ -29,12 +29,12 @@ let studentUser = {
   r: 0,
   g: 153,
   b: 255,
-  //speed start
+  // speed start
   up: -10,
   down: 10,
   left: -10,
   right: 10,
-  //speed end
+  // speed end
 }
 
 let mouseUser = {
@@ -96,7 +96,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight); // use once
   studentUserSpawn();
   assignmentMobSpawn();
-    assignmentMobSpawn0();
+  assignmentMobSpawn0();
   scoreReset();
 }
 /* Setup function End */
@@ -289,11 +289,9 @@ function multipleAssignments() {
     // assignmentMob collision bounce against walls
     if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
       assignmentMob.vx = -assignmentMob.vx;
-      //console.log('assignmentMob-wall collision');
     }
     if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
       assignmentMob.vy = -assignmentMob.vy;
-      //console.log('assignmentMob-wall collision');
     }
 
     // assignmentMob Render
@@ -318,11 +316,9 @@ function multipleAssignments() {
     // assignmentMob collision bounce against walls
     if (assignmentMob0.x > width - assignmentMob0.radius || assignmentMob0.x < assignmentMob0.radius) {
       assignmentMob0.vx = -assignmentMob0.vx;
-      //console.log('assignmentMob-wall collision');
     }
     if (assignmentMob0.y > height - assignmentMob0.radius || assignmentMob0.y < assignmentMob0.radius) {
       assignmentMob0.vy = -assignmentMob0.vy;
-      //console.log('assignmentMob-wall collision');
     }
 
     // assignmentMob Render
@@ -380,13 +376,11 @@ function studentUserCollisionCheck() {
   // Player collision check
   let d = dist(studentUser.x, studentUser.y, assignmentMob.x, assignmentMob.y);
   if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
-    //console.log('studentUser-assignmentMob collision');
     state = `lose`;
   }
 
   let d0 = dist(studentUser.x, studentUser.y, assignmentMob0.x, assignmentMob0.y);
   if (d0 < studentUser.size / 2 + assignmentMob0.radius * 2) {
-    //console.log('studentUser-assignmentMob collision');
     state = `lose`;
   }
 }
@@ -398,7 +392,6 @@ function clickedCollisionCheck() {
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob.size * 2) {
     console.log("clicked");
-    //state = `win`;
     winCounter();
     assignmentMobSpawn();
   }
@@ -410,7 +403,6 @@ function clickedCollisionCheck0() {
   let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
   if (d0 < assignmentMob0.size * 2) {
     console.log("clicked");
-    //state = `win`;
     winCounter();
     assignmentMobSpawn0();
   }
