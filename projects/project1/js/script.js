@@ -17,6 +17,10 @@ let bg = {
   b: 0,
 }
 
+let studentUserImage;
+let mouseUserImage;
+let assignmentMobImage;
+
 let studentUser = {
   x: 0,
   y: 0,
@@ -60,9 +64,9 @@ let assignmentMob = {
 Preloading any assets that need to be called upon @ the start of the program.
 */
 function preload() {
-
-  // images belong here
-
+  studentUserImage = loadImage('assets/images/studentUser.svg');
+  mouseUserImage = loadImage('assets/images/mouseUser.svg');
+  assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
 }
 /* Preload function End */
 
