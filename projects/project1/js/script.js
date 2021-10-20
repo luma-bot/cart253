@@ -81,7 +81,7 @@ let assignmentMob1 = {
 }
 
 let winNum = 0;
-let winMax = 15;
+let winMax = 10;
 // Global Variables End
 
 // -----------------------------------------------------------------------------
@@ -128,18 +128,30 @@ function assignmentMobSpawn() {
   // AssignmentMob random spawn location
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
+
+  let mobVelocity = [-15 , 15];
+  assignmentMob.vx = random(mobVelocity);
+  assignmentMob.vy = random(mobVelocity);
 }
 
 function assignmentMobSpawn0() {
   // AssignmentMob0 random spawn location
   assignmentMob0.x = random(0, width);
   assignmentMob0.y = random(0, height);
+
+  let mobVelocity = [-15 , 15];
+  assignmentMob0.vx = random(mobVelocity);
+  assignmentMob0.vy = random(mobVelocity);
 }
 
 function assignmentMobSpawn1() {
   // AssignmentMob0 random spawn location
   assignmentMob1.x = random(0, width);
   assignmentMob1.y = random(0, height);
+
+  let mobVelocity = [-15 , 15];
+  assignmentMob1.vx = random(mobVelocity);
+  assignmentMob1.vy = random(mobVelocity);
 }
 
 function scoreReset() {
