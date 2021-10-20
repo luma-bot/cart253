@@ -20,6 +20,7 @@ let bg = {
 let studentUserImage;
 let mouseUserImage;
 let assignmentMobImage;
+let assignmentMobImage0;
 
 let studentUser = {
   x: 0,
@@ -57,6 +58,18 @@ let assignmentMob = {
   b: 0,
 }
 
+let assignmentMob0 = {
+  x: 0,
+  y: 0,
+  size: 50,
+  radius: 50,
+  vx: 10,
+  vy: 10,
+  r: 255,
+  g: 0,
+  b: 0,
+}
+
 let winNum = 0;
 // Global Variables End
 
@@ -69,6 +82,7 @@ function preload() {
   studentUserImage = loadImage('assets/images/studentUser.svg');
   mouseUserImage = loadImage('assets/images/mouseUser.svg');
   assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
+  assignmentMobImage0 = loadImage('assets/images/assignmentMob.svg');
 }
 /* Preload function End */
 
@@ -82,6 +96,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight); // use once
   studentUserSpawn();
   assignmentMobSpawn();
+    assignmentMobSpawn0();
   scoreReset();
 }
 /* Setup function End */
@@ -95,6 +110,12 @@ function assignmentMobSpawn() {
   // AssignmentMob random spawn location
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
+}
+
+function assignmentMobSpawn0() {
+  // AssignmentMob0 random spawn location
+  assignmentMob0.x = random(0, width);
+  assignmentMob0.y = random(0, height);
 }
 
 function scoreReset() {
@@ -254,6 +275,7 @@ function student() {
 
 function multipleAssignments() {
   assignments();
+  assignments0();
 
   function assignments() {
     // assignmentMob Movement
@@ -281,6 +303,35 @@ function multipleAssignments() {
     ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
     imageMode(CENTER);
     image(assignmentMobImage, assignmentMob.x, assignmentMob.y, assignmentMob.size)
+    pop();
+  }
+
+  function assignments0() {
+    // assignmentMob Movement
+    assignmentMob0.x += assignmentMob0.vx;
+    assignmentMob0.y += assignmentMob0.vy;
+
+    // Trauma constrain bounce
+    assignmentMob0.x = constrain(assignmentMob0.x, 0, width);
+    assignmentMob0.y = constrain(assignmentMob0.y, 0, height);
+
+    // assignmentMob collision bounce against walls
+    if (assignmentMob0.x > width - assignmentMob0.radius || assignmentMob0.x < assignmentMob0.radius) {
+      assignmentMob0.vx = -assignmentMob0.vx;
+      //console.log('assignmentMob-wall collision');
+    }
+    if (assignmentMob0.y > height - assignmentMob0.radius || assignmentMob0.y < assignmentMob0.radius) {
+      assignmentMob0.vy = -assignmentMob0.vy;
+      //console.log('assignmentMob-wall collision');
+    }
+
+    // assignmentMob Render
+    push();
+    fill(assignmentMob0.r, assignmentMob0.g, assignmentMob0.b);
+    ellipseMode(RADIUS);
+    ellipse(assignmentMob0.x, assignmentMob0.y, assignmentMob0.size);
+    imageMode(CENTER);
+    image(assignmentMobImage0, assignmentMob0.x, assignmentMob0.y, assignmentMob0.size)
     pop();
   }
 }
@@ -331,6 +382,12 @@ function studentUserCollisionCheck() {
     //console.log('studentUser-assignmentMob collision');
     state = `lose`;
   }
+
+  let d = dist(studentUser.x, studentUser.y, assignmentMob0.x, assignmentMob0.y);
+  if (d < studentUser0.size / 2 + assignmentMob0.radius * 2) {
+    //console.log('studentUser-assignmentMob collision');
+    state = `lose`;
+  }
 }
 // studentUserCollisionCheck End
 
@@ -339,6 +396,14 @@ function clickedCollisionCheck() {
   // this function will only run when mouse is pressed, find function above
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob.size * 2) {
+    console.log("clicked");
+    //state = `win`;
+    winCounter();
+    assignmentMobSpawn();
+  }
+
+  let d = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
+  if (d < assignmentMob0.size * 2) {
     console.log("clicked");
     //state = `win`;
     winCounter();
