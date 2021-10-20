@@ -319,6 +319,7 @@ function studentUserCollisionCheck() {
 
 // mouseUserCollisionCheck Start
 function mouseUserCollisionCheck() {
+  // not exactly using this yet
   // Player collision check
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < mouseUser.size / 2 + assignmentMob.radius * 2) {
