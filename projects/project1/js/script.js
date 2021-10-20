@@ -113,6 +113,8 @@ function setup() {
   assignmentMobSpawn0();
   assignmentMobSpawn1();
   scoreReset();
+
+  gameMusic.setVolume(0);
 }
 /* Setup function End */
 
