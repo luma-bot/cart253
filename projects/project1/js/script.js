@@ -82,7 +82,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight); // use once
   studentUserSpawn();
   assignmentMobSpawn();
-  winReset();
+  scoreReset();
 }
 /* Setup function End */
 
@@ -97,7 +97,7 @@ function assignmentMobSpawn() {
   assignmentMob.y = random(0, height);
 }
 
-function winReset(){
+function scoreReset(){
   winNum = 0;
 }
 
@@ -287,7 +287,7 @@ function scoreDisplay(){
   push();
   textSize(24);
   fill(255);
-  text(`Assignments Submitted: ` + winNum, width / 50, height / 25); // Insert Subtitle Here
+  text(`Assignments Submitted: ` + winNum + ` /10`, width / 50, height / 25); // Insert Subtitle Here
   pop();
 }
 
@@ -344,11 +344,14 @@ function clickedCollisionCheck() {
 }
 // clickedCollisionCheck End
 
+// UI Display Start
 function winCounter() {
   winNum++;
   console.log("winNum is:" + winNum);
-  if (winNum > 5) {
+  if (winNum === 10) {
     state = `win`;
   }
 }
+// UI Display End
+
 // Event Functions End
