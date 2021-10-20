@@ -1,9 +1,8 @@
 /*
-P1: Mental Health in a Box
+P1: Attack of the Assignments
 Anthony Lum, 40098555
 
-A game about mental health, turned into a visual metaphor where your traumas are stored in a box, and the box is your mind. Everytime the trauma hits a side of the box you are reminded of it.
-There are ways and coping mechanismns that you can do to shrink the trauma until it is gone or is so small it does not remind you as often as it used to, at this point you have processed your trauma and are able to better handle it and move on.
+Assignments are trying to attack you left and right, you must avoid getting hit by the assignments deadline, and submit them on time before it's too late!
 */
 
 // -----------------------------------------------------------------------------
@@ -18,30 +17,37 @@ let bg = {
   b: 0,
 }
 
-let player = {
+let studentUser = {
   x: 0,
   y: 0,
   size: 50,
-  growth: 0,
-  shrink: 0,
-  fill: 60,
-  r: 255,
-  g: 53,
-  b: 22,
+  r: 0,
+  g: 153,
+  b: 255,
+  //speed start
+  up: -10,
+  down: 10,
+  left: -10,
+  right: 10,
+  //speed end
 }
 
-let trauma = {
+let mouseUser = {
   x: 0,
   y: 0,
-  radius: 50,
-  growth: 0,
-  shrink: 0,
-  vx: 15,
-  vy: 15,
-  fill: 60,
-  r: 145,
-  g: 22,
-  b: 22,
+  size: 50,
+  r: 0,
+  g: 153,
+  b: 51,
+}
+
+let assignmentMob = {
+  x: 0,
+  y: 0,
+  size: 50,
+  r: 255,
+  g: 0,
+  b: 0,
 }
 // Global Variables End
 
@@ -65,8 +71,14 @@ of the program is stored.
 */
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
+  studentUserSpawn();
 }
 /* Setup function End */
+
+function studentUserSpawn(){
+    studentUser.x = width / 2;
+    studentUser.y = height / 2;
+}
 
 // -----------------------------------------------------------------------------
 
@@ -93,7 +105,7 @@ function title() {
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
-  text(`Mental Health in a Box`, width / 2, height / 2 - 24); // Insert Title Here
+  text(`Attack of the Assignments`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
   text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 64); // Insert Subtitle Here
@@ -110,11 +122,11 @@ function howto() {
   text(`How To Play:`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
-  text(`Control your mental health "guardian" with your mouse.`, width / 2, height / 2 + 64);
-  text(`Keep your trauma at bay using your guardian / coping mechanism to fight it.`, width / 2, height / 2 + 88);
-  text(`Everytime your trauma touches the edge, you'll be reminded of the trauma.`, width / 2, height / 2 + 112);
-  text(`Win: If you successfully cope and shrink down the trauma.`, width / 2, height / 2 + 160);
-  text(`Lose: If you unsuccessfully cope and let the trauma grow.`, width / 2, height / 2 + 184);
+  text(`Avoid getting hit with assignments.`, width / 2, height / 2 + 64);
+  text(`Move player with WASD/ARROW keys.`, width / 2, height / 2 + 88);
+  text(`Click to submit your assignments.`, width / 2, height / 2 + 112);
+  text(`Win: Submit all your assignments.`, width / 2, height / 2 + 160);
+  text(`Lose: You get hit with a DEADline.`, width / 2, height / 2 + 184);
   pop();
 }
 // howto Screen End
@@ -122,10 +134,55 @@ function howto() {
 // Simulation Screen State Start
 function simulation() {
   // Simulation & Game Functions Here
+  mouse();
+  student();
 }
 // Simulation Screen State End
 
 // Functions that go inside of the simulation Start
+function mouse() {
+  // Mouse Movement
+  mouseUser.x = mouseX;
+  mouseUser.y = mouseY;
+
+  // Mouse constrain
+  mouseUser.x = constrain(mouseUser.x, 0, width);
+  mouseUser.y = constrain(mouseUser.y, 0, height);
+
+  // Temp Mouse render
+  push();
+  fill(mouseUser.r, mouseUser.g, mouseUser.b);
+  ellipseMode(RADIUS);
+  ellipse(mouseUser.x, mouseUser.y, mouseUser.size);
+  pop();
+}
+
+function student(){
+  // Student Movement
+  if (keyCode === 65 || keyCode === LEFT_ARROW) {
+    studentUser.x += studentUser.left;
+  }
+  if (keyCode === 87 || keyCode === UP_ARROW) {
+    studentUser.y += studentUser.up;
+  }
+  if (keyCode === 68 || keyCode === RIGHT_ARROW) {
+    studentUser.x += studentUser.right;
+  }
+  if (keyCode === 83 || keyCode === DOWN_ARROW) {
+    studentUser.y += studentUser.down;
+  }
+
+  // Mouse constrain
+  studentUser.x = constrain(studentUser.x, 0, width);
+  studentUser.y = constrain(studentUser.y, 0, height);
+
+  // Temp Mouse render
+  push();
+  fill(studentUser.r, studentUser.g, studentUser.b);
+  ellipseMode(RADIUS);
+  ellipse(studentUser.x, studentUser.y, studentUser.size);
+  pop();
+}
 // Functions that go inside of the simulation End
 
 // -----------------------------------------------------------------------------
