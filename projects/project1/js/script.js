@@ -12,9 +12,9 @@ Assignments are trying to attack you left and right, you must avoid getting hit 
 
 let state = `title`; // Options : title, simulation, win, lose
 let bg = {
-  r: 0,
-  g: 0,
-  b: 0,
+  r: 19,
+  g: 21,
+  b: 22,
 }
 
 let studentUserImage;
@@ -53,8 +53,8 @@ let assignmentMob = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 1,
-  vy: 1,
+  vx: 15,
+  vy: 15,
   r: 200,
   g: 0,
   b: 0,
@@ -65,8 +65,8 @@ let assignmentMob0 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 1,
-  vy: 1,
+  vx: 15,
+  vy: 15,
   r: 200,
   g: 0,
   b: 0,
@@ -77,8 +77,8 @@ let assignmentMob1 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 1,
-  vy: 1,
+  vx: 15,
+  vy: 15,
   r: 200,
   g: 0,
   b: 0,
@@ -99,6 +99,7 @@ function preload() {
   assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
   assignmentMobImage0 = loadImage('assets/images/imageMob.svg');
   assignmentMobImage1 = loadImage('assets/images/codeMob.svg');
+
   gameMusic = loadSound('assets/sounds/Runaway-Food-Truck.mp3');
 }
 /* Preload function End */
@@ -154,7 +155,7 @@ The main force that will display the majority
 of the program outputed to the user to view.
 */
 function draw() {
-  background(0);
+  background(bg.r, bg.g, bg.b);
   gameState();
 }
 /* Draw function End */
@@ -181,6 +182,7 @@ function title() {
   textSize(64);
   fill(200, 100, 100);
   textAlign(CENTER, CENTER);
+  textStyle(BOLD);
   text(`Attack of the Assignments`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
