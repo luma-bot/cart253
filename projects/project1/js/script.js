@@ -110,6 +110,10 @@ function gameState() {
     howto(); // run howto play screen
   } else if (state === 'simulation') {
     simulation(); // run simulation screen
+  }  else if (state === 'win') {
+    win(); // run simulation screen
+  } else if (state === 'lose') {
+    lose(); // run simulation screen
   }
 }
 // Game State End
@@ -145,6 +149,34 @@ function howto() {
   pop();
 }
 // howto Screen End
+
+// Win State Start
+function win() {
+  push();
+  textSize(64);
+  fill(200, 100, 100);
+  textAlign(CENTER, CENTER);
+  text(`You Win!`, width / 2, height / 2 - 24); // Insert Title Here
+  textSize(24);
+  fill(255);
+  text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  pop();
+}
+// Win State End
+
+// Lose State Start
+function lose() {
+  push();
+  textSize(64);
+  fill(200, 100, 100);
+  textAlign(CENTER, CENTER);
+  text(`You Lose...`, width / 2, height / 2 - 24); // Insert Title Here
+  textSize(24);
+  fill(255);
+  text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  pop();
+}
+// Lose State End
 
 // Simulation Screen State Start
 function simulation() {
@@ -262,6 +294,14 @@ function keyPressed() {
     state = `howto` // title screen to insuctions
   } else if (state === `howto` && key === ' ') {
     state = `simulation` // howto screen to simulation
+  } else if (state === `win` && key === ' ') {
+    setup();
+    simulation();
+    state = `howto` // howto screen to simulation
+  } else if (state === `lose` && key === ' ') {
+    setup();
+    simulation();
+    state = `howto` // howto screen to simulation
   }
 }
 // onKeyPress End
@@ -272,7 +312,7 @@ function studentUserCollisionCheck() {
   let d = dist(studentUser.x, studentUser.y, assignmentMob.x, assignmentMob.y);
   if (d < studentUser.size / 2 + assignmentMob.radius * 2) {
     //console.log('studentUser-assignmentMob collision');
-    // if this happens, gameover
+      state = `lose`;
   }
 }
 // studentUserCollisionCheck End
@@ -294,6 +334,7 @@ function clickedCollisionCheck() {
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob.radius) {
     console.log("clicked");
+    state = `win`;
   }
 }
 // clickedCollisionCheck End
