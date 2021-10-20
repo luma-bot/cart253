@@ -82,7 +82,7 @@ function preload() {
   studentUserImage = loadImage('assets/images/studentUser.svg');
   mouseUserImage = loadImage('assets/images/mouseUser.svg');
   assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
-  assignmentMobImage0 = loadImage('assets/images/assignmentMob.svg');
+  assignmentMobImage0 = loadImage('assets/images/imageMob.svg');
 }
 /* Preload function End */
 
@@ -353,6 +353,7 @@ function scoreDisplay() {
 // mousePressed Start
 function mousePressed() {
   clickedCollisionCheck();
+  clickedCollisionCheck0()
 }
 // mousePressed End
 
@@ -383,8 +384,8 @@ function studentUserCollisionCheck() {
     state = `lose`;
   }
 
-  let d = dist(studentUser.x, studentUser.y, assignmentMob0.x, assignmentMob0.y);
-  if (d < studentUser0.size / 2 + assignmentMob0.radius * 2) {
+  let d0 = dist(studentUser.x, studentUser.y, assignmentMob0.x, assignmentMob0.y);
+  if (d0 < studentUser.size / 2 + assignmentMob0.radius * 2) {
     //console.log('studentUser-assignmentMob collision');
     state = `lose`;
   }
@@ -401,15 +402,20 @@ function clickedCollisionCheck() {
     winCounter();
     assignmentMobSpawn();
   }
+}
 
-  let d = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
-  if (d < assignmentMob0.size * 2) {
+// clickedCollisionCheck Start
+function clickedCollisionCheck0() {
+  // this function will only run when mouse is pressed, find function above
+  let d0 = dist(mouseUser.x, mouseUser.y, assignmentMob0.x, assignmentMob0.y);
+  if (d0 < assignmentMob0.size * 2) {
     console.log("clicked");
     //state = `win`;
     winCounter();
-    assignmentMobSpawn();
+    assignmentMobSpawn0();
   }
 }
+// clickedCollisionCheck End
 // clickedCollisionCheck End
 
 // UI Display Start
