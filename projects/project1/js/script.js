@@ -56,6 +56,8 @@ let assignmentMob = {
   g: 0,
   b: 0,
 }
+
+let winNum = 0;
 // Global Variables End
 
 // -----------------------------------------------------------------------------
@@ -80,6 +82,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight); // use once
   studentUserSpawn();
   assignmentMobSpawn();
+  winReset();
 }
 /* Setup function End */
 
@@ -92,6 +95,10 @@ function assignmentMobSpawn() {
   // AssignmentMob random spawn location
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
+}
+
+function winReset(){
+  winNum = 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -208,6 +215,8 @@ function mouse() {
   fill(mouseUser.r, mouseUser.g, mouseUser.b);
   ellipseMode(RADIUS);
   ellipse(mouseUser.x, mouseUser.y, mouseUser.size);
+  imageMode(CENTER);
+  image(mouseUserImage, mouseUser.x, mouseUser.y, mouseUser.size)
   pop();
 }
 
@@ -235,6 +244,8 @@ function student() {
   fill(studentUser.r, studentUser.g, studentUser.b);
   ellipseMode(RADIUS);
   ellipse(studentUser.x, studentUser.y, studentUser.size);
+  imageMode(CENTER);
+  image(studentUserImage, studentUser.x, studentUser.y, studentUser.size)
   pop();
 }
 
@@ -265,15 +276,10 @@ function multipleAssignments() {
     fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
     ellipseMode(RADIUS);
     ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
+    imageMode(CENTER);
+    image(assignmentMobImage, assignmentMob.x, assignmentMob.y, assignmentMob.size)
     pop();
   }
-
-  // assignmentMob Render
-  push();
-  fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
-  ellipseMode(RADIUS);
-  ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
-  pop();
 }
 
 
@@ -324,9 +330,17 @@ function clickedCollisionCheck() {
   let d = dist(mouseUser.x, mouseUser.y, assignmentMob.x, assignmentMob.y);
   if (d < assignmentMob.size * 2) {
     console.log("clicked");
-    state = `win`;
+    //state = `win`;
+    winCounter();
   }
 }
 // clickedCollisionCheck End
 
+function winCounter() {
+  winNum++;
+  console.log("winNum is:" + winNum);
+  if (winNum > 5) {
+    state = `win`;
+  }
+}
 // Event Functions End
