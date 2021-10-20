@@ -72,12 +72,19 @@ of the program is stored.
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
   studentUserSpawn();
+  assignmentMobSpawn();
 }
 /* Setup function End */
 
-function studentUserSpawn(){
-    studentUser.x = width / 2;
-    studentUser.y = height / 2;
+function studentUserSpawn() {
+  studentUser.x = width / 2;
+  studentUser.y = height / 2;
+}
+
+function assignmentMobSpawn() {
+  // AssignmentMob random spawn location
+  assignmentMob.x = random(0, width);
+  assignmentMob.y = random(0, height);
 }
 
 // -----------------------------------------------------------------------------
@@ -136,6 +143,7 @@ function simulation() {
   // Simulation & Game Functions Here
   mouse();
   student();
+  assignments();
 }
 // Simulation Screen State End
 
@@ -157,7 +165,7 @@ function mouse() {
   pop();
 }
 
-function student(){
+function student() {
   // Student Movement
   if (keyCode === 65 || keyCode === LEFT_ARROW) {
     studentUser.x += studentUser.left;
@@ -172,15 +180,24 @@ function student(){
     studentUser.y += studentUser.down;
   }
 
-  // Mouse constrain
+  // Student Constrain
   studentUser.x = constrain(studentUser.x, 0, width);
   studentUser.y = constrain(studentUser.y, 0, height);
 
-  // Temp Mouse render
+  // Student Render
   push();
   fill(studentUser.r, studentUser.g, studentUser.b);
   ellipseMode(RADIUS);
   ellipse(studentUser.x, studentUser.y, studentUser.size);
+  pop();
+}
+
+function assignments() {
+  // Assignment Mob Render
+  push();
+  fill(assignmentMob.r, assignmentMob.g, assignmentMob.b);
+  ellipseMode(RADIUS);
+  ellipse(assignmentMob.x, assignmentMob.y, assignmentMob.size);
   pop();
 }
 // Functions that go inside of the simulation End
