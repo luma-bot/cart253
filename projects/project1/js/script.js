@@ -31,12 +31,8 @@ let studentUser = {
   r: 0,
   g: 153,
   b: 255,
-  // speed start
-  up: -10,
-  down: 10,
-  left: -10,
-  right: 10,
-  // speed end
+  vx: 10,
+  vy: 10,
 }
 
 let mouseUser = {
@@ -53,8 +49,8 @@ let assignmentMob = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 15,
-  vy: 15,
+  vx: 12,
+  vy: 12,
   r: 200,
   g: 0,
   b: 0,
@@ -65,8 +61,8 @@ let assignmentMob0 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 15,
-  vy: 15,
+  vx: 12,
+  vy: 12,
   r: 200,
   g: 0,
   b: 0,
@@ -77,8 +73,8 @@ let assignmentMob1 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 15,
-  vy: 15,
+  vx: 12,
+  vy: 12,
   r: 200,
   g: 0,
   b: 0,
@@ -275,16 +271,16 @@ function mouse() {
 function student() {
   // Student Movement
   if (keyCode === 65 || keyCode === LEFT_ARROW) {
-    studentUser.x += studentUser.left;
+    studentUser.x -= studentUser.vx;
   }
   if (keyCode === 87 || keyCode === UP_ARROW) {
-    studentUser.y += studentUser.up;
+    studentUser.y -= studentUser.vy;
   }
   if (keyCode === 68 || keyCode === RIGHT_ARROW) {
-    studentUser.x += studentUser.right;
+    studentUser.x += studentUser.vx;
   }
   if (keyCode === 83 || keyCode === DOWN_ARROW) {
-    studentUser.y += studentUser.down;
+    studentUser.y += studentUser.vy;
   }
 
   // Student Constrain
@@ -392,6 +388,7 @@ function scoreDisplay() {
   push();
   textSize(24);
   fill(255);
+  textStyle(BOLD);
   text(`Assignments Submitted: ` + winNum + ` /` + winMax, width / 50, height / 25); // Insert Subtitle Here
   pop();
 }
