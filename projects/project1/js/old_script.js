@@ -65,6 +65,13 @@ of the program is stored.
 */
 function setup() {
   createCanvas(windowWidth, windowHeight); // use once
+
+let tra = [];
+let numTra = 10;
+  for (let i = 0; i < numTra; i++){
+    let newTra = traumaRender();
+    tra.push(newTra);
+  }
 }
 /* Setup function End */
 
@@ -122,10 +129,96 @@ function howto() {
 // Simulation Screen State Start
 function simulation() {
   // Simulation & Game Functions Here
+  traumaNPC();
+  traumaRender();
+  collisionCheck();
+  playerRender();
+  playerUser();
+  gameState();
 }
 // Simulation Screen State End
 
 // Functions that go inside of the simulation Start
+function traumaNPC() {
+  // Trauma Movement
+  trauma.x += trauma.vx;
+  trauma.y += trauma.vy;
+
+  // Trauma constrain bounce
+  trauma.x = constrain(trauma.x, 0, width);
+  trauma.y = constrain(trauma.y, 0, height);
+}
+
+function traumaRender() {
+  // Trauma Render
+  push();
+  fill(trauma.r, trauma.g, trauma.b);
+  ellipseMode(RADIUS);
+  ellipse(trauma.x, trauma.y, trauma.radius * 2);
+  pop();
+}
+
+function collisionCheck() {
+  // Player collision check
+  let d = dist(player.x, player.y, trauma.x, trauma.y);
+  if (d < player.size / 2 + trauma.radius * 2) {
+    console.log('player-trauma collision');
+    traumaShrink();
+    traumaLocation();
+  }
+
+  // Trauma collision bounce against walls
+  if (trauma.x > width - trauma.radius || trauma.x < trauma.radius) {
+    trauma.vx = -trauma.vx;
+    traumaGrow();
+    console.log('trauma-wall collision');
+  }
+  if (trauma.y > height - trauma.radius || trauma.y < trauma.radius) {
+    trauma.vy = -trauma.vy;
+    traumaGrow();
+    console.log('trauma-wall collision');
+  }
+}
+
+function traumaLocation() {
+  // Trauma random spawn location, placed in setup(), so that it spawns once and not in draw() which will spawn it over and over.
+  trauma.x = random(20, width - 20); // away from the wall spawn
+  trauma.y = random(20, height - 20); // away from the wall spawn
+}
+
+function traumaGrow() {
+  trauma.radius += .1;
+}
+
+function traumaShrink() {
+  trauma.radius -= .1;
+}
+
+function playerUser() {
+  // Player Movement
+  player.x = mouseX;
+  player.y = mouseY;
+
+  // Player constrain
+  player.x = constrain(player.x, 0, width);
+  player.y = constrain(player.y, 0, height);
+}
+
+function playerRender() {
+  // Player Render
+  push();
+  noCursor(); // remove cursor, replace with character below
+  fill(player.r, player.g, player.b);
+  ellipseMode(RADIUS);
+  ellipse(player.x, player.y, player.size);
+  pop();
+}
+
+function gameState() {
+  if (trauma.radius < 10) {
+    console.log('win');
+  }
+}
 // Functions that go inside of the simulation End
 
 // -----------------------------------------------------------------------------
