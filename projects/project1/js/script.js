@@ -114,7 +114,7 @@ function setup() {
   assignmentMobSpawn1();
   scoreReset();
 
-  gameMusic.setVolume(0);
+  gameMusic.setVolume(.03); // works!
 }
 /* Setup function End */
 
@@ -247,6 +247,7 @@ function simulation() {
   mouse(); // on top
   studentUserCollisionCheck();
   scoreDisplay();
+  dangerZone();
 }
 // Simulation Screen State End
 
@@ -272,16 +273,16 @@ function mouse() {
 
 function student() {
   // Student Movement
-  if (keyCode === 65 || keyCode === LEFT_ARROW) {
+  if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) {
     studentUser.x -= studentUser.vx;
   }
-  if (keyCode === 87 || keyCode === UP_ARROW) {
+  if (keyIsDown(87) || keyIsDown(UP_ARROW)) {
     studentUser.y -= studentUser.vy;
   }
-  if (keyCode === 68 || keyCode === RIGHT_ARROW) {
+  if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) {
     studentUser.x += studentUser.vx;
   }
-  if (keyCode === 83 || keyCode === DOWN_ARROW) {
+  if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) {
     studentUser.y += studentUser.vy;
   }
 
@@ -310,14 +311,14 @@ function multipleAssignments() {
     assignmentMob.y += assignmentMob.vy;
 
     // Trauma constrain bounce
-    assignmentMob.x = constrain(assignmentMob.x, 0, width);
-    assignmentMob.y = constrain(assignmentMob.y, 0, height);
+    assignmentMob.x = constrain(assignmentMob.x, assignmentMob.radius, width - assignmentMob.radius);
+    assignmentMob.y = constrain(assignmentMob.y, assignmentMob.radius, height - assignmentMob.radius);
 
     // assignmentMob collision bounce against walls
-    if (assignmentMob.x > width - assignmentMob.radius || assignmentMob.x < assignmentMob.radius) {
+    if (assignmentMob.x >= width - assignmentMob.radius || assignmentMob.x <= assignmentMob.radius) {
       assignmentMob.vx = -assignmentMob.vx;
     }
-    if (assignmentMob.y > height - assignmentMob.radius || assignmentMob.y < assignmentMob.radius) {
+    if (assignmentMob.y >= height - assignmentMob.radius || assignmentMob.y <= assignmentMob.radius) {
       assignmentMob.vy = -assignmentMob.vy;
     }
 
@@ -337,14 +338,14 @@ function multipleAssignments() {
     assignmentMob0.y += assignmentMob0.vy;
 
     // Trauma constrain bounce
-    assignmentMob0.x = constrain(assignmentMob0.x, 0, width);
-    assignmentMob0.y = constrain(assignmentMob0.y, 0, height);
+    assignmentMob0.x = constrain(assignmentMob0.x, assignmentMob0.radius, width - assignmentMob0.radius);
+    assignmentMob0.y = constrain(assignmentMob0.y, assignmentMob0.radius, height - assignmentMob0.radius);
 
     // assignmentMob collision bounce against walls
-    if (assignmentMob0.x > width - assignmentMob0.radius || assignmentMob0.x < assignmentMob0.radius) {
+    if (assignmentMob0.x >= width - assignmentMob0.radius || assignmentMob0.x <= assignmentMob0.radius) {
       assignmentMob0.vx = -assignmentMob0.vx;
     }
-    if (assignmentMob0.y > height - assignmentMob0.radius || assignmentMob0.y < assignmentMob0.radius) {
+    if (assignmentMob0.y >= height - assignmentMob0.radius || assignmentMob0.y <= assignmentMob0.radius) {
       assignmentMob0.vy = -assignmentMob0.vy;
     }
 
@@ -364,14 +365,14 @@ function multipleAssignments() {
     assignmentMob1.y += assignmentMob1.vy;
 
     // Trauma constrain bounce
-    assignmentMob1.x = constrain(assignmentMob1.x, 0, width);
-    assignmentMob1.y = constrain(assignmentMob1.y, 0, height);
+    assignmentMob1.x = constrain(assignmentMob1.x, assignmentMob1.radius, width - assignmentMob1.radius);
+    assignmentMob1.y = constrain(assignmentMob1.y, assignmentMob1.radius, height - assignmentMob1.radius);
 
     // assignmentMob collision bounce against walls
-    if (assignmentMob1.x > width - assignmentMob1.radius || assignmentMob1.x < assignmentMob1.radius) {
+    if (assignmentMob1.x >= width - assignmentMob1.radius || assignmentMob1.x <= assignmentMob1.radius) {
       assignmentMob1.vx = -assignmentMob1.vx;
     }
-    if (assignmentMob1.y > height - assignmentMob1.radius || assignmentMob1.y < assignmentMob1.radius) {
+    if (assignmentMob1.y >= height - assignmentMob1.radius || assignmentMob1.y <= assignmentMob1.radius) {
       assignmentMob1.vy = -assignmentMob1.vy;
     }
 
@@ -393,6 +394,26 @@ function scoreDisplay() {
   textStyle(BOLD);
   text(`Assignments Submitted: ` + winNum + ` /` + winMax, width / 50, height / 25); // Insert Subtitle Here
   pop();
+}
+
+function dangerZone() {
+  let dZ = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
+  while (dZ < assignmentMob.size + studentUser.size) {
+    assignmentMobSpawn();
+    dZ = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
+  }
+
+  let dZ0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
+  while (dZ0 < assignmentMob0.size + studentUser.size) {
+    assignmentMobSpawn();
+    dZ0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
+  }
+
+  let dZ1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
+  while (dZ1 < assignmentMob1.size + studentUser.size) {
+    assignmentMobSpawn();
+    dZ1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
+  }
 }
 
 // Functions that go inside of the simulation End
