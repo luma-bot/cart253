@@ -22,6 +22,7 @@ let mouseUserImage;
 let assignmentMobImage;
 let assignmentMobImage0;
 let assignmentMobImage1;
+let gameMusic;
 
 let studentUser = {
   x: 0,
@@ -98,6 +99,7 @@ function preload() {
   assignmentMobImage = loadImage('assets/images/assignmentMob.svg');
   assignmentMobImage0 = loadImage('assets/images/imageMob.svg');
   assignmentMobImage1 = loadImage('assets/images/codeMob.svg');
+  gameMusic = loadSound('assets/sounds/Runaway-Food-Truck.mp3');
 }
 /* Preload function End */
 
@@ -182,7 +184,8 @@ function title() {
   text(`Attack of the Assignments`, width / 2, height / 2 - 24); // Insert Title Here
   textSize(24);
   fill(255);
-  text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 64); // Insert Subtitle Here
+  text(`Are you ready?`, width / 2, height / 2 + 64);
+  text(`Press 'Spacebar' to Start`, width / 2, height / 2 + 88); // Insert Subtitle Here
   pop();
 }
 // Start Screen State End
@@ -400,8 +403,8 @@ function scoreDisplay() {
 // mousePressed Start
 function mousePressed() {
   clickedCollisionCheck();
-  clickedCollisionCheck0()
-  clickedCollisionCheck1()
+  clickedCollisionCheck0();
+  clickedCollisionCheck1();
 }
 // mousePressed End
 
@@ -409,6 +412,9 @@ function mousePressed() {
 function keyPressed() {
   if (state === `title` && key === ' ') {
     state = `howto` // title screen to insuctions
+
+    gameMusic.play();
+
   } else if (state === `howto` && key === ' ') {
     state = `simulation` // howto screen to simulation
   } else if (state === `win` && key === ' ') {
@@ -479,5 +485,4 @@ function winCounter() {
   }
 }
 // UI Display End
-
 // Event Functions End
