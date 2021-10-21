@@ -50,8 +50,8 @@ let assignmentMob = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 0,
+  vy: 0,
   r: 200,
   g: 0,
   b: 0,
@@ -62,8 +62,8 @@ let assignmentMob0 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 0,
+  vy: 0,
   r: 200,
   g: 0,
   b: 0,
@@ -74,15 +74,15 @@ let assignmentMob1 = {
   y: 0,
   size: 50,
   radius: 50,
-  vx: 10,
-  vy: 10,
+  vx: 0,
+  vy: 0,
   r: 200,
   g: 0,
   b: 0,
 }
 
 let winNum = 0;
-let winMax = 10;
+let winMax = 15;
 // Global Variables End
 
 // -----------------------------------------------------------------------------
@@ -117,7 +117,7 @@ function setup() {
 
   gameMusic.setVolume(.01);
 
-// Danger Zone Zone Start
+  // Danger Zone Zone Start
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
   let d = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
@@ -144,7 +144,7 @@ function setup() {
     assignmentMob1.y = random(0, height);
     d1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
   }
-// Danger Zone Zone End
+  // Danger Zone Zone End
 }
 /* Setup function End */
 
@@ -159,7 +159,7 @@ function assignmentMobSpawn() {
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
 
-  let mobVelocity = [-15 , 15];
+  let mobVelocity = [-15, -10, -5, 5, 10, 15];
   assignmentMob.vx = random(mobVelocity);
   assignmentMob.vy = random(mobVelocity);
 }
@@ -169,7 +169,7 @@ function assignmentMobSpawn0() {
   assignmentMob0.x = random(0, width);
   assignmentMob0.y = random(0, height);
 
-  let mobVelocity = [-15 , 15];
+  let mobVelocity = [-15, -10, -5, 5, 10, 15];
   assignmentMob0.vx = random(mobVelocity);
   assignmentMob0.vy = random(mobVelocity);
 }
@@ -179,7 +179,7 @@ function assignmentMobSpawn1() {
   assignmentMob1.x = random(0, width);
   assignmentMob1.y = random(0, height);
 
-  let mobVelocity = [-15 , 15];
+  let mobVelocity = [-15, -10, -5, 5, 10, 15];
   assignmentMob1.vx = random(mobVelocity);
   assignmentMob1.vy = random(mobVelocity);
 }
@@ -462,7 +462,8 @@ function keyPressed() {
       sampleIsLooping = true;
     } else {
       gameMusic.stop();
-      sampleIsLooping = false;}
+      sampleIsLooping = false;
+    }
   } else if (state === `howto` && key === ' ') {
     state = `simulation`; // howto screen to simulation
   } else if (state === `win` && key === ' ') {
