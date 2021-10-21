@@ -115,7 +115,7 @@ function setup() {
   assignmentMobSpawn1();
   scoreReset();
 
-  gameMusic.setVolume(.03); // works!
+  gameMusic.setVolume(.01);
 }
 /* Setup function End */
 
@@ -260,7 +260,6 @@ function simulation() {
   mouse(); // on top
   studentUserCollisionCheck();
   scoreDisplay();
-  dangerZone();
 }
 // Simulation Screen State End
 
@@ -408,27 +407,6 @@ function scoreDisplay() {
   text(`Assignments Submitted: ` + winNum + ` /` + winMax, width / 50, height / 25); // Insert Subtitle Here
   pop();
 }
-
-function dangerZone() {
-  let dZ = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
-  while (dZ < assignmentMob.size + studentUser.size) {
-    assignmentMobSpawn();
-    dZ = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
-  }
-
-  let dZ0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
-  while (dZ0 < assignmentMob0.size + studentUser.size) {
-    assignmentMobSpawn();
-    dZ0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
-  }
-
-  let dZ1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
-  while (dZ1 < assignmentMob1.size + studentUser.size) {
-    assignmentMobSpawn();
-    dZ1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
-  }
-}
-
 // Functions that go inside of the simulation End
 
 // -----------------------------------------------------------------------------
@@ -446,7 +424,7 @@ function mousePressed() {
 // onKeyPress Start
 function keyPressed() {
   if (state === `title` && key === ' ') {
-    state = `howto` // title screen to insuctions
+    state = `howto`; // title screen to insuctions
 
     let sampleIsLooping = false;
     gameMusic.play();
@@ -455,11 +433,9 @@ function keyPressed() {
       sampleIsLooping = true;
     } else {
       gameMusic.stop();
-      sampleIsLooping = false;
-    }
-
+      sampleIsLooping = false;}
   } else if (state === `howto` && key === ' ') {
-    state = `simulation` // howto screen to simulation
+    state = `simulation`; // howto screen to simulation
   } else if (state === `win` && key === ' ') {
     setup();
     simulation();
@@ -467,7 +443,7 @@ function keyPressed() {
   } else if (state === `lose` && key === ' ') {
     setup();
     simulation();
-    state = `howto` // howto screen to simulation
+    state = `howto`; // howto screen to simulation
   }
 }
 // onKeyPress End
