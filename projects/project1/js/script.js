@@ -121,7 +121,7 @@ function setup() {
   assignmentMob.x = random(0, width);
   assignmentMob.y = random(0, height);
   let d = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
-  while (d < studentUser.size * 4) {
+  while (d < studentUser.size * 8) {
     assignmentMob.x = random(0, width);
     assignmentMob.y = random(0, height);
     d = dist(assignmentMob.x, assignmentMob.y, studentUser.x, studentUser.y);
@@ -130,7 +130,7 @@ function setup() {
   assignmentMob0.x = random(0, width);
   assignmentMob0.y = random(0, height);
   let d0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
-  while (d0 < studentUser.size * 4) {
+  while (d0 < studentUser.size * 8) {
     assignmentMob0.x = random(0, width);
     assignmentMob0.y = random(0, height);
     d0 = dist(assignmentMob0.x, assignmentMob0.y, studentUser.x, studentUser.y);
@@ -139,7 +139,7 @@ function setup() {
   assignmentMob1.x = random(0, width);
   assignmentMob1.y = random(0, height);
   let d1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
-  while (d1 < studentUser.size * 4) {
+  while (d1 < studentUser.size * 8) {
     assignmentMob1.x = random(0, width);
     assignmentMob1.y = random(0, height);
     d1 = dist(assignmentMob1.x, assignmentMob1.y, studentUser.x, studentUser.y);
