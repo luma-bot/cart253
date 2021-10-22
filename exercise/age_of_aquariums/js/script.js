@@ -36,7 +36,7 @@ let user = {
 let school = []; // of fish
 let schoolSize = 10; // number of fish
 
-let food = [];
+let foodGood = [];
 // Variables end
 
 // -----------------------------------------------------------------------------
@@ -153,8 +153,18 @@ function createFood(x, y) {
   return food; // returns
 }
 
+// Display le fish
+function displayFood(food) {
+  push();
+  fill(200, 100, 100);
+  noStroke();
+  ellipse(food.x, food.y, food.size);
+  pop();
+}
+
 // Spawn le fish food
 function mousePressed() {
-  let fish = createFood(mouseX, mouseY);
-  school.push(fish); // push will take the fish in the school and add it to the end of the array
+  let food = createFood(mouseX, mouseY);
+  foodGood.push(food); // push will take the fish in the school and add it to the end of the array
+  console.log('food is made');
 }
