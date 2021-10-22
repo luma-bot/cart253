@@ -17,6 +17,10 @@ let fish2;
 let fish3;
 let fish4;
 
+let school = []; // of fish
+
+
+
 // Variables end
 
 /**
@@ -31,10 +35,10 @@ Description of setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  fish1 = createFish(random(0, width), random(0, height));
-  fish2 = createFish(random(0, width), random(0, height));
-  fish3 = createFish(random(0, width), random(0, height));
-  fish4 = createFish(random(0, width), random(0, height));
+  school[0] = createFish(random(0, width), random(0, height));
+  school[1] = createFish(random(0, width), random(0, height));
+  school[2] = createFish(random(0, width), random(0, height));
+  school[3] = createFish(random(0, width), random(0, height));
 }
 
 
@@ -58,15 +62,15 @@ Description of draw()
 function draw() {
   background(0);
 
-  moveFish(fish1);
-  moveFish(fish2);
-  moveFish(fish3);
-  moveFish(fish4);
+  moveFish(school[0]);
+  moveFish(school[1]);
+  moveFish(school[2]);
+  moveFish(school[3]);
 
-  displayFish(fish1);
-  displayFish(fish2);
-  displayFish(fish3);
-  displayFish(fish4);
+  displayFish(school[0]);
+  displayFish(school[1]);
+  displayFish(school[2]);
+  displayFish(school[3]);
 }
 
 function moveFish(fish) {
@@ -81,5 +85,12 @@ function moveFish(fish) {
 
   fish.x = constrain(fish.x, 0, width);
   fish.y = constrain(fish.y, 0, height);
+}
 
+function displayFish(fish) {
+  push();
+  fill(200, 100, 100);
+  noStroke();
+  ellipse(fish.x, fish.y, fish.size);
+  pop();
 }
