@@ -3,7 +3,7 @@ Exercise 4: The Age of Aquariums.
 Anthony Lum
 40098555
 
-Fish are friends not food...
+Fish are friends not fish...
 Making an aquarium simulation.
 
 Goal is to feed the fish but not to over feed them
@@ -35,6 +35,8 @@ let user = {
 
 let school = []; // of fish
 let schoolSize = 10; // number of fish
+
+let food = [];
 // Variables end
 
 // -----------------------------------------------------------------------------
@@ -66,6 +68,7 @@ function setup() {
 // Draw Start
 function draw() {
   background(0);
+  //gameState();
   fishAlive();
 
   function fishAlive() {
@@ -78,58 +81,80 @@ function draw() {
 }
 // Draw End
 
-  // -----------------------------------------------------------------------------
+// // Game State Start
+// function gameState() {
+//   if (state === 'simulation') {
+//     simulation(); // run simulation screen
+//   }
+// }
+// // Game State End
 
-  // Simulation Screen State Start
-  function simulation() {
-    createFish();
-    moveFish();
-  }
-  // Simulation Screen State End
+// -----------------------------------------------------------------------------
 
-  // Fishies Functions
-  // Make le fish
-  function createFish(x, y) {
-    let food = {
-      x: x,
-      y: y,
-      size: 50,
-      vx: 0,
-      vy: 0,
-      speed: 2,
-    }; // call
-    return food; // returns
-  }
+// // Simulation Screen State Start
+// function simulation() {
+//   createFish();
+//   moveFish();
+// }
+// // Simulation Screen State End
 
-  // Move le fish
-  function moveFish(fish) {
-    // Chance le fish changes le mind and moves
-    let change = random(0, 1);
-    if (change < 0.05) {
-      fish.vx = random(-fish.speed, fish.speed);
-      fish.vy = random(-fish.speed, fish.speed);
-    }
+// Fishies Functions
+// Make le fish
+function createFish(x, y) {
+  let fish = {
+    x: x,
+    y: y,
+    size: 50,
+    vx: 0,
+    vy: 0,
+    speed: 2,
+  }; // call
+  return fish; // returns
+}
 
-    // fish velocity
-    fish.x += fish.vx;
-    fish.y += fish.vy;
+// Move le fish
+function moveFish(fish) {
 
-    // fish stay in aquarium
-    fish.x = constrain(fish.x, 0, width);
-    fish.y = constrain(fish.y, 0, height);
-  }
-
-  // Display le fish
-  function displayFish(fish) {
-    push();
-    fill(200, 100, 100);
-    noStroke();
-    ellipse(fish.x, fish.y, fish.size);
-    pop();
+  // Chance le fish changes le mind and moves
+  let change = random(0, 1);
+  if (change < 0.05) {
+    fish.vx = random(-fish.speed, fish.speed);
+    fish.vy = random(-fish.speed, fish.speed);
   }
 
-  // Spawn le fish
-  function mousePressed() {
-    let fish = createFish(mouseX, mouseY);
-    school.push(fish); // push will take the fish in the school and add it to the end of the array
-  }
+  // fish velocity
+  fish.x += fish.vx;
+  fish.y += fish.vy;
+
+  // fish stay in aquarium
+  fish.x = constrain(fish.x, 0, width);
+  fish.y = constrain(fish.y, 0, height);
+}
+
+// Display le fish
+function displayFish(fish) {
+  push();
+  fill(200, 100, 100);
+  noStroke();
+  ellipse(fish.x, fish.y, fish.size);
+  pop();
+}
+
+// Make le fish food
+function createFood(x, y) {
+  let food = {
+    x: x,
+    y: y,
+    size: 25,
+    vx: 0,
+    vy: 0,
+    speed: 2,
+  }; // call
+  return food; // returns
+}
+
+// Spawn le fish food
+function mousePressed() {
+  let fish = createFood(mouseX, mouseY);
+  school.push(fish); // push will take the fish in the school and add it to the end of the array
+}
