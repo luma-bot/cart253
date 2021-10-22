@@ -26,6 +26,13 @@ let food2 = {
   eaten: false,
 }
 
+let food3 = {
+  x: 450,
+  y: 300,
+  size: 50,
+  eaten: false,
+}
+
 // Variables end
 
 /**
@@ -49,53 +56,45 @@ function draw() {
   background(0);
 
   moveUser();
-
-  checkfood1();
-  checkfood2();
-
   displayUser();
-  displayFood1();
-  displayFood2();
 
-  function moveUser(){
+  checkFood(food1);
+  checkFood(food2);
+  checkFood(food3);
+
+  displayFood(food1);
+  displayFood(food2);
+  displayFood(food3);
+
+  function moveUser() {
     user.x = mouseX;
     user.y = mouseY;
   }
 
-  function checkFood1(){
-    if (!food1.eaten){
-      let d = dist(user.x, user.y, food1.x,food1.y);
-      if (d < user.size / 2 + food1.size /2){
-        food1.eaten = true;
+  function checkFood(food) {
+    if (!food.eaten) {
+      let d = dist(user.x, user.y, food.x, food.y);
+      if (d < user.size / 2 + food.size / 2) {
+        food.eaten = true;
       }
     }
   }
 
-  function checkFood2(){
-    if (!food2.eaten){
-      let d = dist(user.x, user.y, food2.x,food2.y);
-      if (d < user.size / 2 + food2.size /2){
-        food2.eaten = true;
-      }
-    }
-  }
 
-  function displayFood1(){
-    if (!food1.eaten){
+  function displayFood(food) {
+    if (!food.eaten) {
       push();
-      fill(255,100,100);
-      ellipse(food1.x, food1.y, food1.size);
+      fill(255, 100, 100);
+      ellipse(food.x, food.y, food.size);
       pop();
     }
   }
 
-  function displayFood2(){
-    if (!food2.eaten){
-      push();
-      fill(255,100,100);
-      ellipse(food2.x, food2.y, food2.size);
-      pop();
-    }
+  function displayUser() {
+    push();
+    fill(255);
+    ellipse(user.x, user.y, user.size);
+    pop();
   }
 
 }
