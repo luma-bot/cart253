@@ -12,26 +12,10 @@ let user = {
   size: 100,
 }
 
-let food1 = {
-  x: 250,
-  y: 300,
-  size: 50,
-  eaten: false,
-}
-
-let food2 = {
-  x: 350,
-  y: 300,
-  size: 50,
-  eaten: false,
-}
-
-let food3 = {
-  x: 450,
-  y: 300,
-  size: 50,
-  eaten: false,
-}
+let food1;
+let food2;
+let food3;
+let food4;
 
 // Variables end
 
@@ -46,8 +30,25 @@ Description of setup
 */
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  food1 = createFood(250, windowHeight/2);
+  food2 = createFood(350, windowHeight/2);
+  food3 = createFood(450, windowHeight/2);
+  food4 = createFood(550, windowHeight/2);
 }
 
+
+// Function time
+
+function createFood(x,y){
+  let food = {
+    x: x,
+    y: y,
+    size: 50,
+    eaten: false,
+  }; // call
+  return food; // returns
+}
 
 /**
 Description of draw()
@@ -61,10 +62,12 @@ function draw() {
   checkFood(food1);
   checkFood(food2);
   checkFood(food3);
+  checkFood(food4);
 
   displayFood(food1);
   displayFood(food2);
   displayFood(food3);
+  displayFood(food4);
 
   function moveUser() {
     user.x = mouseX;
@@ -79,7 +82,6 @@ function draw() {
       }
     }
   }
-
 
   function displayFood(food) {
     if (!food.eaten) {
