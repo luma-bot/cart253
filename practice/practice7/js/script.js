@@ -12,12 +12,8 @@ let user = {
   size: 100,
 }
 
-let fish1;
-let fish2;
-let fish3;
-let fish4;
-
 let school = []; // of fish
+let schoolSize = 10; // number of fish
 
 
 
@@ -35,10 +31,13 @@ Description of setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  school[0] = createFish(random(0, width), random(0, height));
-  school[1] = createFish(random(0, width), random(0, height));
-  school[2] = createFish(random(0, width), random(0, height));
-  school[3] = createFish(random(0, width), random(0, height));
+  // for loop of four fish for fish
+  for (let i = 0; i < schoolSize; i++) { // define once
+    //school[i] = createFish(random(0, width), random(0, height));
+    // code above is the same as the code below
+    let fish = createFish(random(0, width), random(0, height));
+    school.push(fish); // add a number at the end of the array is push
+  }
 }
 
 
@@ -62,15 +61,11 @@ Description of draw()
 function draw() {
   background(0);
 
-  moveFish(school[0]);
-  moveFish(school[1]);
-  moveFish(school[2]);
-  moveFish(school[3]);
-
-  displayFish(school[0]);
-  displayFish(school[1]);
-  displayFish(school[2]);
-  displayFish(school[3]);
+  // for loop of four fish for fish to swim and spawn
+  for (let i = 0; i < school.length; i++) { // use length from then on
+    moveFish(school[i]);
+    displayFish(school[i]);
+  }
 }
 
 function moveFish(fish) {
@@ -93,4 +88,9 @@ function displayFish(fish) {
   noStroke();
   ellipse(fish.x, fish.y, fish.size);
   pop();
+}
+
+function mousePressed(){
+  let fish = createFish(mouseX,mouseY);
+  school.push(fish); // push will take the fish in the school and add it to the end of the array
 }
