@@ -20,6 +20,13 @@ To Do List:
 "use strict";
 
 // Variables start
+//let state = `simulation`; // Options : title, howto, simulation, win, lose
+let bg = {
+  r: 19,
+  g: 21,
+  b: 22,
+}
+
 let user = {
   x: 0,
   y: 0,
@@ -59,57 +66,70 @@ function setup() {
 // Draw Start
 function draw() {
   background(0);
+  fishAlive();
 
-  // for loop of four fish for fish to swim and spawn
-  for (let i = 0; i < school.length; i++) { // use length from then on
-    moveFish(school[i]);
-    displayFish(school[i]);
+  function fishAlive() {
+    // for loop of four fish for fish to swim and spawn
+    for (let i = 0; i < school.length; i++) { // use length from then on
+      moveFish(school[i]);
+      displayFish(school[i]);
+    }
   }
 }
 // Draw End
 
-// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 
-// Fishies Functions
-// Make le fish
-function createFish(x, y) {
-  let food = {
-    x: x,
-    y: y,
-    size: 50,
-    vx: 0,
-    vy: 0,
-    speed: 2,
-  }; // call
-  return food; // returns
-}
+  // Simulation Screen State Start
+  function simulation() {
+    createFish();
+    moveFish();
+  }
+  // Simulation Screen State End
 
-// Move le fish
-function moveFish(fish) {
-  let change = random(0, 1);
-  if (change < 0.05) {
-    fish.vx = random(-fish.speed, fish.speed);
-    fish.vy = random(-fish.speed, fish.speed);
+  // Fishies Functions
+  // Make le fish
+  function createFish(x, y) {
+    let food = {
+      x: x,
+      y: y,
+      size: 50,
+      vx: 0,
+      vy: 0,
+      speed: 2,
+    }; // call
+    return food; // returns
   }
 
-  fish.x += fish.vx;
-  fish.y += fish.vy;
+  // Move le fish
+  function moveFish(fish) {
+    // Chance le fish changes le mind and moves
+    let change = random(0, 1);
+    if (change < 0.05) {
+      fish.vx = random(-fish.speed, fish.speed);
+      fish.vy = random(-fish.speed, fish.speed);
+    }
 
-  fish.x = constrain(fish.x, 0, width);
-  fish.y = constrain(fish.y, 0, height);
-}
+    // fish velocity
+    fish.x += fish.vx;
+    fish.y += fish.vy;
 
-// Display le fish
-function displayFish(fish) {
-  push();
-  fill(200, 100, 100);
-  noStroke();
-  ellipse(fish.x, fish.y, fish.size);
-  pop();
-}
+    // fish stay in aquarium
+    fish.x = constrain(fish.x, 0, width);
+    fish.y = constrain(fish.y, 0, height);
+  }
 
-// Spawn le fish
-function mousePressed() {
-  let fish = createFish(mouseX, mouseY);
-  school.push(fish); // push will take the fish in the school and add it to the end of the array
-}
+  // Display le fish
+  function displayFish(fish) {
+    push();
+    fill(200, 100, 100);
+    noStroke();
+    ellipse(fish.x, fish.y, fish.size);
+    pop();
+  }
+
+  // Spawn le fish
+  function mousePressed() {
+    let fish = createFish(mouseX, mouseY);
+    school.push(fish); // push will take the fish in the school and add it to the end of the array
+  }
