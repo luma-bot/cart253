@@ -168,3 +168,5 @@ function mousePressed() {
   foodGood.push(food); // push will take the fish in the school and add it to the end of the array
   console.log('food is made');
 }
+
+//not done yet
