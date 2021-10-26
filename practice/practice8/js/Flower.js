@@ -3,8 +3,8 @@ class Flower {
   // The constructor() sets up a flower's properties
   constructor() {
     // Position and size information
-    this.x = x;
-    this.y = y;
+    this.x = random(0, width);
+    this.y = random(0, height);
     this.size = 50;
     this.stemLength = 75;
     this.stemThickness = 10;
