@@ -78,7 +78,6 @@ function setup() {
     let coffee = new Coffee(x, y, size, coffeeColor, cupColor);
     // Add the coffee to the array of coffees
     school.coffees.push(coffee);
-    coffee.check(user);
   }
 }
 
@@ -109,4 +108,20 @@ function draw() {
   user = new User;
   user.move();
   user.display();
+
+}
+
+
+function mousePressed() {
+  // Collision Check forloops
+  for (let i = 0; i < school.numCoffees; i++) {
+    let coffee = school.coffees[i]; {
+      // this function will only run when mouse is pressed, find function above
+      let d = dist(user.x, user.y, coffee.x, coffee.y);
+      if (d < user.size / 2 + coffee.size / 2) {
+        console.log('user x coffee');
+        coffee.alive = false;
+      }
+    }
+  }
 }
