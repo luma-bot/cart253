@@ -57,7 +57,6 @@ function setup() {
     let student = new Students(x, y, size, studentColor);
     // Add the student to the array of students
     school.students.push(student);
-    //student.display();
   }
 
   // Create our coffee by counting up to the number of coffees
@@ -79,9 +78,7 @@ function setup() {
     let coffee = new Coffee(x, y, size, coffeeColor, cupColor);
     // Add the coffee to the array of coffees
     school.coffees.push(coffee);
-    //coffee.display();
   }
-
 }
 
 
