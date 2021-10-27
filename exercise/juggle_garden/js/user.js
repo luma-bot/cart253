@@ -3,7 +3,7 @@ class User {
   constructor(x, y, size, userColor, alive) {
     this.x = 0;
     this.y = 0;
-    this.size = 40;
+    this.size = 25;
     this.userColor = {
       r: 255,
       g: 255,

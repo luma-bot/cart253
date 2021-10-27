@@ -11,7 +11,7 @@ class Students {
     this.vx = 0;
     this.vy = 0;
     this.speed = 5;
-    this.jitteriness = 0.1; // How likely the bee is to change direction
+    this.jitteriness = 0.05; // How likely the bee is to change direction
 
     this.alive = true;
   }

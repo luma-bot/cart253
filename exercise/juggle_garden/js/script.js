@@ -5,10 +5,10 @@ Anthony Lum
 I need coffee. Let's go and get coffee.
 
 PLAN:
-- Add a(nother) form of user-control
+x Add a(nother) form of user-control
   - Player moves around as the sleep deprived student to collect coffee
   - If he doesn't find coffee in time he gets tired and will fall asleep
-- Add a new class and objects
+x Add a new class and objects
   - user object, student object, coffee object
   - Other students also need coffee but you need it more and need to beat them to it.
 - Add at least two endings
@@ -47,7 +47,7 @@ function setup() {
     // Create variables for our arguments for clarity
     let x = random(0, width);
     let y = random(0, height);
-    let size = random(50, 80);
+    let size = random(20, 30);
     let studentColor = {
       r: random(100, 255),
       g: random(100, 255),
@@ -64,7 +64,7 @@ function setup() {
     // Create variables for our arguments for clarity
     let x = random(0, width);
     let y = random(0, height);
-    let size = random(50, 80);
+    let size = random(10, 20);
     let coffeeColor = {
       r: 151,
       g: 111,
@@ -78,6 +78,7 @@ function setup() {
     let coffee = new Coffee(x, y, size, coffeeColor, cupColor);
     // Add the coffee to the array of coffees
     school.coffees.push(coffee);
+    coffee.check(user);
   }
 }
 
@@ -86,11 +87,6 @@ function setup() {
 function draw() {
   // Display the school
   background(school.schoolColor.r, school.schoolColor.g, school.schoolColor.b);
-
-  user = new User;
-    user.move();
-    user.display();
-
 
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
@@ -108,4 +104,9 @@ function draw() {
       coffee.display();
     }
   }
+
+  // Move user player
+  user = new User;
+  user.move();
+  user.display();
 }
