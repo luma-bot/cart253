@@ -43,6 +43,8 @@ let school = {
 let winNum = 0;
 let winMax = 10;
 
+let coffeeCount = school.numCoffees;
+
 // setup() creates the canvas and the school
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -188,7 +190,7 @@ function simulation() {
   // used to clear the screen and have the game continue
   push();
   pop();
-  frameCheck();
+  //frameCheck();
 
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
@@ -212,6 +214,7 @@ function simulation() {
       if (d < coffee.size / 2 + student.size / 2) {
         console.log('student x coffee');
         coffee.alive = false;
+        coffeeCounter();
       }
     }
   }
@@ -230,6 +233,7 @@ function mousePressed() {
       if (d < user.size / 2 + coffee.size / 2) {
         console.log('user x coffee');
         coffee.alive = false;
+        coffeeCounter();
         winCounter();
       }
     }
@@ -268,19 +272,27 @@ function winCounter() {
     state = `win`;
   }
 }
-// UI Display End
 
-function frameCheck() {
-  //console.log(`FrameCount` + frameCount);
-  // if (frameCount === 600) {
-  //   state = `lose`;
-  // }
-  // Collision Check forloops
-  for (let i = 0; i < school.numCoffees; i++) {
-    let coffee = school.coffees[i];
-    if (coffee < 0) {
-      console.log('lose');
-      state = `lose`;
-    }
+function coffeeCounter() {
+  coffeeCount--;
+  console.log(coffeeCount + ' / ' + school.numCoffees);
+  if (coffeeCount === 0) { // number of assignments handed in to win
+    state = `lose`;
   }
 }
+// UI Display End
+
+// function frameCheck() {
+//   //console.log(`FrameCount` + frameCount);
+//   // if (frameCount === 600) {
+//   //   state = `lose`;
+//   // }
+//   // Collision Check forloops
+//   for (let i = 0; i < school.numCoffees; i++) {
+//     let coffee = school.coffees[i];
+//     if (coffee < 0) {
+//       console.log('lose');
+//       state = `lose`;
+//     }
+//   }
+// }
