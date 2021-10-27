@@ -1,14 +1,10 @@
 class User {
 
-  constructor(x, y, size, userColor, alive) {
+  constructor(userColor) {
     this.x = 0;
     this.y = 0;
     this.size = 50;
-    this.userColor = {
-      r: 255,
-      g: 255,
-      b: 255,
-    };
+    this.userColor = userColor;
     this.alive = true; // The Bee starts out alive!
   }
 
