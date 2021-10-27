@@ -57,7 +57,7 @@ function setup() {
     let student = new Students(x, y, size, studentColor);
     // Add the student to the array of students
     school.students.push(student);
-
+    //student.display();
   }
 
   // Create our coffee by counting up to the number of coffees
@@ -79,7 +79,7 @@ function setup() {
     let coffee = new Coffee(x, y, size, coffeeColor, cupColor);
     // Add the coffee to the array of coffees
     school.coffees.push(coffee);
-    coffee.display();
+    //coffee.display();
   }
 
 }
@@ -97,6 +97,16 @@ function draw() {
     if (student.alive) {
       student.move();
       student.display();
+    }
+  }
+
+  // Loop through all the students in the array and display them
+  for (let i = 0; i < school.numCoffees; i++) {
+    let coffee = school.coffees[i];
+    // Check if this flower is alive
+    if (coffee.alive) {
+      coffee.move();
+      coffee.display();
     }
   }
 }
