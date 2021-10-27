@@ -32,9 +32,9 @@ let school = {
   numCoffees: 20,
   // The color of the school (background)
   schoolColor: {
-    r: 120,
-    g: 180,
-    b: 120
+    r: 25,
+    g: 28,
+    b: 29
   }
 };
 
@@ -72,9 +72,9 @@ function setup() {
       b: 56
     }
     let cupColor = {
-      r: 0,
-      g: 93,
-      b: 62
+      r: 90,
+      g: 101,
+      b: 105
     }
     let coffee = new Coffee(x, y, size, coffeeColor, cupColor);
     // Add the coffee to the array of coffees
@@ -93,8 +93,8 @@ function draw() {
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
     let student = school.students[i];
-      student.move();
-      student.display();
+    student.move();
+    student.display();
   }
 
   // Loop through all the students in the array and display them

@@ -24,7 +24,6 @@ class Students {
     fill(this.studentColor.r, this.studentColor.g, this.studentColor.b);
     ellipse(this.x, this.y, this.size);
     pop();
-    console.log('im displaying students');
   }
 
   // move() moves the bee by potentially changing direction
@@ -44,6 +43,5 @@ class Students {
     // Constrain to the canvas (guess it's a walled garden!)
     this.x = constrain(this.x, 0, width);
     this.y = constrain(this.y, 0, height);
-    console.log('im moving students');
   }
 }
