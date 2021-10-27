@@ -88,16 +88,13 @@ function setup() {
 // draw()
 function draw() {
   // Display the school
-  //background(school.schoolColor.r, school.schoolColor.g, school.schoolColor.b);
+  background(school.schoolColor.r, school.schoolColor.g, school.schoolColor.b);
 
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
     let student = school.students[i];
-    // Check if this flower is alive
-    if (student.alive) {
       student.move();
       student.display();
-    }
   }
 
   // Loop through all the students in the array and display them

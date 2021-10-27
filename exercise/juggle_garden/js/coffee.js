@@ -15,7 +15,7 @@ class Coffee {
     this.speed = 5;
     this.jitteriness = 0.1; // How likely the bee is to change direction
 
-this.alive = true;
+    this.alive = true;
   }
 
   // display()
