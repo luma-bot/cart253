@@ -87,6 +87,11 @@ function draw() {
   // Display the school
   background(school.schoolColor.r, school.schoolColor.g, school.schoolColor.b);
 
+  user = new User;
+    user.move();
+    user.display();
+
+
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
     let student = school.students[i];
