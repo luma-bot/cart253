@@ -1,3 +1,37 @@
-# Template p5 project
+# Anthony's Exercise 5: Juggle Garden
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Grade
+4% of final grade
+Remember that only 5 of your completed and passing exercises contribute to the final grade
+Further guidelines below
+Deadline
+Section A (Thursdays): 11:59PM, 28 October 2021.
+Section B (Tuesdays): 11:59PM, 26 October 2021.
+Objectives
+Working with Object-Oriented Programming
+Working with interacting objects
+Working with input in OOP
+Set up
+Download the template-p5-project and rename the folder to juggle-garden
+Move the juggle-garden folder to your exercises folder
+Open the juggle-garden folder in Atom
+Commit and push in GitHub Desktop with a message saying “Ex: Started Juggle Garden exercise”
+Brief
+Begin with either the final Garden Simulation from the modules on Object-Oriented Programming or the final Juggling Simulation from the Object-Oriented Programming Activity.
+
+Think about ways you might want to change the meaning of the simulation you’ve chosen. Perhaps the flowers and bees could become yet another COVID-19 simulation. Perhaps the juggling simulation could become a parable about dealing with complex feelings. You can also just keep the same “story” for the simulation and think about ways to extend it.
+
+Make your changes to the simulation with the following requirements:
+
+Add a(nother) form of user-control
+If you chose Juggling, add another form of control beyond the paddle (click to add balls? a keyboard controlled paddle?).
+If you chose Garden, add a user controlled element (a user-controlled flower that moves? the user controlling a bee? a bird? the user as a god who can help flowers grow? planting flowers? the user as an aphid?)
+Add a new class and objects
+Add a new class and at least one instance of it in the simulation.
+If you chose Juggling it could be different kind of ball? A chainsaw? (People juggle those right?) An AI paddle?
+If you chose Garden it could be a bird, a slug, a cloud, a fairy?
+Add at least two endings
+Currently the simulation never ends, so make it end in at least different two ways
+As per usual, you’ll need states to do this (at least for the simulation and the two endings, you can add a title and instructions too if you like)
+If you chose Juggling, maybe the simulation ends if all the balls fall down or if the user juggles some maximum number of balls successfully?
+If you chose Garden, maybe the simulation ends if all the flowers die or if the user manages to plant enough flowers?
