@@ -48,7 +48,7 @@ let coffeeCount = school.numCoffees;
 // setup() creates the canvas and the school
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  frameRate(60);
+  frameRate(30);
   let userColor = {
     r: 22,
     g: 2,
@@ -150,8 +150,9 @@ function instructions() {
   text(`Drink as much coffee as you can.`, width / 2, height / 2 + 64);
   text(`Move player with your mouse.`, width / 2, height / 2 + 88);
   text(`Click the coffee to drink it`, width / 2, height / 2 + 112);
-  text(`Win: Submit all your assignments.`, width / 2, height / 2 + 160);
-  text(`Press space to continue.`, width / 2, height / 2 + 184);
+  text(`Win: Collect ` + school.numCoffees + ` coffees`, width / 2, height / 2 + 160);
+  text(`Lose: Don't collect enough coffee in time...`, width / 2, height / 2 + 184);
+  text(`Press space to continue.`, width / 2, height / 2 + 208);
   pop();
 }
 // instructions Screen End
@@ -165,7 +166,7 @@ function win() {
   text(`You're Caffeinated!`, width / 2, height / 2 - 24);
   textSize(24);
   fill(255);
-  text(`Wow, ` + winMax + 'cups of coffee damn.', width / 2, height / 2 + 64);
+  text(`Wow, ` + winMax + ' cups of coffee damn.', width / 2, height / 2 + 64);
   text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 88);
   pop();
 }
@@ -277,22 +278,14 @@ function coffeeCounter() {
   coffeeCount--;
   console.log(coffeeCount + ' / ' + school.numCoffees);
   if (coffeeCount === 0) { // number of assignments handed in to win
-    state = `lose`;
+    //state = `lose`;
   }
 }
 // UI Display End
 
-// function frameCheck() {
-//   //console.log(`FrameCount` + frameCount);
-//   // if (frameCount === 600) {
-//   //   state = `lose`;
-//   // }
-//   // Collision Check forloops
-//   for (let i = 0; i < school.numCoffees; i++) {
-//     let coffee = school.coffees[i];
-//     if (coffee < 0) {
-//       console.log('lose');
-//       state = `lose`;
-//     }
-//   }
-// }
+function frameCheck() {
+  console.log(`FrameCount` + frameCount);
+  if (frameCount === 300) {
+    state = `lose`;
+  }
+}
