@@ -108,7 +108,6 @@ function draw() {
   user = new User;
   user.move();
   user.display();
-
 }
 
 
