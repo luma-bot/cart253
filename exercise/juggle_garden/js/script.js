@@ -46,6 +46,7 @@ let winMax = 10;
 // setup() creates the canvas and the school
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  frameRate(60);
 
   // Create our students by counting up to the number of the students
   for (let i = 0; i < school.numStudents; i++) {
@@ -178,6 +179,7 @@ function draw() {
     // used to clear the screen and have the game continue
     push();
     pop();
+    frameCheck();
   }
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numStudents; i++) {
@@ -189,10 +191,20 @@ function draw() {
   // Loop through all the students in the array and display them
   for (let i = 0; i < school.numCoffees; i++) {
     let coffee = school.coffees[i];
-    // Check if this flower is alive
     if (coffee.alive) {
       coffee.move();
       coffee.display();
+    }
+  }
+
+  // Collision Check forloops for students and coffee
+  for (let i = 0; i < school.numStudents; i++) {
+    let student = school.students[i];
+    let coffee = new Coffee; {
+      let d = dist(coffee.x, coffee.y, student.x, student.y);
+      if (d < coffee.size / 2 + student.size / 2) {
+        console.log('student x coffee');
+      }
     }
   }
 
@@ -244,3 +256,10 @@ function winCounter() {
   }
 }
 // UI Display End
+
+function frameCheck() {
+  console.log(`FrameCount` + frameCount);
+  if (frameCount === 600) {
+    state = `lose`;
+  }
+}
