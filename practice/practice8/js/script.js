@@ -52,3 +52,14 @@ function draw() {
     flower.display();
   }
 }
+
+// NEW! mousePressed() calls the equivalent mousePressed() method on every flower
+function mousePressed() {
+  // Loop through every flower in the garden
+  for (let i = 0; i < garden.flowers.length; i++) {
+    // Get the current flower in the loop
+    let flower = garden.flowers[i];
+    // Call the flower's mousePressed() method
+    flower.mousePressed();
+  }
+}

@@ -1,7 +1,7 @@
 class Flower {
 
   // The constructor() sets up a flower's properties
-  constructor(x,y,size,stemLength,petalColor) {
+  constructor(x, y, size, stemLength, petalColor) {
     // Position and size information
     this.x = x;
     this.y = y;
@@ -39,4 +39,18 @@ class Flower {
     ellipse(this.x, this.y, this.size);
     pop();
   }
+
+  mousePressed() {
+    // Calculate the distance between this flower and the mouse
+    let d = dist(this.x,this.y,mouseX,mouseY);
+    // Check if the distance is less than the head of the flower
+    if (d < this.size/2 + this.petalThickness) {
+      // If it is, this flower was clicked, so increase its stem length
+      this.stemLength = this.stemLength + 5;
+      // And also change its y position so it grows upward! (If we didn't do this
+      // the then stem would grow downward, which would look weird.)
+      this.y = this.y - 5;
+    }
+  }
+
 }
