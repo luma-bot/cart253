@@ -40,6 +40,9 @@ let school = {
   }
 };
 
+let winNum = 0;
+let winMax = 10;
+
 // setup() creates the canvas and the school
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -114,7 +117,7 @@ function draw() {
     fill(200, 100, 100);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
-    text(`Attack of the Assignments`, width / 2, height / 2 - 24);
+    text(`Drink your Coffee`, width / 2, height / 2 - 24);
     textSize(24);
     fill(255);
     text(`Are you ready?`, width / 2, height / 2 + 64);
@@ -132,11 +135,11 @@ function draw() {
     text(`How To Play:`, width / 2, height / 2 - 24);
     textSize(24);
     fill(255);
-    text(`Avoid getting hit with assignments.`, width / 2, height / 2 + 64);
-    text(`Move player with WASD/ARROW keys.`, width / 2, height / 2 + 88);
-    text(`Click to submit your assignments.`, width / 2, height / 2 + 112);
+    text(`Drink as much coffee as you can.`, width / 2, height / 2 + 64);
+    text(`Move player with your mouse.`, width / 2, height / 2 + 88);
+    text(`Click the coffee to drink it`, width / 2, height / 2 + 112);
     text(`Win: Submit all your assignments.`, width / 2, height / 2 + 160);
-    text(`Lose: You get hit with a DEADline.`, width / 2, height / 2 + 184);
+    text(`Press space to continue.`, width / 2, height / 2 + 184);
     pop();
   }
   // instructions Screen End
@@ -147,11 +150,11 @@ function draw() {
     textSize(64);
     fill(0, 153, 51);
     textAlign(CENTER, CENTER);
-    text(`You Win!`, width / 2, height / 2 - 24);
+    text(`You're Caffeinated!`, width / 2, height / 2 - 24);
     textSize(24);
     fill(255);
-    text(`Wow that was an easy A+ right?`, width / 2, height / 2 + 64);
-    text(`Press 'Spacebar' to move to your next semester`, width / 2, height / 2 + 88);
+    text(`Wow, ` + winMax + 'cups of coffee damn.', width / 2, height / 2 + 64);
+    text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 88);
     pop();
   }
   // Win State End
@@ -165,48 +168,50 @@ function draw() {
     text(`You Lose...`, width / 2, height / 2 - 24);
     textSize(24);
     fill(255);
-    text(`That DEADline came out of nowhere huh?`, width / 2, height / 2 + 64);
-    text(`Press 'Spacebar' to redo your semester`, width / 2, height / 2 + 88);
+    text(`All the other students drank all the coffee...`, width / 2, height / 2 + 64);
+    text(`Press 'Spacebar' to try again.`, width / 2, height / 2 + 88);
     pop();
   }
   // Lose State End
 
-
   function simulation() {
-    // Loop through all the students in the array and display them
-    for (let i = 0; i < school.numStudents; i++) {
-      let student = school.students[i];
-      student.move();
-      student.display();
-    }
-
-    // Loop through all the students in the array and display them
-    for (let i = 0; i < school.numCoffees; i++) {
-      let coffee = school.coffees[i];
-      // Check if this flower is alive
-      if (coffee.alive) {
-        coffee.move();
-        coffee.display();
-      }
-    }
-
-    // Move user player
-    user = new User;
-    user.move();
-    user.display();
+    // used to clear the screen and have the game continue
+    push();
+    pop();
+  }
+  // Loop through all the students in the array and display them
+  for (let i = 0; i < school.numStudents; i++) {
+    let student = school.students[i];
+    student.move();
+    student.display();
   }
 
+  // Loop through all the students in the array and display them
+  for (let i = 0; i < school.numCoffees; i++) {
+    let coffee = school.coffees[i];
+    // Check if this flower is alive
+    if (coffee.alive) {
+      coffee.move();
+      coffee.display();
+    }
+  }
 
-  function mousePressed() {
-    // Collision Check forloops
-    for (let i = 0; i < school.numCoffees; i++) {
-      let coffee = school.coffees[i]; {
-        // this function will only run when mouse is pressed, find function above
-        let d = dist(user.x, user.y, coffee.x, coffee.y);
-        if (d < user.size / 2 + coffee.size / 2) {
-          console.log('user x coffee');
-          coffee.alive = false;
-        }
+  // Move user player
+  user = new User;
+  user.move();
+  user.display();
+}
+
+function mousePressed() {
+  // Collision Check forloops
+  for (let i = 0; i < school.numCoffees; i++) {
+    let coffee = school.coffees[i]; {
+      // this function will only run when mouse is pressed, find function above
+      let d = dist(user.x, user.y, coffee.x, coffee.y);
+      if (d < user.size / 2 + coffee.size / 2) {
+        console.log('user x coffee');
+        coffee.alive = false;
+        winCounter();
       }
     }
   }
@@ -229,3 +234,13 @@ function keyPressed() {
   }
 }
 // onKeyPress End
+
+// UI Display Start
+function winCounter() {
+  winNum++;
+  console.log(winNum + ' / ' + winMax);
+  if (winNum === winMax) { // number of assignments handed in to win
+    state = `win`;
+  }
+}
+// UI Display End
