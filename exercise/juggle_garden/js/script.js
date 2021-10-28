@@ -31,7 +31,7 @@ let school = {
   // An array to store our hot bean water
   coffees: [],
   // How much hot bean water there is
-  numCoffees: 20,
+  numCoffees: 50,
   // The color of the school (background)
   schoolColor: {
     r: 25,
@@ -167,7 +167,7 @@ function win() {
   textSize(24);
   fill(255);
   text(`Wow, ` + winMax + ' cups of coffee damn.', width / 2, height / 2 + 64);
-  text(`Press 'Spacebar' to play again`, width / 2, height / 2 + 88);
+  text(`Press 'Ctrl + R' to play again`, width / 2, height / 2 + 88);
   pop();
 }
 // Win State End
@@ -182,7 +182,7 @@ function lose() {
   textSize(24);
   fill(255);
   text(`All the other students drank all the coffee...`, width / 2, height / 2 + 64);
-  text(`Press 'Spacebar' to try again.`, width / 2, height / 2 + 88);
+  text(`Press 'Ctrl + R' to try again.`, width / 2, height / 2 + 88);
   pop();
 }
 // Lose State End
@@ -253,15 +253,6 @@ function keyPressed() {
     state = `instructions`; // title screen to insuctions
   } else if (state === `instructions` && key === ' ') {
     state = `simulation`; // instructions screen to simulation
-  } else if (state === `win` && key === ' ') {
-    setup();
-    simulation();
-    state = `instructions` // instructions screen to simulation
-  } else if (state === `lose` && key === ' ') {
-    setup();
-    simulation();
-    state = `instructions`; // instructions screen to simulation
-  }
 }
 // onKeyPress End
 
