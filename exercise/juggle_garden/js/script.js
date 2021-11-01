@@ -253,6 +253,7 @@ function keyPressed() {
     state = `instructions`; // title screen to insuctions
   } else if (state === `instructions` && key === ' ') {
     state = `simulation`; // instructions screen to simulation
+  }
 }
 // onKeyPress End
 
