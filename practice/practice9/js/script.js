@@ -32,15 +32,15 @@ background(0);
 
 for (let i = 0; i < cars.length; i++){ // length of array
   let car = cars[i];
-  car.move();
-  car.wrap();
-  car.display();
+  car.move(); // won't find in car, but will then look at the extend and go into the superClass
+  car.wrap(); // same
+  car.display(); // is in car
 }
 
 for (let i = 0; i < motorcycles.length; i++){ // length of array
   let motorcycle = motorcycles[i];
-  motorcycle.move();
-  motorcycle.wrap();
-  motorcycle.display();
+  motorcycle.move(); // same
+  motorcycle.wrap(); // same
+  motorcycle.display(); // is in motocycle
 }
 }
