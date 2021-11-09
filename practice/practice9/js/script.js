@@ -9,6 +9,7 @@ let vehicles = [];
 let numCars = 10;
 // let motorcycles = []; // can remove because we're doing a vehicle array
 let numMotorcycles = 10;
+let numSportsCars = 3;
 
 function setup() {
   createCanvas(600, 600);
@@ -24,6 +25,13 @@ function setup() {
     let y = random(0, height);
     let motorcycle = new Motorcycle(x, y); // call class
     vehicles.push(motorcycle); // cars = array, pushes out the car variable, that is from the Car class.
+  }
+
+  for (let i = 0; i < numSportsCars; i++) { // four loop for car because different number of motorcycles
+    let x = random(0, width);
+    let y = random(0, height);
+    let sportsCar = new SportsCar(x, y); // call class
+    vehicles.push(sportsCar); // cars = array, pushes out the car variable, that is from the Car class.
   }
 }
 
