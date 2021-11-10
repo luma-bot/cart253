@@ -22,7 +22,7 @@ let coffeeYoffset = 0.0;
 
 let milkX;
 let milkY;
-let milkBoxSize = 75;
+let milkBoxSize = 25;
 let milkoverBox = false;
 let milkLocked = false;
 let milkXoffset = 0.0;
@@ -58,6 +58,7 @@ function draw() {
 
   coffee();
   milk();
+  collisionCheck();
 }
 
 // Coffee Functions Start
@@ -99,11 +100,11 @@ function milk() {
     milkoverBox = true;
     if (!milkLocked) {
       stroke(255);
-      fill(94, 68, 47);
+      fill(255, 237, 208);
     }
   } else {
-    stroke(170, 123, 85);
-    fill(94, 68, 47);
+    stroke(204, 189, 169);
+    fill(255, 237, 208);
     milkoverBox = false;
   }
 
@@ -146,4 +147,13 @@ function mouseDragged() {
 function mouseReleased() {
   coffeeLocked = false;
   milkLocked = false;
+}
+
+function collisionCheck() {
+  // object.size = diameter, object.size/2 = radius
+  let distance = dist(coffeeX, coffeeY, milkX, milkY); // only need now and won't need it later, declaring where we need it
+  if (distance < coffeeBoxSize / 2 + milkBoxSize / 2) {
+    // noLoop();
+    console.log('hit');
+  }
 }
