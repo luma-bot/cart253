@@ -18,6 +18,15 @@ let coffeeLocked = false;
 let coffeeXoffset = 0.0;
 let coffeeYoffset = 0.0;
 
+
+
+let milkX;
+let milkY;
+let milkBoxSize = 75;
+let milkoverBox = false;
+let milkLocked = false;
+let milkXoffset = 0.0;
+let milkYoffset = 0.0;
 /**
 Description of preload
 */
@@ -33,7 +42,10 @@ function setup() {
   createCanvas(600, 600);
   coffeeX = width / 2.0;
   coffeeY = height / 2.0;
-
+  rectMode(RADIUS);
+  strokeWeight(2);
+  milkX = width / 5.0;
+  milkY = height / 5.0;
   rectMode(RADIUS);
   strokeWeight(2);
 }
@@ -45,6 +57,7 @@ function draw() {
   background(0);
 
   coffee();
+  milk();
 }
 
 // Coffee Functions Start
@@ -71,6 +84,33 @@ function coffee() {
   // Draw the box
   rect(coffeeX, coffeeY, coffeeBoxSize, coffeeBoxSize);
 }
+// Coffee Functions End
+
+// Milk Functions Start
+function milk() {
+
+  // Test if the cursor is over the box
+  if (
+    mouseX > milkX - milkBoxSize &&
+    mouseX < milkX + milkBoxSize &&
+    mouseY > milkY - milkBoxSize &&
+    mouseY < milkY + milkBoxSize
+  ) {
+    milkoverBox = true;
+    if (!milkLocked) {
+      stroke(255);
+      fill(94, 68, 47);
+    }
+  } else {
+    stroke(170, 123, 85);
+    fill(94, 68, 47);
+    milkoverBox = false;
+  }
+
+  // Draw the box
+  rect(milkX, milkY, milkBoxSize, milkBoxSize);
+}
+// Milk Functions End
 
 function mousePressed() {
   if (coffeeoverBox) {
@@ -81,6 +121,15 @@ function mousePressed() {
   }
   coffeeXoffset = mouseX - coffeeX;
   coffeeYoffset = mouseY - coffeeY;
+
+  if (milkoverBox) {
+    milkLocked = true;
+    fill(255, 255, 255);
+  } else {
+    milkLocked = false;
+  }
+  milkXoffset = mouseX - milkX;
+  milkYoffset = mouseY - milkY;
 }
 
 function mouseDragged() {
@@ -88,9 +137,13 @@ function mouseDragged() {
     coffeeX = mouseX - coffeeXoffset;
     coffeeY = mouseY - coffeeYoffset;
   }
+  if (milkLocked) {
+    milkX = mouseX - milkXoffset;
+    milkY = mouseY - milkYoffset;
+  }
 }
 
 function mouseReleased() {
   coffeeLocked = false;
+  milkLocked = false;
 }
-// Coffee Functions End
