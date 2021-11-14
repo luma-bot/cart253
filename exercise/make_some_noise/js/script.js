@@ -33,10 +33,9 @@ function setup() {
 function playSynth() {
   // ensure audio is enabled
   userStartAudio();
-  if (nggyu.isPaused()) {
+  if (!nggyu.isPlaying()) {
     nggyu.play();
     console.log('plz play');
-    // sorry Sharon, this isn't working, enjoy hearing "never gunna give you up, multiple times"
   } else {
     // start the loop
     nggyu.stop();
