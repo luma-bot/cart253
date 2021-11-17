@@ -80,16 +80,15 @@ function mousePressed() {
     coffee.xOffset = mouseX - coffee.x;
     coffee.yOffset = mouseY - coffee.y;
   } // end of coffeePressed();
-}
-/** end of mousePressed(); */
+} // end of mousePressed
 
 function mouseDragged() {
   if (coffee.locked) {
     coffee.x = mouseX - coffee.xOffset;
     coffee.y = mouseY - coffee.yOffset;
   }
-}
+} // end of mouseDragged
 
 function mouseReleased() {
   coffee.locked = false;
-}
+} // end of mouseReleased

@@ -35,3 +35,13 @@ class Coffee {
     }
   }
 }
+
+// in hover check will have to adapt and add this code
+/*
+
+mouseX > milkX - milkBoxSize &&
+mouseX < milkX + milkBoxSize &&
+mouseY > milkY - milkBoxSize &&
+mouseY < milkY + milkBoxSize
+
+*/
