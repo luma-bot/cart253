@@ -9,28 +9,37 @@ Try not to mess up people's orders else they'll get mad. Be quick and efficient,
 
 // -----------------------------------------------------------------------------
 
+// Global Variables start
 "use strict";
 
+let bgImage;
 
-/**
-Description of preload
-*/
+// Global Variables end
+
+// -----------------------------------------------------------------------------
+
+/** Function that loads assets */
 function preload() {
-
+  bgImage = loadImage('assets/images/bg_coffeebar-01.png');
 }
+/** end of preload(); */
 
+// -----------------------------------------------------------------------------
 
 /**
-Description of setup
+Function that sets up the main components of the simulation
 */
 function setup() {
-
+  createCanvas(600, 326);
 }
+/** end of setup(); */
 
+// -----------------------------------------------------------------------------
 
-/**
-Description of draw()
-*/
+/** Function that outputs and displays the desired visual design of the simulation */
 function draw() {
-
+  background(bgImage);
 }
+/** end of draw(); */
+
+// -----------------------------------------------------------------------------
