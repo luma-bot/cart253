@@ -9,12 +9,21 @@ Try not to mess up people's orders else they'll get mad. Be quick and efficient,
 
 // -----------------------------------------------------------------------------
 
-// Global Variables start
 "use strict";
 
+// Global Variables start
 let bgImage;
-
+let cafe = {
+  coffee: [],
+  numOrders: 2,
+};
 // Global Variables end
+
+// Classes start
+let coffee;
+let cup;
+// Classes end
+
 
 // -----------------------------------------------------------------------------
 
@@ -31,6 +40,10 @@ Function that sets up the main components of the simulation
 */
 function setup() {
   createCanvas(600, 326);
+
+  cup = new Cup();
+  coffee = new Coffee();
+
 }
 /** end of setup(); */
 
@@ -38,8 +51,47 @@ function setup() {
 
 /** Function that outputs and displays the desired visual design of the simulation */
 function draw() {
-  background(bgImage);
+  background(bgImage); // display cafe background, sized exactly to fit canvas
+
+  cup.display();
+  coffee.display();
+  coffee.hoverCheck();
 }
 /** end of draw(); */
 
 // -----------------------------------------------------------------------------
+
+/** Test Functions area*/
+function mousePressed() {
+  mouseLocation();
+  coffeePressed();
+
+  function mouseLocation() { // used to output mouse coords
+    console.log('mouseX is: ' + mouseX);
+    console.log('mouseY is: ' + mouseY);
+  } // end of mouseLocation();
+
+  function coffeePressed(){
+    if (coffee.contact) {
+      coffee.locked = true;
+      console.log('coffeePressedTrue');
+    } else {
+      coffee.locked = false;
+      console.log('coffeePressedFalse');
+    }
+    coffee.xOffset = mouseX - coffee.x;
+    coffee.yOffset = mouseY - coffee.y;
+  } // end of coffeePressed();
+}
+/** end of mousePressed(); */
+
+function mouseDragged() {
+  if (coffee.locked) {
+    coffee.x = mouseX - coffee.xOffset;
+    coffee.y = mouseY - coffee.yOffset;
+  }
+}
+
+function mouseReleased() {
+  coffee.locked = false;
+}
