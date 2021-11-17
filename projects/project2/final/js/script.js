@@ -74,10 +74,8 @@ function mousePressed() {
   function coffeePressed(){
     if (coffee.contact) {
       coffee.locked = true;
-      console.log('coffeePressedTrue');
     } else {
       coffee.locked = false;
-      console.log('coffeePressedFalse');
     }
     coffee.xOffset = mouseX - coffee.x;
     coffee.yOffset = mouseY - coffee.y;

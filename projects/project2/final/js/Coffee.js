@@ -25,20 +25,13 @@ class Coffee {
   }
 
   hoverCheck() {
-    // Test if the cursor is over the box
-    if (
-      mouseX > this.x - this.w &&
-      mouseX < this.x + this.w &&
-      mouseY > this.y - this.h &&
-      mouseY < this.y + this.h
-    ) {
-      this.over = true;
-      if (!this.locked) {
-        //console.log('hovering');
-      }
+    // object.size = diameter, object.size/2 = radius
+    let distance = dist(mouseX, mouseY, this.x, this.y); // only need now and won't need it later, declaring where we need it
+    if (distance < this.w && this.h) {
+      // noLoop();
+      this.contact = true;
     } else {
-      //console.log('not hovering');
-      this.over = false;
+      this.contact = false;
     }
   }
 }
