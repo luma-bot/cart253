@@ -119,8 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-//let state = 'titleScreen'; // starting state
-let state = 'gameScreen'; // test state
+let state = 'titleScreen'; // starting state
+//let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -209,18 +209,12 @@ let mediumCup = {
   y: 0,
   acive: false,
 }
-let largeCup ={
+let largeCup = {
   x: 0,
   y: 0,
   acive: false,
 }
 let selectedCup;
-let displayedCup = {
-  x: 0,
-  y: 0,
-  acive: false,
-}
-let holdingCup = false;
 let cupInfo = {
   size: 104.5,
 }
@@ -292,7 +286,13 @@ function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
 
-  spawnCupToMouse();
+  if (state === 'gameScreen'){
+      cursor('grab');
+  }
+
+  if (smallCup.active === true || mediumCup.active === true || largeCup.active === true) {
+    spawnCupToMouse();
+  }
 }
 /* end of draw(); */
 
@@ -741,25 +741,22 @@ function constrainMouse() {
 function cupClicked() {
   if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
     selectedCup = 'smallCupSelected';
-    holdingCup = true;
-    displayedCup.active = true;
+    smallCup.active = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
-    holdingCup = true;
-    displayedCup.active = true;
+    mediumCup.active = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
-    holdingCup = true;
-    displayedCup.active = true;
+    largeCup.active = true;
   }
 }
 
 function spawnCupToMouse() {
-  if (state === 'gameScreen' && holdingCup === true && selectedCup === 'smallCupSelected' && displayedCup.active === true) {
+  if (state === 'gameScreen' && selectedCup === 'smallCupSelected') {
     displaySmallCup();
-  } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'mediumCupSelected') {
+  } else if (state === 'gameScreen' && selectedCup === 'mediumCupSelected') {
     displayMediumCup();
-  } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'largeCupSelected') {
+  } else if (state === 'gameScreen' && selectedCup === 'largeCupSelected') {
     displayLargeCup();
   }
 }
@@ -792,10 +789,10 @@ function displayLargeCup() {
 }
 
 function discardCup() {
-  if (state === 'gameScreen' && holdingCup === true && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
-    holdingCup === false;
-    push();
-    pop();
+  if (state === 'gameScreen' && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
+    smallCup.active = false;
+    mediumCup.active = false;
+    largeCup.active = false;
     console.log('discard cup');
   }
 }
