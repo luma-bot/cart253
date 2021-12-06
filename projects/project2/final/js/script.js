@@ -173,8 +173,8 @@ let startButtonsH = 151.1;
 
 // Game Logic Variables
 let mouseCup = {
-  displayCup: undefined,
-  hasCup: undefined,
+  displayCup: false,
+  hasCup: false,
 };
 
 let cupChance = {
@@ -199,19 +199,33 @@ let vanilla = {
   pour: 30,
 }
 
-
 // Game Assets Variables
 let smallCup;
 let mediumCup;
 let largeCup;
+let selectedCup;
+
 let coffeeOrder;
 
-let numLevel = undefined;
-let numOrders = undefined;
+let numLevel = 1; // start at level 1
+let numOrders = 0; // no orders to start
 
+// Drag & Drop Feature
+let mediumCupX;
+let mediumCupY;
+let mediumCupSize = 75;
+let mediumCupOverBox = false;
+let mediumCupLocked = false;
+let mediumCupxOffset = 0.0;
+let mediumCupyOffset = 0.0;
 
-
-
+let largeCupX;
+let largeCupY;
+let largeCupSize = 75;
+let largeCupOverBox = false;
+let largeCupLocked = false;
+let largeCupxOffset = 0.0;
+let largeCupyOffset = 0.0;
 
 // -----------------------------------------------------------------------------
 
@@ -250,6 +264,9 @@ function preload() {
   instructionsButton = loadImage('assets/images/Coffee_Background_CART_InstructionsButton.png'); // 188.8 x 75.55
   creditsButton = loadImage('assets/images/Coffee_Background_CART_CreditsButton.png'); // 188.8 x 75.55
 
+  smallCup = loadImage('assets/images/Coffee_Background_CART_SmallHighlight.png'); // 209 x 209
+  mediumCup = loadImage('assets/images/Coffee_Background_CART_MediumHighlight.png'); // 209 x 209
+  largeCup = loadImage('assets/images/Coffee_Background_CART_LargeHighlight.png'); // 209 x 209
   // Sounds
 
   // Fonts
@@ -260,6 +277,9 @@ function preload() {
 /* p5 Function that sets up the main components of the simulation */
 function setup() {
   createCanvas(1200, 650); // double the bg size, adds to the pixelated style, all image sizes must be doubled from the OG size to fit
+
+  // calculating game stats
+  numOrders = numLevel * 10;
 }
 /** end of setup(); */
 
@@ -323,10 +343,10 @@ function simState() {
     instructionsScreen11(); // ready intro
   } else if (state === 'creditsScreen') {
     creditsScreen();
-  } else if (state === 'gameScreen') {
-    gameScreen();
   } else if (state === 'gameLevelScreen') {
     gameLevelScreen();
+  } else if (state === 'gameScreen') {
+    gameScreen();
   }
 }
 // Simulation State Controller End
@@ -687,9 +707,7 @@ function gameLevelDisplay() {
 }
 
 function gameStats() {
-  // calculating game stats
-  numLevel = 1; // initiate level 1
-  numOrders = numLevel * 10;
+
 }
 
 // -----------------------------------------------------------------------------
@@ -706,6 +724,49 @@ function gameDisplay() {
   background(bgGameScreenButtons);
   pop();
 }
+
+function smallCupClick() {
+  if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
+    selectedCup = 'smallCupSelected';
+    spawnCupToMouse();
+  }
+}
+
+function mediumCupClick() {
+  if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
+    selectedCup = 'mediumCupSelected';
+    spawnCupToMouse();
+  }
+}
+
+function largeCupClick() {
+  if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
+    selectedCup = 'largeCupSelected';
+    spawnCupToMouse();
+  }
+}
+
+function spawnCupToMouse() {
+  if (selectedCup === 'smallCupSelected') {
+    console.log('small cup has been selected');
+
+  } else if (selectedCup === 'mediumCupSelected') {
+    console.log('medium cup has been selected');
+
+
+  } else if (selectedCup === 'largeCupSelected') {
+    console.log('large cup has been selected');
+  }
+}
+
+
+
+
+
+
+
+
+
 // Game Game Time functions End
 // Game Screen State Start
 
@@ -757,11 +818,70 @@ function mousePressed() {
   orderToReady();
   readyToStart();
 
-  // mousePressed checks on the Instruction screen
+  //mousePressed Game Screen checks
+  gameIntroToGameGame();
+  smallCupClick();
+  mediumCupClick();
+  largeCupClick();
 
   // test functions
   testTester(); // location:testing
 }
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------
+
+/*
+███    ███  ██████  ██    ██ ███████ ███████     ██████  ██████   █████   ██████   ██████  ███████ ██████
+████  ████ ██    ██ ██    ██ ██      ██          ██   ██ ██   ██ ██   ██ ██       ██       ██      ██   ██
+██ ████ ██ ██    ██ ██    ██ ███████ █████       ██   ██ ██████  ███████ ██   ███ ██   ███ █████   ██   ██
+██  ██  ██ ██    ██ ██    ██      ██ ██          ██   ██ ██   ██ ██   ██ ██    ██ ██    ██ ██      ██   ██
+██      ██  ██████   ██████  ███████ ███████     ██████  ██   ██ ██   ██  ██████   ██████  ███████ ██████
+
+
+*/
+
+// p5 mouseDragged Start
+function mouseDragged() {
+
+}
+// p5 mouseDragged End
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------
+
+/*
+███    ███  ██████  ██    ██ ███████ ███████     ██████  ███████ ██      ███████  █████  ███████ ███████ ██████
+████  ████ ██    ██ ██    ██ ██      ██          ██   ██ ██      ██      ██      ██   ██ ██      ██      ██   ██
+██ ████ ██ ██    ██ ██    ██ ███████ █████       ██████  █████   ██      █████   ███████ ███████ █████   ██   ██
+██  ██  ██ ██    ██ ██    ██      ██ ██          ██   ██ ██      ██      ██      ██   ██      ██ ██      ██   ██
+██      ██  ██████   ██████  ███████ ███████     ██   ██ ███████ ███████ ███████ ██   ██ ███████ ███████ ██████
+
+
+*/
+
+// p5 mouseReleased Start
+function mouseReleased() {
+
+}
+// p5 mouseReleased End
+
+
+
 
 
 
@@ -915,6 +1035,12 @@ function readyToStart() {
   }
 }
 
+function gameIntroToGameGame() {
+  if (state === 'gameLevelScreen' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'gameScreen';
+  }
+}
 
 // Check functions End
 
@@ -941,5 +1067,5 @@ function readyToStart() {
 // Testing console.log Functions
 function testTester() {
   console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
-  console.log(state);
+  //console.log(state);
 }
