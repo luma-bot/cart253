@@ -209,6 +209,10 @@ let displayedCup = {
   y: 0,
 };
 let holdingCup = false;
+let cupInfo = {
+  size: 104.5,
+}
+
 
 let coffeeOrder;
 
@@ -745,19 +749,40 @@ function cupClicked() {
     holdingCup = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
+    holdingCup = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
+    holdingCup = true;
   }
 }
 
 function spawnCupToMouse() {
-  if (state === 'gameScreen' && holdingCup === true) {
+  if (state === 'gameScreen' && holdingCup === true && selectedCup === 'smallCupSelected') {
     smallCup.x = mouseX;
     smallCup.y = mouseY;
 
-    fill(255);
-    ellipse(mouseX, mouseY, 209);
+    push();
+    imageMode(CENTER);
+    image(smallCup, smallCup.x, smallCup.y, cupInfo.size, cupInfo.size)
+    pop();
+    console.log('testSpawn');
+  } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'mediumCupSelected') {
+    mediumCup.x = mouseX;
+    mediumCup.y = mouseY;
 
+    push();
+    imageMode(CENTER);
+    image(mediumCup, mediumCup.x, mediumCup.y, cupInfo.size, cupInfo.size)
+    pop();
+    console.log('testSpawn');
+  } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'largeCupSelected') {
+    largeCup.x = mouseX;
+    largeCup.y = mouseY;
+
+    push();
+    imageMode(CENTER);
+    image(largeCup, largeCup.x, largeCup.y, cupInfo.size, cupInfo.size)
+    pop();
     console.log('testSpawn');
   }
 }
