@@ -119,8 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-//let state = 'titleScreen'; // starting state
-let state = 'gameScreen'; // test state
+let state = 'titleScreen'; // starting state
+//let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -177,12 +177,37 @@ let mouseCup = {
   hasCup: undefined,
 };
 
+let cupChance = {
+  small: 25,
+  medium: 50,
+  large: 25,
+}
+
+let milkChance = {
+  pour: 80,
+}
+
+let sugarChance = {
+  pour: 80,
+}
+
+let chocolateChance = {
+  pour: 50,
+}
+
+let vanilla = {
+  pour: 30,
+}
+
+
 // Game Assets Variables
 let smallCup;
 let mediumCup;
 let largeCup;
 let coffeeOrder;
 
+let numLevel = undefined;
+let numOrders = undefined;
 
 
 
@@ -300,6 +325,8 @@ function simState() {
     creditsScreen();
   } else if (state === 'gameScreen') {
     gameScreen();
+  } else if (state === 'gameLevelScreen') {
+    gameLevelScreen();
   }
 }
 // Simulation State Controller End
@@ -602,6 +629,8 @@ function creditsScreen() {
   text(`Background Illustration Designed by Freepik`, width / 4, height / 2 - 32); // neutral center
   text(`Icon Graphics by Icons8`, width / 4, height / 2); // neutral center
   text(`Graphic Design by Anthony Lum`, width / 4, height / 2 + 32); // neutral center
+  textSize(12);
+  text(`"Beans make you fart"`, width / 4, height / 2 + 64); // neutral center
   pop();
 
   // left button text
@@ -628,11 +657,56 @@ function creditsScreen() {
 */
 
 // Game Screen State Start
+// Game Level Information
+function gameLevelScreen() {
+  gameLevelDisplay();
+  gameStats();
+}
+
+function gameLevelDisplay() {
+  push();
+  background(bgPopUpButtonRight);
+  textSize(64);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Good Bean Water: `, width / 2, height / 2 - 96);
+  text(`Day: ` + numLevel, width / 2, height / 2 - 32);
+  textSize(32);
+  text(`Orders to Complete: ` + numOrders, width / 2, height / 2 + 32);
+  pop();
+
+  // right button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Next`, width - 156, height - 60); // Right button text alignment
+  pop();
+}
+
+function gameStats() {
+  // calculating game stats
+  numLevel = 1; // initiate level 1
+  numOrders = numLevel * 10;
+}
+
+// -----------------------------------------------------------------------------
+
+// Game Game Time Start
 function gameScreen() {
+  gameDisplay();
+}
+// Game Game Time End
+
+// Game Game Time functions Start
+function gameDisplay() {
   push();
   background(bgGameScreenButtons);
   pop();
 }
+// Game Game Time functions End
 // Game Screen State Start
 
 
@@ -723,7 +797,7 @@ function startButtonCheck() {
     mouseX < startGameButton.x + startButtonsW / 2 - 20 &&
     mouseY > startGameButton.y - startButtonsH / 2 + 35 &&
     mouseY < startGameButton.y + startButtonsH / 2 - 35) {
-    state = 'gameScreen';
+    state = 'gameLevelScreen';
   }
 }
 
