@@ -136,6 +136,7 @@ let bgPopUpButtonLeft;
 let bgPopUpButtonRight;
 let bgGameScreenButtons;
 let bgGameScreen;
+let bgGameScreenDark;
 let bgInstCup;
 let bgInstCupMove;
 let bgInstCoffee;
@@ -166,13 +167,14 @@ let creditsButton = {
 let fontBebasNeue;
 let fontOpenSans;
 
+// -----------------------------------------------------------------------------
+
 // Set Numbers
 let startButtonsW = 377.6;
 let startButtonsH = 151.1;
 
 // Game Logic Variables
 let mouseCup = {
-  displayCup: false,
   hasCup: false,
 }
 
@@ -194,9 +196,15 @@ let chocolateChance = {
   pour: 50,
 }
 
-let vanilla = {
+let vanillaChance = {
   pour: 30,
 }
+
+let coffee = 0;
+let milk = 0;
+let sugar = 0;
+let chocolate = 0;
+let vanilla = 0;
 
 // Game Assets Variables
 let smallCup = {
@@ -218,7 +226,6 @@ let selectedCup;
 let cupInfo = {
   size: 104.5,
 }
-
 
 let coffeeOrder;
 
@@ -246,6 +253,7 @@ function preload() {
   bgPopUpButtonRight = loadImage('assets/images/Coffee_Background_CART_PanelScreenRight.png'); // 600 x 325 with right button
   bgGameScreen = loadImage('assets/images/Coffee_Background_CART_GameScreen.png'); // 600 x 325 with both gabe buttons
   bgGameScreenButtons = loadImage('assets/images/Coffee_Background_CART_GameScreenButtons.png'); // 600 x 325 with both buttons
+  bgGameScreenDark = loadImage('assets/images/Coffee_Background_CART_NoHighlightInstructions.png');
   bgInstCup = loadImage('assets/images/Coffee_Background_CART_HighlightCups.png');
   bgInstCupMove = loadImage('assets/images/Coffee_Background_CART_HighlightCupSelected.png');
   bgInstCoffee = loadImage('assets/images/Coffee_Background_CART_HighlightCoffee.png');
@@ -286,8 +294,8 @@ function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
 
-  if (state === 'gameScreen'){
-      cursor('grab');
+  if (state === 'gameScreen') {
+    cursor('grab');
   }
 
   if (smallCup.active === true || mediumCup.active === true || largeCup.active === true) {
@@ -353,6 +361,8 @@ function simState() {
     gameLevelScreen();
   } else if (state === 'gameScreen') {
     gameScreen();
+  } else if (state === 'gameScreenEndLevel') {
+    gameScreenEndLevel();
   }
 }
 // Simulation State Controller End
@@ -479,7 +489,7 @@ function instructionsScreen() {
 function instructionsScreen1() {
   // display instructions screen
   push();
-  background(bgGameScreenButtons);
+  background(bgGameScreenDark);
   textSize(32);
   fill(255);
   textAlign(CENTER, CENTER);
@@ -521,8 +531,9 @@ function instructionsScreen4() {
   textSize(32);
   fill(255);
   textAlign(CENTER, CENTER);
-  text(`Cool! You're a natural.`, width / 2 + 100, height / 2 - 64);
-  text(`Bet you can't find the milk...`, width / 2 + 100, height / 2 - 32);
+  text(`You will need to pour more if the cup is larger!`, width / 2 + 100, height / 2 - 96);
+  text(`Click once for a small, twice for medium, three times for a large`, width / 2 + 100, height / 2 - 64);
+  text(`Okay now I bet you can't find the milk...`, width / 2 + 100, height / 2 - 32);
   pop();
 }
 
@@ -610,10 +621,10 @@ function instructionsScreen11() {
   textSize(32);
   fill(255);
   textAlign(CENTER, CENTER);
-  text(`Complete coffee orders to get money and tip.`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
-  text(`At the end of the shift, we'll add up what you earned.`, width / 2, height / 2 - 32); // subtract font size to be centered higher
-  text(`Your goal is to earn as much as you can each shift.`, width / 2, height / 2); // neutral center
-  text(`Just don't take too long or make too many mistakes...`, width / 2, height / 2 + 32); // neutral center
+  text(`Complete coffee orders to get money and tip.`, width / 2, height / 2 - 96);
+  text(`At the end of the shift, we'll add up what you earned.`, width / 2, height / 2 - 64);
+  text(`Your goal is to earn as much as you can each shift.`, width / 2, height / 2 - 32);
+  text(`Just don't take too long or make too many mistakes...`, width / 2, height / 2);
   pop();
 
   // right button text
@@ -625,9 +636,6 @@ function instructionsScreen11() {
   text(`Next`, width - 156, height - 60); // Right button text alignment
   pop();
 }
-
-
-
 // Instructions Screen State End
 
 // -----------------------------------------------------------------------------
@@ -720,37 +728,43 @@ function gameStats() {
 
 // Game Game Time Start
 function gameScreen() {
-  gameDisplay();
+  gameScreenDisplay();
   constrainMouse();
 }
 // Game Game Time End
 
 // Game Game Time functions Start
-function gameDisplay() {
+function gameScreenDisplay() {
   push();
   background(bgGameScreenButtons);
   pop();
 }
 
+// Keep mouse elements on canvas
 function constrainMouse() {
   // Mouse constrain
   mouseX = constrain(mouseX, 0, width);
   mouseY = constrain(mouseY, 0, height);
 }
 
+// if cup area is clicked, display correct cup
 function cupClicked() {
   if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
     selectedCup = 'smallCupSelected';
     smallCup.active = true;
+    mouseCup.hasCup = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
     mediumCup.active = true;
+    mouseCup.hasCup = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
     largeCup.active = true;
+    mouseCup.hasCup = true;
   }
 }
 
+// spawn a cup to the mouse if clicked
 function spawnCupToMouse() {
   if (state === 'gameScreen' && selectedCup === 'smallCupSelected') {
     displaySmallCup();
@@ -761,6 +775,7 @@ function spawnCupToMouse() {
   }
 }
 
+// display smol cup
 function displaySmallCup() {
   smallCup.x = mouseX;
   smallCup.y = mouseY;
@@ -770,6 +785,7 @@ function displaySmallCup() {
   pop();
 }
 
+// display med cup
 function displayMediumCup() {
   mediumCup.x = mouseX;
   mediumCup.y = mouseY;
@@ -779,6 +795,7 @@ function displayMediumCup() {
   pop();
 }
 
+// display floof cup
 function displayLargeCup() {
   largeCup.x = mouseX;
   largeCup.y = mouseY;
@@ -788,24 +805,49 @@ function displayLargeCup() {
   pop();
 }
 
+// chefs kiss, cup is served, add to player score
+function serveCup() {
+  if (state === 'gameScreen' && mouseX > 1005 && mouseX < 1142 && mouseY > 280 && mouseY < 420) {
+    smallCup.active = false;
+    mediumCup.active = false;
+    largeCup.active = false;
+    mouseCup.hasCup = false;
+    console.log('serve cup');
+
+    resetCup();
+  }
+}
+
+// boo made a mistake, remove cup
 function discardCup() {
   if (state === 'gameScreen' && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
     smallCup.active = false;
     mediumCup.active = false;
     largeCup.active = false;
+    mouseCup.hasCup = false;
     console.log('discard cup');
+
+    resetCup();
   }
 }
 
-
-
-
-
-
-
-
-
+// reset cup to have no ingredients to it
+function resetCup() {
+  coffee = 0;
+  milk = 0;
+  sugar = 0;
+  chocolate = 0;
+  vanilla = 0;
+}
 // Game Game Time functions End
+
+// -----------------------------------------------------------------------------
+
+// Game End of Level Start
+function gameScreenEndLevel() {
+  // create a check to see when the game is done
+}
+// Game End of Level End
 // Game Screen State Start
 
 
@@ -859,7 +901,14 @@ function mousePressed() {
   //mousePressed Game Screen checks
   gameIntroToGameGame();
   cupClicked();
+  serveCup();
   discardCup();
+
+  coffeeClicked();
+  milkClicked();
+  sugarClicked();
+  chocolateClicked();
+  vanillaClicked();
 
   // test functions
   testTester(); // location:testing
@@ -988,7 +1037,9 @@ the extra padding adjustments ensure that the click is accurate to the button
 startButtons click Checks End
 */
 
-// Instructions screen checks
+// -----------------------------------------------------------------------------
+
+// button Checks
 function menuButtonCheck() {
   if (state === 'instructionsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
@@ -1006,6 +1057,8 @@ function nextButtonCheck() {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Instructions screen checks
 function introToCups() {
   if (state === 'instructionsScreen1' && mouseX < 382 && mouseX > 120 && mouseY > 32 && mouseY < 225) {
     state = 'instructionsScreen2';
@@ -1079,6 +1132,37 @@ function gameIntroToGameGame() {
   }
 }
 
+// -----------------------------------------------------------------------------
+
+// Game Screen Checks
+
+// if mouse clicks ingredient location, add ingredient
+function coffeeClicked() {
+  if (state === 'gameScreen' &&
+    mouseCup.hasCup === true &&
+    mouseX > 388 && mouseX < 491 &&
+    mouseY > 444 && mouseY < 555) { // coffee location
+    coffee += 1;
+    console.log('coffee: ' + coffee);
+  }
+}
+
+function milkClicked() {
+
+}
+
+function sugarClicked() {
+
+}
+
+function chocolateClicked() {
+
+}
+
+function vanillaClicked() {
+
+}
+
 // Check functions End
 
 
@@ -1103,6 +1187,6 @@ function gameIntroToGameGame() {
 
 // Testing console.log Functions
 function testTester() {
-  console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
+  //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
 }
