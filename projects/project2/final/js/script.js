@@ -125,7 +125,7 @@ let state = 'gameScreen'; // test state
 let mouseUser = {
   x: 0,
   y: 0,
-};
+}
 
 // Background Images
 let bgImage;
@@ -151,16 +151,15 @@ let loadingGif;
 let startGameButton = {
   x: 0,
   y: 0,
-};
+}
 let instructionsButton = {
   x: 0,
   y: 0,
-};
+}
 let creditsButton = {
   x: 0,
   y: 0,
-};
-
+}
 // Sounds
 
 // Fonts
@@ -175,7 +174,7 @@ let startButtonsH = 151.1;
 let mouseCup = {
   displayCup: false,
   hasCup: false,
-};
+}
 
 let cupChance = {
   small: 25,
@@ -200,14 +199,27 @@ let vanilla = {
 }
 
 // Game Assets Variables
-let smallCup;
-let mediumCup;
-let largeCup;
+let smallCup = {
+  x: 0,
+  y: 0,
+  acive: false,
+}
+let mediumCup = {
+  x: 0,
+  y: 0,
+  acive: false,
+}
+let largeCup ={
+  x: 0,
+  y: 0,
+  acive: false,
+}
 let selectedCup;
 let displayedCup = {
   x: 0,
   y: 0,
-};
+  acive: false,
+}
 let holdingCup = false;
 let cupInfo = {
   size: 104.5,
@@ -218,23 +230,6 @@ let coffeeOrder;
 
 let numLevel = 1; // start at level 1
 let numOrders = 0; // no orders to start
-
-// Drag & Drop Feature
-let mediumCupX;
-let mediumCupY;
-let mediumCupSize = 75;
-let mediumCupOverBox = false;
-let mediumCupLocked = false;
-let mediumCupxOffset = 0.0;
-let mediumCupyOffset = 0.0;
-
-let largeCupX;
-let largeCupY;
-let largeCupSize = 75;
-let largeCupOverBox = false;
-let largeCupLocked = false;
-let largeCupxOffset = 0.0;
-let largeCupyOffset = 0.0;
 
 // -----------------------------------------------------------------------------
 
@@ -747,43 +742,61 @@ function cupClicked() {
   if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
     selectedCup = 'smallCupSelected';
     holdingCup = true;
+    displayedCup.active = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
     holdingCup = true;
+    displayedCup.active = true;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
     holdingCup = true;
+    displayedCup.active = true;
   }
 }
 
 function spawnCupToMouse() {
-  if (state === 'gameScreen' && holdingCup === true && selectedCup === 'smallCupSelected') {
-    smallCup.x = mouseX;
-    smallCup.y = mouseY;
-
-    push();
-    imageMode(CENTER);
-    image(smallCup, smallCup.x, smallCup.y, cupInfo.size, cupInfo.size)
-    pop();
-    console.log('testSpawn');
+  if (state === 'gameScreen' && holdingCup === true && selectedCup === 'smallCupSelected' && displayedCup.active === true) {
+    displaySmallCup();
   } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'mediumCupSelected') {
-    mediumCup.x = mouseX;
-    mediumCup.y = mouseY;
-
-    push();
-    imageMode(CENTER);
-    image(mediumCup, mediumCup.x, mediumCup.y, cupInfo.size, cupInfo.size)
-    pop();
-    console.log('testSpawn');
+    displayMediumCup();
   } else if (state === 'gameScreen' && holdingCup === true && selectedCup === 'largeCupSelected') {
-    largeCup.x = mouseX;
-    largeCup.y = mouseY;
+    displayLargeCup();
+  }
+}
 
+function displaySmallCup() {
+  smallCup.x = mouseX;
+  smallCup.y = mouseY;
+  push();
+  imageMode(CENTER);
+  image(smallCup, smallCup.x, smallCup.y, cupInfo.size, cupInfo.size)
+  pop();
+}
+
+function displayMediumCup() {
+  mediumCup.x = mouseX;
+  mediumCup.y = mouseY;
+  push();
+  imageMode(CENTER);
+  image(mediumCup, mediumCup.x, mediumCup.y, cupInfo.size, cupInfo.size)
+  pop();
+}
+
+function displayLargeCup() {
+  largeCup.x = mouseX;
+  largeCup.y = mouseY;
+  push();
+  imageMode(CENTER);
+  image(largeCup, largeCup.x, largeCup.y, cupInfo.size, cupInfo.size)
+  pop();
+}
+
+function discardCup() {
+  if (state === 'gameScreen' && holdingCup === true && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
+    holdingCup === false;
     push();
-    imageMode(CENTER);
-    image(largeCup, largeCup.x, largeCup.y, cupInfo.size, cupInfo.size)
     pop();
-    console.log('testSpawn');
+    console.log('discard cup');
   }
 }
 
@@ -849,6 +862,7 @@ function mousePressed() {
   //mousePressed Game Screen checks
   gameIntroToGameGame();
   cupClicked();
+  discardCup();
 
   // test functions
   testTester(); // location:testing
