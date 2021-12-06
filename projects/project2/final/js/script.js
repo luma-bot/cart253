@@ -119,8 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-let state = 'titleScreen'; // starting state
-//let state = 'gameScreen'; // test state
+//let state = 'titleScreen'; // starting state
+let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -204,6 +204,11 @@ let smallCup;
 let mediumCup;
 let largeCup;
 let selectedCup;
+let displayedCup = {
+  x: 0,
+  y: 0,
+};
+let holdingCup = false;
 
 let coffeeOrder;
 
@@ -287,6 +292,8 @@ function setup() {
 function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
+
+  spawnCupToMouse();
 }
 /* end of draw(); */
 
@@ -715,6 +722,7 @@ function gameStats() {
 // Game Game Time Start
 function gameScreen() {
   gameDisplay();
+  constrainMouse();
 }
 // Game Game Time End
 
@@ -725,37 +733,32 @@ function gameDisplay() {
   pop();
 }
 
-function smallCupClick() {
+function constrainMouse() {
+  // Mouse constrain
+  mouseX = constrain(mouseX, 0, width);
+  mouseY = constrain(mouseY, 0, height);
+}
+
+function cupClicked() {
   if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
     selectedCup = 'smallCupSelected';
-    spawnCupToMouse();
-  }
-}
-
-function mediumCupClick() {
-  if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
+    holdingCup = true;
+  } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
-    spawnCupToMouse();
-  }
-}
-
-function largeCupClick() {
-  if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
+  } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
-    spawnCupToMouse();
   }
 }
 
 function spawnCupToMouse() {
-  if (selectedCup === 'smallCupSelected') {
-    console.log('small cup has been selected');
+  if (state === 'gameScreen' && holdingCup === true) {
+    smallCup.x = mouseX;
+    smallCup.y = mouseY;
 
-  } else if (selectedCup === 'mediumCupSelected') {
-    console.log('medium cup has been selected');
+    fill(255);
+    ellipse(mouseX, mouseY, 209);
 
-
-  } else if (selectedCup === 'largeCupSelected') {
-    console.log('large cup has been selected');
+    console.log('testSpawn');
   }
 }
 
@@ -820,9 +823,7 @@ function mousePressed() {
 
   //mousePressed Game Screen checks
   gameIntroToGameGame();
-  smallCupClick();
-  mediumCupClick();
-  largeCupClick();
+  cupClicked();
 
   // test functions
   testTester(); // location:testing
