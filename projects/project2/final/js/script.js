@@ -200,27 +200,49 @@ let vanillaChance = {
   pour: 30,
 }
 
-let coffee = 0;
-let milk = 0;
-let sugar = 0;
-let chocolate = 0;
-let vanilla = 0;
+let coffee = {
+  count: 0,
+  cost: 1,
+}
+
+let milk = {
+  count: 0,
+  cost: 0,
+}
+
+let sugar = {
+  count: 0,
+  cost: 0,
+}
+
+let chocolate = {
+  count: 0,
+  cost: 1,
+}
+
+let vanilla = {
+  count: 0,
+  cost: 1,
+}
 
 // Game Assets Variables
 let smallCup = {
   x: 0,
   y: 0,
   acive: false,
+  cost: 1,
 }
 let mediumCup = {
   x: 0,
   y: 0,
   acive: false,
+  cost: 2,
 }
 let largeCup = {
   x: 0,
   y: 0,
   acive: false,
+  cost: 3,
 }
 let selectedCup;
 let cupInfo = {
@@ -231,6 +253,9 @@ let coffeeOrder;
 
 let numLevel = 1; // start at level 1
 let numOrders = 0; // no orders to start
+
+let subtotal = 0;
+let moneytotal = 0;
 
 // -----------------------------------------------------------------------------
 
@@ -753,14 +778,17 @@ function cupClicked() {
     selectedCup = 'smallCupSelected';
     smallCup.active = true;
     mouseCup.hasCup = true;
+    subtotal += smallCup.cost;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
     mediumCup.active = true;
     mouseCup.hasCup = true;
+    subtotal += mediumCup.cost;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
     largeCup.active = true;
     mouseCup.hasCup = true;
+    subtotal += largeCup.cost;
   }
 }
 
@@ -813,7 +841,7 @@ function serveCup() {
     largeCup.active = false;
     mouseCup.hasCup = false;
     console.log('serve cup');
-
+    console.log(moneytotal);
     resetCup();
   }
 }
@@ -833,11 +861,11 @@ function discardCup() {
 
 // reset cup to have no ingredients to it
 function resetCup() {
-  coffee = 0;
-  milk = 0;
-  sugar = 0;
-  chocolate = 0;
-  vanilla = 0;
+  coffee.count = 0;
+  milk.count = 0;
+  sugar.count = 0;
+  chocolate.count = 0;
+  vanilla.count = 0;
 }
 // Game Game Time functions End
 
@@ -1140,8 +1168,9 @@ function coffeeClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) { // coffee location
-    coffee += 1;
-    console.log('coffee: ' + coffee);
+    coffee.count += 1;
+    subtotal += coffee.cost;
+    console.log('coffee: ' + coffee.count);
   }
 }
 
@@ -1149,8 +1178,8 @@ function milkClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 530 && mouseX < 630 && mouseY > 370 && mouseY < 575) { // milk location
-    milk += 1;
-    console.log('milk: ' + milk);
+    milk.count += 1;
+    console.log('milk: ' + milk.count);
   }
 }
 
@@ -1158,8 +1187,8 @@ function sugarClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 660 && mouseX < 740 && mouseY > 370 && mouseY < 575) { // sugar location
-    sugar += 1;
-    console.log('sugar: ' + sugar);
+    sugar.count += 1;
+    console.log('sugar: ' + sugar.count);
   }
 }
 
@@ -1167,8 +1196,8 @@ function chocolateClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 760 && mouseX < 840 && mouseY > 370 && mouseY < 575) { // chocolate location
-    chocolate += 1;
-    console.log('chocolate: ' + chocolate);
+    chocolate.count += 1;
+    console.log('chocolate: ' + chocolate.count);
   }
 }
 
@@ -1176,8 +1205,8 @@ function vanillaClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 860 && mouseX < 940 && mouseY > 370 && mouseY < 575) { // vanilla location
-    vanilla += 1;
-    console.log('vanilla: ' + vanilla);
+    vanilla.count += 1;
+    console.log('vanilla: ' + vanilla.count);
   }
 }
 // if mouse clicks ingredient location, add ingredient End
