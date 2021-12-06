@@ -120,6 +120,10 @@ Resources:
 
 // Global Variables
 let state = 'titleScreen';
+/*
+state options: titleScreen, startScreen, instructionsScreen, creditsScreen, gameScreen...
+*/
+
 let mouseUser = {
   x: 0,
   y: 0,
@@ -129,6 +133,9 @@ let mouseUser = {
 let bgImage;
 let bgTitleScreen;
 let bgStartScreen;
+let bgPopUpButton2;
+let bgPopUpButtonLeft;
+let bgPopUpButtonRight;
 
 // Images
 let loadingGif;
@@ -179,6 +186,9 @@ function preload() {
   // Background Images
   bgTitleScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreenDark.png'); // 600 x 325
   bgStartScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreen.png'); // 600 x 325 w/out buttons
+  bgPopUpButton2 = loadImage('assets/images/Coffee_Background_CART_PanelScreen2.png'); // 600 x 325 with both Buttons
+  bgPopUpButtonLeft = loadImage('assets/images/Coffee_Background_CART_PanelScreenLeft.png'); // 600 x 325 with both Buttons
+  bgPopUpButtonRight = loadImage('assets/images/Coffee_Background_CART_PanelScreenRight.png'); // 600 x 325 with both Buttons
 
   // Assets Images
   loadingGif = loadImage('assets/images/coffee_loading.gif'); // 1:1
@@ -232,7 +242,7 @@ function simState() {
     titleScreen(); // intro title screen function
   } else if (state === `startScreen`) {
     startScreen(); // start screen with navigation buttons
-  } else if (state === 'instructionsScreen'){
+  } else if (state === 'instructionsScreen') {
     instructionsScreen();
   }
 }
@@ -383,6 +393,7 @@ function mousePressed() {
 */
 
 // Game State Transition Checks Start
+// Description: if mouse is pressed on title screen, transition to start screen
 function transitionTitleCheck() {
   if (state === 'titleScreen') {
     state = 'startScreen';
@@ -391,38 +402,48 @@ function transitionTitleCheck() {
 // Game State Transition Checks End
 
 // startButtons click Checks Start
+// Description: if mouse is on start game button, and clicked, start the game screen
 function startButtonCheck() {
-  if (mouseX > startGameButton.x - startButtonsW / 2 + 20 &&
+  if (state === 'startScreen' &&
+    mouseX > startGameButton.x - startButtonsW / 2 + 20 &&
     mouseX < startGameButton.x + startButtonsW / 2 - 20 &&
     mouseY > startGameButton.y - startButtonsH / 2 + 35 &&
     mouseY < startGameButton.y + startButtonsH / 2 - 35) {
     console.log('start button pressed');
+    // state = 'gameScreen';
   }
 }
 
+// Description: if mouse is on instructions button, and clicked, show instructions screen
 function instructionsButtonCheck() {
-  if (mouseX > instructionsButton.x - startButtonsW / 2 + 20 &&
+  if (state === 'startScreen' &&
+    mouseX > instructionsButton.x - startButtonsW / 2 + 20 &&
     mouseX < instructionsButton.x + startButtonsW / 2 - 20 &&
     mouseY > instructionsButton.y - startButtonsH / 2 + 35 &&
     mouseY < instructionsButton.y + startButtonsH / 2 - 35) {
     console.log('instructions button pressed');
+    state = 'instructionsScreen';
   }
 }
-
+// Description: if mouse is on credits, and clicked, show credits
 function creditsButtonCheck() {
-  if (mouseX > creditsButton.x - startButtonsW / 2 + 20 &&
+  if (state === 'startScreen' &&
+    mouseX > creditsButton.x - startButtonsW / 2 + 20 &&
     mouseX < creditsButton.x + startButtonsW / 2 - 20 &&
     mouseY > creditsButton.y - startButtonsH / 2 + 35 &&
     mouseY < creditsButton.y + startButtonsH / 2 - 35) {
     console.log('credits button pressed');
+    state = 'creditsScreen';
   }
 }
 
-// the 20px padding to the x-axis is to compensate for the image shadow spacing
-// the 35px padding to the y-axis is to compensate for the image shawdow spacing
-// the extra padding adjustments ensure that the click is accurate to the button
-// startButtons click Checks End
-
+/*
+Additional Information about buttons:
+the 20px padding to the x-axis is to compensate for the image shadow spacing
+the 35px padding to the y-axis is to compensate for the image shawdow spacing
+the extra padding adjustments ensure that the click is accurate to the button
+startButtons click Checks End
+*/
 // Check functions End
 
 
@@ -448,4 +469,5 @@ function creditsButtonCheck() {
 // Testing console.log Functions
 function mousePos() {
   //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
+  //console.log(state);
 }
