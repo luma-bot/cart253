@@ -119,10 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-let state = 'titleScreen';
-/*
-state options: titleScreen, startScreen, instructionsScreen, creditsScreen, gameScreen...
-*/
+//let state = 'titleScreen'; // starting state
+let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -136,6 +134,17 @@ let bgStartScreen;
 let bgPopUpButton2;
 let bgPopUpButtonLeft;
 let bgPopUpButtonRight;
+let bgGameScreenButtons;
+let bgGameScreen;
+let bgInstCup;
+let bgInstCupMove;
+let bgInstCoffee;
+let bgInstMilk;
+let bgInstSugar;
+let bgInstChocolate;
+let bgInstVanilla;
+let bgInstCash;
+let bgInstOrders;
 
 // Images
 let loadingGif;
@@ -162,8 +171,17 @@ let fontOpenSans;
 let startButtonsW = 377.6;
 let startButtonsH = 151.1;
 
+// Game Logic Variables
+let mouseCup = {
+  displayCup: undefined,
+  hasCup: undefined,
+};
 
-
+// Game Assets Variables
+let smallCup;
+let mediumCup;
+let largeCup;
+let coffeeOrder;
 
 
 
@@ -187,8 +205,19 @@ function preload() {
   bgTitleScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreenDark.png'); // 600 x 325
   bgStartScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreen.png'); // 600 x 325 w/out buttons
   bgPopUpButton2 = loadImage('assets/images/Coffee_Background_CART_PanelScreen2.png'); // 600 x 325 with both Buttons
-  bgPopUpButtonLeft = loadImage('assets/images/Coffee_Background_CART_PanelScreenLeft.png'); // 600 x 325 with both Buttons
-  bgPopUpButtonRight = loadImage('assets/images/Coffee_Background_CART_PanelScreenRight.png'); // 600 x 325 with both Buttons
+  bgPopUpButtonLeft = loadImage('assets/images/Coffee_Background_CART_PanelScreenLeft.png'); // 600 x 325 with left button
+  bgPopUpButtonRight = loadImage('assets/images/Coffee_Background_CART_PanelScreenRight.png'); // 600 x 325 with right button
+  bgGameScreen = loadImage('assets/images/Coffee_Background_CART_GameScreen.png'); // 600 x 325 with both gabe buttons
+  bgGameScreenButtons = loadImage('assets/images/Coffee_Background_CART_GameScreenButtons.png'); // 600 x 325 with both buttons
+  bgInstCup = loadImage('assets/images/Coffee_Background_CART_HighlightCups.png');
+  bgInstCupMove = loadImage('assets/images/Coffee_Background_CART_HighlightCupSelected.png');
+  bgInstCoffee = loadImage('assets/images/Coffee_Background_CART_HighlightCoffee.png');
+  bgInstMilk = loadImage('assets/images/Coffee_Background_CART_HighlightMilk.png');
+  bgInstSugar = loadImage('assets/images/Coffee_Background_CART_HighlightSugar.png');
+  bgInstChocolate = loadImage('assets/images/Coffee_Background_CART_HighlightChocolate.png');
+  bgInstVanilla = loadImage('assets/images/Coffee_Background_CART_HighlightVanilla.png');
+  bgInstCash = loadImage('assets/images/Coffee_Background_CART_HighlightButtons.png');
+  bgInstOrders = loadImage('assets/images/Coffee_Background_CART_HighlightPostIts.png');
 
   // Assets Images
   loadingGif = loadImage('assets/images/coffee_loading.gif'); // 1:1
@@ -219,7 +248,8 @@ function draw() {
 
 
 
-
+// script.js file has large ASCII Headers to make navigation easier when using the minimap plugin on Atom.io
+// and for organizational sakes
 
 
 
@@ -243,7 +273,33 @@ function simState() {
   } else if (state === `startScreen`) {
     startScreen(); // start screen with navigation buttons
   } else if (state === 'instructionsScreen') {
-    instructionsScreen();
+    instructionsScreen(); // welcome intro
+  } else if (state === 'instructionsScreen1') {
+    instructionsScreen1(); // coffee bar intro
+  } else if (state === 'instructionsScreen2') {
+    instructionsScreen2(); // cups highlight
+  } else if (state === 'instructionsScreen3') {
+    instructionsScreen3(); // cup move highlight
+  } else if (state === 'instructionsScreen4') {
+    instructionsScreen4(); // coffee highlight
+  } else if (state === 'instructionsScreen5') {
+    instructionsScreen5(); // milk highlight
+  } else if (state === 'instructionsScreen6') {
+    instructionsScreen6(); // sugar highlight
+  } else if (state === 'instructionsScreen7') {
+    instructionsScreen7(); // chocolate highlight
+  } else if (state === 'instructionsScreen8') {
+    instructionsScreen8(); // vanilla highlight
+  } else if (state === 'instructionsScreen9') {
+    instructionsScreen9(); // cash highlight
+  } else if (state === 'instructionsScreen10') {
+    instructionsScreen10(); // orders highlight
+  } else if (state === 'instructionsScreen11') {
+    instructionsScreen11(); // ready intro
+  } else if (state === 'creditsScreen') {
+    creditsScreen();
+  } else if (state === 'gameScreen') {
+    gameScreen();
   }
 }
 // Simulation State Controller End
@@ -266,13 +322,13 @@ function titleScreen() {
   push();
   background(bgTitleScreen); // display cafe background, sized exactly to fit canvas
   imageMode(CENTER);
-  image(loadingGif, width / 2, height / 2, 200, 200);
+  image(loadingGif, width / 2, height / 2 - 32, 200, 200);
   textSize(32);
   fill(255);
   textFont('BebasNeue-Regular')
   textAlign(CENTER, CENTER);
-  text(`Loading...`, width / 2, height / 2 + 120);
-  text(`Click to Continue`, width / 2, height / 2 + 175);
+  text(`Loading...`, width / 2, height / 2 + 96);
+  text(`Click to Continue`, width / 2, height / 2 + 128);
   pop();
 }
 // Title Screen State End
@@ -329,17 +385,256 @@ function startScreen() {
 */
 
 // Instructions Screen State Start
-// Description: Displaying the title screen loading gif and text
+// Description: Displaying the insctructions screen
+/*
+Text: You are a newly hired barista working at "Good Bean Water". They didn't really give you much training to prepare you for your first shift, so there will be a lot of learning on the job!
+Try not to mess up people's orders else they'll get mad. Be quick and efficient, and get those orders out so you can get paid!
+*/
 function instructionsScreen() {
 
-  // display startScreen
+  // display instructions screen
   push();
-  background(bgStartScreen); // display cafe background, sized exactly to fit canvas
-  imageMode(CENTER, CENTER);
-  image(startGameButton, startGameButton.x, startGameButton.y, startButtonsW, startButtonsH);
+  background(bgPopUpButton2); // PopUp and two buttons
+  textSize(32);
+  fill(255);
+
+  textAlign(CENTER, CENTER);
+  text(`Oh welcome to "Good Bean Water"!`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
+  text(`You're new here and first day huh?`, width / 2, height / 2 - 32); // subtract font size to be centered higher
+  text(`No worries, here I'll show you around.`, width / 2, height / 2); // neutral center
+  pop();
+
+  // left button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Menu`, 164, height - 60); // left button text alignment
+  pop();
+
+  // right button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Next`, width - 156, height - 60); // Right button text alignment
   pop();
 }
+
+function instructionsScreen1() {
+  // display instructions screen
+  push();
+  background(bgGameScreenButtons);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Okay so this is the coffee bar.`, width / 2, height / 2 - 32);
+  text(`It should have everything you'll need.`, width / 2, height / 2);
+  text(`Oh, and tap our logo for good luck!`, width / 2, height / 2 + 32);
+  pop();
+}
+
+function instructionsScreen2() {
+  // display instructions screen
+  push();
+  background(bgInstCup);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Great job! We have our cups off on the left.`, width / 2 + 100, height / 2 - 96);
+  text(`We offer a small, medium, and large cup.`, width / 2 + 100, height / 2 - 64);
+  text(`Let me know when you've found them.`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen3() {
+  // display instructions screen
+  push();
+  background(bgInstCupMove);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Alright, all we serve is coffee.`, width / 2, height / 2 - 64);
+  text(`Do you see where our coffee maker is?`, width / 2, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen4() {
+  // display instructions screen
+  push();
+  background(bgInstCoffee);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Cool! You're a natural.`, width / 2 + 100, height / 2 - 64);
+  text(`Bet you can't find the milk...`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen5() {
+  // display instructions screen
+  push();
+  background(bgInstMilk);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Dang... Okay you're fast.`, width / 2 + 100, height / 2 - 64);
+  text(`Which do you think is the sugar?`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen6() {
+  // display instructions screen
+  push();
+  background(bgInstSugar);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`See that wasn't so bad!`, width / 2 + 100, height / 2 - 64);
+  text(`Alright the chocolate syrup?`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen7() {
+  // display instructions screen
+  push();
+  background(bgInstChocolate);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Okay show off...`, width / 2 + 100, height / 2 - 64);
+  text(`Vanilla syrup?`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen8() {
+  // display instructions screen
+  push();
+  background(bgInstVanilla);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Here's a curveball!`, width / 2 + 100, height / 2 - 64);
+  text(`... the cash register??`, width / 2 + 100, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen9() {
+  // display instructions screen
+  push();
+  background(bgInstCash);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Yeah yeah okay okay good.`, width / 2, height / 2 - 160);
+  text(`You serve your drinks here at the top,`, width / 2, height / 2 - 128);
+  text(`and if you make a mistake, pour it down there.`, width / 2, height / 2 - 96);
+
+  text(`Okay last step alright?`, width / 2, height / 2 - 32);
+  text(`All your orders are on written on post it notes.`, width / 2, height / 2);
+  pop();
+}
+
+function instructionsScreen10() {
+  // display instructions screen
+  push();
+  background(bgInstOrders);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Great, now get working!`, width / 2, height / 2 - 96);
+  text(`I'm not paying you to stand around!`, width / 2, height / 2 - 64);
+  text(`One last good luck logo tap!`, width / 2, height / 2 - 32);
+  pop();
+}
+
+function instructionsScreen11() {
+  // display instructions screen
+  push();
+  background(bgPopUpButtonRight);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text(`Complete coffee orders to get money and tip.`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
+  text(`At the end of the shift, we'll add up what you earned.`, width / 2, height / 2 - 32); // subtract font size to be centered higher
+  text(`Your goal is to earn as much as you can each shift.`, width / 2, height / 2); // neutral center
+  text(`Just don't take too long or make too many mistakes...`, width / 2, height / 2 + 32); // neutral center
+  pop();
+
+  // right button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Next`, width - 156, height - 60); // Right button text alignment
+  pop();
+}
+
+
+
 // Instructions Screen State End
+
+// -----------------------------------------------------------------------------
+
+/*
+ ██████ ██████  ███████ ██████  ██ ████████ ███████     ███████  ██████ ██████  ███████ ███████ ███    ██
+██      ██   ██ ██      ██   ██ ██    ██    ██          ██      ██      ██   ██ ██      ██      ████   ██
+██      ██████  █████   ██   ██ ██    ██    ███████     ███████ ██      ██████  █████   █████   ██ ██  ██
+██      ██   ██ ██      ██   ██ ██    ██         ██          ██ ██      ██   ██ ██      ██      ██  ██ ██
+ ██████ ██   ██ ███████ ██████  ██    ██    ███████     ███████  ██████ ██   ██ ███████ ███████ ██   ████
+
+
+*/
+
+// Credits Screen State Start
+function creditsScreen() {
+  // display instructions screen
+  push();
+  background(bgPopUpButtonLeft);
+  textSize(32);
+  fill(255);
+  textAlign(LEFT);
+  text(`CART253 Project 2: Good Bean Water`, width / 4, height / 2 - 96); // subtract font size*2 to be centered higher
+  text(`Project by Anthony Lum, 40098555`, width / 4, height / 2 - 64); // subtract font size to be centered higher
+  text(`Background Illustration Designed by Freepik`, width / 4, height / 2 - 32); // neutral center
+  text(`Icon Graphics by Icons8`, width / 4, height / 2); // neutral center
+  text(`Graphic Design by Anthony Lum`, width / 4, height / 2 + 32); // neutral center
+  pop();
+
+  // left button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Menu`, 164, height - 60); // left button text alignment
+  pop();
+}
+// Credits Screen State End
+
+// -----------------------------------------------------------------------------
+
+/*
+██████   █████  ███    ███ ███████     ███████  ██████ ██████  ███████ ███████ ███    ██
+██       ██   ██ ████  ████ ██          ██      ██      ██   ██ ██      ██      ████   ██
+██   ███ ███████ ██ ████ ██ █████       ███████ ██      ██████  █████   █████   ██ ██  ██
+██    ██ ██   ██ ██  ██  ██ ██               ██ ██      ██   ██ ██      ██      ██  ██ ██
+██████  ██   ██ ██      ██ ███████     ███████  ██████ ██   ██ ███████ ███████ ██   ████
+
+
+*/
+
+// Game Screen State Start
+function gameScreen() {
+  push();
+  background(bgGameScreenButtons);
+  pop();
+}
+// Game Screen State Start
+
 
 
 
@@ -365,15 +660,34 @@ function instructionsScreen() {
 // Description: p5 when mouse is pressed function, do this
 // Main Mouse Pressed Function
 function mousePressed() {
+  // mousePressed checks on the Title screen
   transitionTitleCheck(); // location:checks
+
+  // mousePressed checks on the Start screen
   startButtonCheck(); // location:checks
   instructionsButtonCheck(); // location:checks
   creditsButtonCheck(); // location:checks
-  mousePos(); // location:testing
+
+  // mousePressed checks on the Instruction screen
+  menuButtonCheck();
+  nextButtonCheck();
+  introToCups();
+  cupsToMoveCup();
+  moveCupToCoffee();
+  coffeeToMilk();
+  milkToSugar();
+  sugarToChocolate(); // DID SOMEBODY SAY CHOCOLATEE
+  chocolateToVanilla();
+  vanillaToCash();
+  cashToOrder();
+  orderToReady();
+  readyToStart();
+
+  // mousePressed checks on the Instruction screen
+
+  // test functions
+  testTester(); // location:testing
 }
-
-
-
 
 
 
@@ -409,8 +723,7 @@ function startButtonCheck() {
     mouseX < startGameButton.x + startButtonsW / 2 - 20 &&
     mouseY > startGameButton.y - startButtonsH / 2 + 35 &&
     mouseY < startGameButton.y + startButtonsH / 2 - 35) {
-    console.log('start button pressed');
-    // state = 'gameScreen';
+    state = 'gameScreen';
   }
 }
 
@@ -421,10 +734,10 @@ function instructionsButtonCheck() {
     mouseX < instructionsButton.x + startButtonsW / 2 - 20 &&
     mouseY > instructionsButton.y - startButtonsH / 2 + 35 &&
     mouseY < instructionsButton.y + startButtonsH / 2 - 35) {
-    console.log('instructions button pressed');
     state = 'instructionsScreen';
   }
 }
+
 // Description: if mouse is on credits, and clicked, show credits
 function creditsButtonCheck() {
   if (state === 'startScreen' &&
@@ -432,7 +745,6 @@ function creditsButtonCheck() {
     mouseX < creditsButton.x + startButtonsW / 2 - 20 &&
     mouseY > creditsButton.y - startButtonsH / 2 + 35 &&
     mouseY < creditsButton.y + startButtonsH / 2 - 35) {
-    console.log('credits button pressed');
     state = 'creditsScreen';
   }
 }
@@ -444,6 +756,92 @@ the 35px padding to the y-axis is to compensate for the image shawdow spacing
 the extra padding adjustments ensure that the click is accurate to the button
 startButtons click Checks End
 */
+
+// Instructions screen checks
+function menuButtonCheck() {
+  if (state === 'instructionsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'startScreen';
+  } else if (state === 'creditsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'startScreen';
+  }
+}
+
+function nextButtonCheck() {
+  if (state === 'instructionsScreen' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'instructionsScreen1';
+  }
+}
+
+function introToCups() {
+  if (state === 'instructionsScreen1' && mouseX < 382 && mouseX > 120 && mouseY > 32 && mouseY < 225) {
+    state = 'instructionsScreen2';
+  }
+}
+
+function cupsToMoveCup() {
+  if (state === 'instructionsScreen2' && mouseX < 213 && mouseY > 303 && mouseY < 551) {
+    state = 'instructionsScreen3';
+  }
+}
+
+function moveCupToCoffee() {
+  if (state === 'instructionsScreen3' && mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) {
+    state = 'instructionsScreen4';
+  }
+}
+
+function coffeeToMilk() {
+  if (state === 'instructionsScreen4' && mouseX > 530 && mouseX < 630 && mouseY > 370 && mouseY < 575) { // 575 is bottom of play area
+    state = 'instructionsScreen5';
+  }
+}
+
+function milkToSugar() {
+  if (state === 'instructionsScreen5' && mouseX > 660 && mouseX < 740 && mouseY > 370 && mouseY < 575) {
+    state = 'instructionsScreen6';
+  }
+}
+
+function sugarToChocolate() {
+  if (state === 'instructionsScreen6' && mouseX > 760 && mouseX < 840 && mouseY > 370 && mouseY < 575) {
+    state = 'instructionsScreen7';
+  }
+}
+
+function chocolateToVanilla() {
+  if (state === 'instructionsScreen7' && mouseX > 860 && mouseX < 940 && mouseY > 370 && mouseY < 575) {
+    state = 'instructionsScreen8';
+  }
+}
+
+function vanillaToCash() {
+  if (state === 'instructionsScreen8' && mouseX > 980 && mouseY > 277 && mouseY < 595) {
+    state = 'instructionsScreen9';
+  }
+}
+
+function cashToOrder() {
+  if (state === 'instructionsScreen9' && mouseX > 960 && mouseX < 1160 && mouseY < 242) {
+    state = 'instructionsScreen10';
+  }
+}
+
+function orderToReady() {
+  if (state === 'instructionsScreen10' && mouseX < 382 && mouseX > 120 && mouseY > 32 && mouseY < 225) {
+    state = 'instructionsScreen11';
+  }
+}
+
+function readyToStart() {
+  if (state === 'instructionsScreen11' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
+    state = 'startScreen';
+  }
+}
+
+
 // Check functions End
 
 
@@ -467,7 +865,7 @@ startButtons click Checks End
 */
 
 // Testing console.log Functions
-function mousePos() {
-  //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
-  //console.log(state);
+function testTester() {
+  console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
+  console.log(state);
 }
