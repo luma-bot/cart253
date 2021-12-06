@@ -1135,33 +1135,53 @@ function gameIntroToGameGame() {
 // -----------------------------------------------------------------------------
 
 // Game Screen Checks
-
-// if mouse clicks ingredient location, add ingredient
+// if mouse clicks ingredient location, add ingredient Start
 function coffeeClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
-    mouseX > 388 && mouseX < 491 &&
-    mouseY > 444 && mouseY < 555) { // coffee location
+    mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) { // coffee location
     coffee += 1;
     console.log('coffee: ' + coffee);
   }
 }
 
 function milkClicked() {
-
+  if (state === 'gameScreen' &&
+    mouseCup.hasCup === true &&
+    mouseX > 530 && mouseX < 630 && mouseY > 370 && mouseY < 575) { // milk location
+    milk += 1;
+    console.log('milk: ' + milk);
+  }
 }
 
 function sugarClicked() {
-
+  if (state === 'gameScreen' &&
+    mouseCup.hasCup === true &&
+    mouseX > 660 && mouseX < 740 && mouseY > 370 && mouseY < 575) { // sugar location
+    sugar += 1;
+    console.log('sugar: ' + sugar);
+  }
 }
 
 function chocolateClicked() {
-
+  if (state === 'gameScreen' &&
+    mouseCup.hasCup === true &&
+    mouseX > 760 && mouseX < 840 && mouseY > 370 && mouseY < 575) { // chocolate location
+    chocolate += 1;
+    console.log('chocolate: ' + chocolate);
+  }
 }
 
 function vanillaClicked() {
-
+  if (state === 'gameScreen' &&
+    mouseCup.hasCup === true &&
+    mouseX > 860 && mouseX < 940 && mouseY > 370 && mouseY < 575) { // vanilla location
+    vanilla += 1;
+    console.log('vanilla: ' + vanilla);
+  }
 }
+// if mouse clicks ingredient location, add ingredient End
+
 
 // Check functions End
 
