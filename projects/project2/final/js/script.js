@@ -1149,9 +1149,6 @@ function gameOver() {
     textAlign(CENTER, CENTER);
     text(`Next`, width - 156, height - 60); // Right button text alignment
     pop();
-
-    resetCup();
-    resetMoney();
   }
 
   // calculates to display the final orders made total, and the amount of money earned minus the current round that the player lost in
@@ -1658,7 +1655,7 @@ function levelProgress() {
 function nextLevel() {
   if (state === 'gameScreenEndLevel' && currentOrders === numOrders && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     numLevel = numLevel + 1;
-    calculate();
+    //calculate();
     resetMoney();
     state = 'gameLevelScreen';
     sfxCupTap2();
@@ -1668,7 +1665,6 @@ function nextLevel() {
 function resetMoney() {
   tips = 0;
   subtotal = 0;
-  moneyTotal = 0;
   levelBonus = 0;
   vibeCount = 0;
 }
@@ -1678,6 +1674,11 @@ function gameOverNextButtonCheck() {
     // if mouse is in the button region and clicked, go to screen
     state = 'creditsScreen';
     sfxCupTap2();
+
+// reset stats!
+    resetCup();
+    resetMoney();
+    moneyTotal = 0; // full reset here away from resetMoney since it's used each round but this is used ONCE
   }
 }
 // Check functions End
