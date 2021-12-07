@@ -1090,7 +1090,7 @@ function coffeeOrders() {
     }
 
     push();
-    textSize(32);
+    textSize(24);
     fill(0);
     textAlign(LEFT);
     textStyle(BOLD);
