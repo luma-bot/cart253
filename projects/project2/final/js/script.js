@@ -119,8 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-let state = 'titleScreen'; // starting state
-//let state = 'gameScreen'; // test state
+//let state = 'titleScreen'; // starting state
+let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -231,18 +231,21 @@ let smallCup = {
   y: 0,
   acive: false,
   cost: 0,
+  filled: 0, // needs to be 1
 }
 let mediumCup = {
   x: 0,
   y: 0,
   acive: false,
   cost: 0,
+  filled: 0, // needs to be 2
 }
 let largeCup = {
   x: 0,
   y: 0,
   acive: false,
   cost: 0,
+  filled: 0, // needs to be 3
 }
 let selectedCup;
 let cupInfo = {
@@ -252,10 +255,15 @@ let cupInfo = {
 let coffeeOrder;
 
 let numLevel = 1; // start at level 1
+let currentOrders = 0; // start of orders done
 let numOrders = 0; // no orders to start
 
+let tips = 0;
 let subtotal = 0;
-let moneytotal = 0;
+let moneyTotal = 0;
+let levelBonus = 0;
+let levelTotal = 0;
+
 
 // -----------------------------------------------------------------------------
 
@@ -308,16 +316,7 @@ function preload() {
 /* p5 Function that sets up the main components of the simulation */
 function setup() {
   createCanvas(1200, 650); // double the bg size, adds to the pixelated style, all image sizes must be doubled from the OG size to fit
-
-  // calculating game stats
-  numOrders = numLevel * 10;
-  smallCup.cost = 1;
-  mediumCup.cost = 2;
-  largeCup.cost = 3;
-  milk.cost = 0.5;
-  sugar.cost = 0.5;
-  chocolate.cost = 1;
-  vanilla.cost = 1;
+  calculate();
 }
 /** end of setup(); */
 
@@ -335,6 +334,24 @@ function draw() {
   }
 }
 /* end of draw(); */
+
+// All the functions that need numbers to be calculated, stored, initiated
+function calculate() {
+  // calculating game stats
+  numOrders = numLevel * 5;
+  currentOrders = 0;
+  smallCup.cost = 1;
+  mediumCup.cost = 2;
+  largeCup.cost = 3;
+  milk.cost = 0.5; // for the sake of game mechanics, milk and sugar are additional costs
+  sugar.cost = 0.5; // for the sake of game mechanics, milk and sugar are additional costs
+  chocolate.cost = 1;
+  vanilla.cost = 1;
+
+  smallCup.filled = 0; // 0 of 1
+  mediumCup.filled = 0; // 0 of 2
+  largeCup.filled = 0; // 0 of 3
+}
 
 
 
@@ -737,7 +754,7 @@ function gameLevelDisplay() {
   textFont('BebasNeue-Regular')
   textAlign(CENTER, CENTER);
   text(`Good Bean Water: `, width / 2, height / 2 - 96);
-  text(`Day: ` + numLevel, width / 2, height / 2 - 32);
+  text(`Day ` + numLevel, width / 2, height / 2 - 32);
   textSize(32);
   text(`Orders to Complete: ` + numOrders, width / 2, height / 2 + 32);
   pop();
@@ -762,6 +779,7 @@ function gameStats() {
 function gameScreen() {
   gameScreenDisplay();
   constrainMouse();
+  levelProgress();
 }
 // Game Game Time End
 
@@ -843,24 +861,40 @@ function displayLargeCup() {
 // chefs kiss, cup is served, add to player score
 function serveCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && coffee.active === true && mouseX > 1005 && mouseX < 1142 && mouseY > 280 && mouseY < 420) {
-    smallCup.active = false;
-    mediumCup.active = false;
-    largeCup.active = false;
-    mouseCup.hasCup = false;
-    console.log('serve cup');
-    moneytotal = moneytotal + subtotal;
-    console.log('money total:' + moneytotal)
-    resetCup();
+    if (selectedCup === 'smallCupSelected' && coffee.count === 1) {
+      servesUp();
+    } else if (selectedCup === 'mediumCupSelected' && coffee.count === 2) {
+      servesUp();
+    } else if (selectedCup === 'largeCupSelected' && coffee.count === 3) {
+      servesUp();
+    }
+
+    function servesUp() {
+      smallCup.active = false;
+      mediumCup.active = false;
+      largeCup.active = false;
+      mouseCup.hasCup = false;
+
+      moneyTotal = moneyTotal + subtotal;
+
+      getTip();
+      moneyTotal = moneyTotal + tips;
+      currentOrders += 1;
+
+      console.log('filled' + coffee.count);
+      console.log('serve cup');
+      console.log('money total:' + moneyTotal)
+      resetCup();
+
+    }
   }
+
+  // add a check to see if the cup has the right amount of coffee
 }
 
 // boo made a mistake, remove cup
 function discardCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
-    smallCup.active = false;
-    mediumCup.active = false;
-    largeCup.active = false;
-    mouseCup.hasCup = false;
     console.log('discard cup');
     resetCup();
   }
@@ -868,6 +902,11 @@ function discardCup() {
 
 // reset cup to have no ingredients to it
 function resetCup() {
+  smallCup.active = false;
+  mediumCup.active = false;
+  largeCup.active = false;
+  mouseCup.hasCup = false;
+
   coffee.count = 0;
   milk.count = 0;
   sugar.count = 0;
@@ -875,14 +914,49 @@ function resetCup() {
   vanilla.count = 0;
   subtotal = 0; // reset
   coffee.active = false;
+  console.log('cup reset');
 }
+
+// Tip time
+function getTip() {
+  tips = int(random(1, 5)); // whole number with int
+  console.log('tip is: ' + tips);
+}
+
 // Game Game Time functions End
 
 // -----------------------------------------------------------------------------
 
 // Game End of Level Start
 function gameScreenEndLevel() {
-  // create a check to see when the game is done
+  gameScreenEndLevelDisplay();
+
+  function gameScreenEndLevelDisplay() {
+    // display instructions screen
+    push();
+    background(bgPopUpButtonRight);
+    textSize(64);
+    fill(255);
+    textFont('BebasNeue-Regular')
+    textAlign(CENTER, CENTER);
+    text(`Day ` + numLevel + ` complete`, width / 2, height / 2 - 96);
+    textSize(32);
+    text(`Orders Completed: ` + numOrders, width / 2, height / 2 - 32);
+    text(`Money Earned: $` + moneyTotal, width / 2, height / 2);
+    text(`Shift Bonus: $` + levelBonus, width / 2, height / 2 + 32);
+    text(`Level Score: $` + levelTotal, width / 2, height / 2 + 64);
+    pop();
+
+    // right button text
+    push();
+    textSize(32);
+    fill(255);
+    textFont('BebasNeue-Regular')
+    textAlign(CENTER, CENTER);
+    text(`Next`, width - 156, height - 60); // Right button text alignment
+    pop();
+  }
+
 }
 // Game End of Level End
 // Game Screen State Start
@@ -946,6 +1020,8 @@ function mousePressed() {
   sugarClicked();
   chocolateClicked();
   vanillaClicked();
+
+  nextLevel();
 
   // test functions
   testTester(); // location:testing
@@ -1179,9 +1255,7 @@ function coffeeClicked() {
     mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) { // coffee location
     coffee.count += 1;
     coffee.active = true;
-    console.log(coffee.active);
     console.log('coffee: ' + coffee.count);
-    console.log('subtotal: ' + subtotal);
   }
 }
 
@@ -1202,7 +1276,6 @@ function sugarClicked() {
     sugar.count += 1;
     subtotal = subtotal + sugar.cost;
     console.log('sugar: ' + sugar.count);
-    console.log('subtotal: ' + subtotal);
   }
 }
 
@@ -1213,7 +1286,6 @@ function chocolateClicked() {
     chocolate.count += 1;
     subtotal = subtotal + chocolate.cost;
     console.log('chocolate: ' + chocolate.count);
-    console.log('subtotal: ' + subtotal);
   }
 }
 
@@ -1224,11 +1296,38 @@ function vanillaClicked() {
     vanilla.count += 1;
     subtotal = subtotal + vanilla.cost;
     console.log('vanilla: ' + vanilla.count);
-    console.log('subtotal: ' + subtotal);
   }
 }
 // if mouse clicks ingredient location, add ingredient End
 
+function levelProgress() {
+  if (currentOrders === numOrders && state === 'gameScreen') {
+    levelBonusCalc();
+
+    function levelBonusCalc() {
+      levelBonus = int(random(1, 10));
+      levelTotal = levelBonus + moneyTotal;
+    }
+    state = 'gameScreenEndLevel';
+  }
+}
+
+function nextLevel() {
+  if (state === 'gameScreenEndLevel' && currentOrders === numOrders && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
+    numLevel = numLevel + 1;
+    calculate();
+    resetMoney();
+    state = 'gameLevelScreen';
+
+  }
+}
+
+function resetMoney() {
+  let tips = 0;
+  let subtotal = 0;
+  let moneyTotal = 0;
+  let levelBonus = 0;
+}
 
 // Check functions End
 
