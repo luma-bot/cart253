@@ -1094,7 +1094,7 @@ function coffeeOrders() {
     fill(0);
     textAlign(LEFT);
     textStyle(BOLD);
-    text(`Order: ` + (currentOrders + 1), width - 220, 80);
+    text(`Order: ` + (currentOrders + 1) + ` / ` + numOrders, width - 225, 75); // +1 since it's an array
     textSize(16);
     textStyle(NORMAL);
     text(`Size: ` + cupDisplay, width - 220, 102);
