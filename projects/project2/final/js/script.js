@@ -14,6 +14,12 @@ A barista simulator.
 You are a newly hired barista working at "Good Bean Water". They didn't really give you much training to prepare you for your first shift, so there will be a lot of learning on the job!
 Try not to mess up people's orders else they'll get mad. Be quick and efficient, and get those orders out so you can get paid!
 
+Artist Commentary:
+I know that some of the code could be condensed further and I did not use any classes in this project. I was trying them out earlier and still had a lot of difficulty
+in implimenting and figuring out why I was having issues with the classes that I ended up leaving them out and doing it the "long way" so that I wouldn't end up being stuck
+I understand that the better option is to utilize classes and hope I can come back to this project in the future to reimpliment them
+but for now, I hope to have organized it enough so that it would make the most amount of sense with as many comments as I could add.
+
 // -----------------------------------------------------------------------------
 
 Notes:
@@ -171,6 +177,7 @@ let soundCoffee; // coffee coup
 let soundCupTable; // cup to table
 let soundLiquid; // liquid pours
 let soundSquirt; // squirt noise
+let soundPickup; // pickup glass
 
 let soundCupTap1; // tap
 let soundCupTap2; // tup
@@ -318,6 +325,7 @@ function preload() {
   soundCupTable = loadSound('assets/sounds/effects/cup-on-table.wav'); // cup to table
   soundLiquid = loadSound('assets/sounds/effects/pour.wav'); // liquid pours
   soundSquirt = loadSound('assets/sounds/effects/squirt.wav'); // squirt noise
+  soundPickup = loadSound('assets/sounds/effects/pickup.wav'); // pickup
 
   soundCupTap1 = loadSound('assets/sounds/effects/cup-01.wav'); // tap
   soundCupTap2 = loadSound('assets/sounds/effects/cup-02.wav'); // tup
@@ -772,7 +780,7 @@ function gameLevelScreen() {
 
 function gameLevelDisplay() {
   push();
-  background(bgPopUpButtonRight);
+  background(bgPopUpButton2);
   textSize(64);
   fill(255);
   textFont('BebasNeue-Regular')
@@ -781,6 +789,15 @@ function gameLevelDisplay() {
   text(`Day ` + numLevel, width / 2, height / 2 - 32);
   textSize(32);
   text(`Orders to Complete: ` + numOrders, width / 2, height / 2 + 32);
+  pop();
+
+  // left button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Menu`, 164, height - 60); // left button text alignment
   pop();
 
   // right button text
@@ -823,16 +840,19 @@ function constrainMouse() {
 function cupClicked() {
   if (state === 'gameScreen' && mouseX < 224 && mouseY > 508 && mouseY < 554) {
     selectedCup = 'smallCupSelected';
+    sfxPickup();
     smallCup.active = true;
     mouseCup.hasCup = true;
     subtotal = subtotal + smallCup.cost;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 410 && mouseY < 468) {
     selectedCup = 'mediumCupSelected';
+    sfxPickup();
     mediumCup.active = true;
     mouseCup.hasCup = true;
     subtotal = subtotal + mediumCup.cost;
   } else if (state === 'gameScreen' && mouseX < 224 && mouseY > 304 && mouseY < 372) {
     selectedCup = 'largeCupSelected';
+    sfxPickup();
     largeCup.active = true;
     mouseCup.hasCup = true;
     subtotal = subtotal + largeCup.cost;
@@ -906,6 +926,7 @@ function serveCup() {
     // if all the above is true, serve the coffee, calculate the money, the tip, increase the number of order to the next
     // reset mouse and cup values, and re-roll the next coffee order
     function servesUp() {
+      sfxCupToTable();
       smallCup.active = false;
       mediumCup.active = false;
       largeCup.active = false;
@@ -943,6 +964,7 @@ function serveCup() {
 function discardCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
     console.log('discard cup');
+    sfxLiquid();
     resetCup();
   }
 }
@@ -962,7 +984,7 @@ function resetCup() {
   subtotal = 0; // reset
   coffee.active = false;
 
-  console.log('cup reset');
+  //console.log('cup reset');
 }
 
 // Tip time
@@ -1083,6 +1105,9 @@ function gameOver() {
     textAlign(CENTER, CENTER);
     text(`Next`, width - 156, height - 60); // Right button text alignment
     pop();
+
+    resetCup();
+    resetMoney();
   }
 
   // calculates to display the final orders made total, and the amount of money earned minus the current round that the player lost in
@@ -1230,7 +1255,7 @@ function bgMusic() {
   if (!bgSoundChristmas.isPlaying()) {
     bgSoundChristmas.loop();
   }
-  bgSoundChristmas.setVolume(0.08);
+  bgSoundChristmas.setVolume(0.03);
 }
 
 function bgPassive() {
@@ -1238,35 +1263,47 @@ function bgPassive() {
   if (!bgSoundCafe.isPlaying()) {
     bgSoundCafe.loop();
   }
-  bgSoundCafe.setVolume(0.12);
+  bgSoundCafe.setVolume(0.06);
 }
 
 function sfxCoffee() {
-
+  soundCoffee.play(0, 1, 1, 2, 1);
+  soundCoffee.setVolume(1);
 }
 
 function sfxCupToTable() {
-
+  soundCupTable.play();
+  soundCupTable.setVolume(0.7);
 }
 
 function sfxLiquid() {
-
+  soundLiquid.play(0, 1, 1, 1.2, 1);
+  soundLiquid.setVolume(3);
 }
 
-function sftSquirt() {
+function sfxSquirt() {
+  soundSquirt.play(0, 1, 1, 0.5, 1);
+  soundSquirt.setVolume(1);
+}
 
+function sfxPickup() {
+  soundPickup.play();
+  soundPickup.setVolume(3);
 }
 
 function sfxCupTap1() {
-
+  soundCupTap1.play();
+  soundCupTap1.setVolume(0.2);
 }
 
 function sfxCupTap2() {
-
+  soundCupTap2.play();
+  soundCupTap2.setVolume(0.2);
 }
 
 function sfxFingerTap() {
-
+  soundTap.play();
+  soundTap.setVolume(3);
 }
 
 // Audio control end
@@ -1296,7 +1333,7 @@ function sfxFingerTap() {
 function transitionTitleCheck() {
   if (state === 'titleScreen') {
     state = 'startScreen';
-    //bgAudio(); // on user click, start background Audio
+    bgAudio(); // on user click, start background Audio
     //NTS
   }
 }
@@ -1311,6 +1348,7 @@ function startButtonCheck() {
     mouseY > startGameButton.y - startButtonsH / 2 + 35 &&
     mouseY < startGameButton.y + startButtonsH / 2 - 35) {
     state = 'gameLevelScreen';
+    sfxCupTap1();
   }
 }
 
@@ -1322,6 +1360,7 @@ function instructionsButtonCheck() {
     mouseY > instructionsButton.y - startButtonsH / 2 + 35 &&
     mouseY < instructionsButton.y + startButtonsH / 2 - 35) {
     state = 'instructionsScreen';
+    sfxCupTap1();
   }
 }
 
@@ -1333,6 +1372,7 @@ function creditsButtonCheck() {
     mouseY > creditsButton.y - startButtonsH / 2 + 35 &&
     mouseY < creditsButton.y + startButtonsH / 2 - 35) {
     state = 'creditsScreen';
+    sfxCupTap1();
   }
 }
 
@@ -1351,9 +1391,15 @@ function menuButtonCheck() {
   if (state === 'instructionsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'startScreen';
+    sfxCupTap1();
   } else if (state === 'creditsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'startScreen';
+    sfxCupTap1();
+  } else if (state === 'gameLevelScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'startScreen';
+    sfxCupTap1();
   }
 }
 
@@ -1361,6 +1407,7 @@ function nextButtonCheck() {
   if (state === 'instructionsScreen' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'instructionsScreen1';
+    sfxCupTap2();
   }
 }
 
@@ -1369,66 +1416,77 @@ function nextButtonCheck() {
 function introToCups() {
   if (state === 'instructionsScreen1' && mouseX < 382 && mouseX > 120 && mouseY > 32 && mouseY < 225) {
     state = 'instructionsScreen2';
+    soundTap.play();
   }
 }
 
 function cupsToMoveCup() {
   if (state === 'instructionsScreen2' && mouseX < 213 && mouseY > 303 && mouseY < 551) {
     state = 'instructionsScreen3';
+    sfxPickup();
   }
 }
 
 function moveCupToCoffee() {
   if (state === 'instructionsScreen3' && mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) {
     state = 'instructionsScreen4';
+    sfxCoffee();
   }
 }
 
 function coffeeToMilk() {
   if (state === 'instructionsScreen4' && mouseX > 530 && mouseX < 630 && mouseY > 370 && mouseY < 575) { // 575 is bottom of play area
     state = 'instructionsScreen5';
+    sfxLiquid();
   }
 }
 
 function milkToSugar() {
   if (state === 'instructionsScreen5' && mouseX > 660 && mouseX < 740 && mouseY > 370 && mouseY < 575) {
     state = 'instructionsScreen6';
+    sfxSquirt();
   }
 }
 
 function sugarToChocolate() {
   if (state === 'instructionsScreen6' && mouseX > 760 && mouseX < 840 && mouseY > 370 && mouseY < 575) {
     state = 'instructionsScreen7';
+    sfxSquirt();
   }
 }
 
 function chocolateToVanilla() {
   if (state === 'instructionsScreen7' && mouseX > 860 && mouseX < 940 && mouseY > 370 && mouseY < 575) {
     state = 'instructionsScreen8';
+    sfxSquirt();
   }
 }
 
 function vanillaToCash() {
   if (state === 'instructionsScreen8' && mouseX > 980 && mouseY > 277 && mouseY < 595) {
     state = 'instructionsScreen9';
+    sfxCupToTable();
   }
 }
 
 function cashToOrder() {
   if (state === 'instructionsScreen9' && mouseX > 960 && mouseX < 1160 && mouseY < 242) {
     state = 'instructionsScreen10';
+    sfxFingerTap();
   }
 }
 
 function orderToReady() {
   if (state === 'instructionsScreen10' && mouseX < 382 && mouseX > 120 && mouseY > 32 && mouseY < 225) {
     state = 'instructionsScreen11';
+    sfxFingerTap();
   }
 }
 
 function readyToStart() {
   if (state === 'instructionsScreen11' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     state = 'startScreen';
+    sfxCupTap2();
   }
 }
 
@@ -1437,6 +1495,7 @@ function gameIntroToGameGame() {
     // if mouse is in the button region and clicked, go to screen
     state = 'gameScreen';
     rngOrder(); // first rng order
+    sfxCupTap2();
   }
 }
 
@@ -1448,6 +1507,7 @@ function coffeeClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 388 && mouseX < 491 && mouseY > 444 && mouseY < 555) { // coffee location
+    sfxCoffee();
     coffee.count += 1;
     coffee.active = true;
     console.log('coffee: ' + coffee.count);
@@ -1458,6 +1518,7 @@ function milkClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 530 && mouseX < 630 && mouseY > 370 && mouseY < 575) { // milk location
+    sfxLiquid();
     milk.count += 1;
     subtotal = subtotal + milk.cost;
     console.log('milk: ' + milk.count);
@@ -1468,6 +1529,7 @@ function sugarClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 660 && mouseX < 740 && mouseY > 370 && mouseY < 575) { // sugar location
+    sfxSquirt();
     sugar.count += 1;
     subtotal = subtotal + sugar.cost;
     console.log('sugar: ' + sugar.count);
@@ -1478,6 +1540,7 @@ function chocolateClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 760 && mouseX < 840 && mouseY > 370 && mouseY < 575) { // chocolate location
+    sfxSquirt();
     chocolate.count += 1;
     subtotal = subtotal + chocolate.cost;
     console.log('chocolate: ' + chocolate.count);
@@ -1488,6 +1551,7 @@ function vanillaClicked() {
   if (state === 'gameScreen' &&
     mouseCup.hasCup === true &&
     mouseX > 860 && mouseX < 940 && mouseY > 370 && mouseY < 575) { // vanilla location
+    sfxSquirt();
     vanilla.count += 1;
     subtotal = subtotal + vanilla.cost;
     console.log('vanilla: ' + vanilla.count);
@@ -1513,7 +1577,7 @@ function nextLevel() {
     calculate();
     resetMoney();
     state = 'gameLevelScreen';
-
+    sfxCupTap2();
   }
 }
 
@@ -1529,6 +1593,7 @@ function gameOverNextButtonCheck() {
   if (state === 'gameOver' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'creditsScreen';
+    sfxCupTap2();
   }
 }
 
