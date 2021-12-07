@@ -120,7 +120,7 @@ Resources:
 
 // Global Variables
 let state = 'titleScreen'; // starting state
-//let state = 'gameScreen'; // test state
+//let state = 'gameOver'; // test state
 
 let mouseUser = {
   x: 0,
@@ -241,6 +241,7 @@ let cupInfo = {
 let numLevel = 1; // start at level 1
 let currentOrders = 0; // start of orders done
 let numOrders = 0; // no orders to start
+let totalOrders = 0;
 
 let tips = 0;
 let subtotal = 0;
@@ -904,7 +905,7 @@ function serveCup() {
 
       if (vibeCount === vibeCountMax) {
         console.log('GAME OVER');
-        // state = 'gameOver';
+        state = 'gameOver';
       }
     }
   }
@@ -1027,6 +1028,46 @@ function rngOrder() {
 }
 // Coffee Orders Display and Chance Creation end
 
+// GAME OVER FINAL SCORE SCREEN
+function gameOver() {
+  gameOverDisplay();
+  finalCalc();
+
+  function gameOverDisplay() {
+    push();
+    background(bgPopUpButtonRight);
+    textSize(64);
+    fill(255);
+    textFont('BebasNeue-Regular')
+    textAlign(CENTER, CENTER);
+    text(`Game Over`, width / 2, height / 2 - 96);
+    text(`You made it to day ` + numLevel, width / 2, height / 2 - 32);
+    textSize(32);
+    //text(`Orders Completed: ` + totalOrders, width / 2, height / 2 + 32);
+    text(`Final Score: $` + levelTotal, width / 2, height / 2 + 64);
+    pop();
+
+    // right button text
+    push();
+    textSize(32);
+    fill(255);
+    textFont('BebasNeue-Regular')
+    textAlign(CENTER, CENTER);
+    text(`Next`, width - 156, height - 60); // Right button text alignment
+    pop();
+  }
+
+  // calculates to display the final orders made total, and the amount of money earned minus the current round that the player lost in
+  function finalCalc() {
+    totalOrders = numOrders;
+    levelTotal = moneyTotal;
+
+    // displaying final number of orders a little tricky and not working, need to create another variable to hold it for longer so that it doesn't take over the current number or add the total needed for the round
+  }
+
+
+}
+
 // Game Screen State Start
 
 
@@ -1090,7 +1131,7 @@ function mousePressed() {
   vanillaClicked();
 
   nextLevel();
-
+  gameOverNextButtonCheck();
   // test functions
   testTester(); // location:testing
 }
@@ -1396,9 +1437,14 @@ function resetMoney() {
   subtotal = 0;
   moneyTotal = 0;
   levelBonus = 0;
-
-
   vibeCount = 0;
+}
+
+function gameOverNextButtonCheck() {
+  if (state === 'gameOver' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
+    // if mouse is in the button region and clicked, go to screen
+    state = 'creditsScreen';
+  }
 }
 
 // Check functions End
