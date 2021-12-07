@@ -168,9 +168,6 @@ let creditsButton = {
   y: 0,
 }
 
-let soundButton;
-let muteButton;
-let stopButton;
 let playButton;
 let helpButton;
 let homeButton;
@@ -311,7 +308,6 @@ function preload() {
   instructionsButton = loadImage('assets/images/Coffee_Background_CART_InstructionsButton.png'); // 188.8 x 75.55
   creditsButton = loadImage('assets/images/Coffee_Background_CART_CreditsButton.png'); // 188.8 x 75.55
 
-  soundButton = loadImage('assets/images/sound.png');
   playButton = loadImage('assets/images/play.png');
   homeButton = loadImage('assets/images/home.png');
   helpButton = loadImage('assets/images/help.png');
@@ -349,9 +345,6 @@ function setup() {
   mediumCup = loadImage('assets/images/Coffee_Background_CART_MediumHighlight.png'); // 209 x 209
   largeCup = loadImage('assets/images/Coffee_Background_CART_LargeHighlight.png'); // 209 x 209
 
-  muteButton = loadImage('assets/images/mute.png');
-  stopButton = loadImage('assets/images/stop.png');
-
   // SFX
   soundCoffee = loadSound('assets/sounds/effects/coffee-in-cup.wav'); // coffee coup
   soundCupTable = loadSound('assets/sounds/effects/cup-on-table.wav'); // cup to table
@@ -370,7 +363,7 @@ function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
 
-  if (state != 'titleScreen') {
+  if (state === 'startScreen' || state === 'gameScreen') {
     controlsDisplay();
   }
 
@@ -411,15 +404,11 @@ function calculate() {
 
 // menu controls to display
 function controlsDisplay() {
-  musicButton = playButton;
-  audioButton = soundButton;
-
   push();
   imageMode(CENTER);
   image(homeButton, 55, height - 22, 30, 30);
-  image(musicButton, 95, height - 22, 30, 30);
-  image(audioButton, 135, height - 22, 30, 30);
-  image(helpButton, 175, height - 22, 30, 30);
+  image(playButton, 95, height - 22, 30, 30);
+  image(helpButton, 135, height - 22, 30, 30);
   pop();
 }
 
@@ -484,6 +473,8 @@ function simState() {
     gameScreenEndLevel();
   } else if (state === 'gameOver') {
     gameOver();
+  } else if (state === 'helpScreen') {
+    helpScreen();
   }
 }
 // Simulation State Controller End
@@ -574,8 +565,8 @@ function startScreen() {
 Text: You are a newly hired barista working at "Good Bean Water". They didn't really give you much training to prepare you for your first shift, so there will be a lot of learning on the job!
 Try not to mess up people's orders else they'll get mad. Be quick and efficient, and get those orders out so you can get paid!
 */
-function instructionsScreen() {
 
+function instructionsScreen() {
   // display instructions screen
   push();
   background(bgPopUpButton2); // PopUp and two buttons
@@ -1197,6 +1188,11 @@ function mousePressed() {
   instructionsButtonCheck(); // location:checks
   creditsButtonCheck(); // location:checks
 
+  homeCheck();
+  musicCheck();
+  helpCheck();
+
+
   // mousePressed checks on the Instruction screen
   menuButtonCheck();
   nextButtonCheck();
@@ -1375,7 +1371,6 @@ function transitionTitleCheck() {
   if (state === 'titleScreen') {
     state = 'startScreen';
     bgAudio(); // on user click, start background Audio
-    //NTS
   }
 }
 // Game State Transition Checks End
@@ -1425,19 +1420,50 @@ the extra padding adjustments ensure that the click is accurate to the button
 startButtons click Checks End
 */
 
+function homeCheck() {
+  if (mouseX > 40 && mouseX < 70 && mouseY > 610 && mouseY < 640) {
+    sfxFingerTap();
+    state = 'startScreen';
+  }
+}
+
+function musicCheck() {
+  if (mouseX > 80 && mouseX < 110 && mouseY > 610 && mouseY < 640) {
+    //console.log('home button');
+    sfxFingerTap();
+    if (bgSoundChristmas.isPlaying()) {
+      bgSoundChristmas.pause();
+      bgSoundCafe.pause();
+    } else {
+      bgSoundChristmas.play();
+      bgSoundCafe.play();
+    }
+  }
+}
+
+function helpCheck() {
+  if (mouseX > 120 && mouseX < 150 && mouseY > 610 && mouseY < 640) {
+    sfxFingerTap();
+    state = 'helpScreen';
+  }
+}
+
+
 // -----------------------------------------------------------------------------
 
 // button Checks
 function menuButtonCheck() {
   if (state === 'instructionsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
-    // if mouse is in the button region and clicked, go to screen
-    state = 'startScreen';
-    sfxCupTap1();
+    goToMenu();
   } else if (state === 'creditsScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
-    // if mouse is in the button region and clicked, go to screen
-    state = 'startScreen';
-    sfxCupTap1();
+    goToMenu();
   } else if (state === 'gameLevelScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
+    goToMenu();
+  } else if (state === 'helpScreen' && mouseX > 52 && mouseX < 268 && mouseY > 546 && mouseY < 626) {
+    goToMenu();
+  }
+
+  function goToMenu() {
     // if mouse is in the button region and clicked, go to screen
     state = 'startScreen';
     sfxCupTap1();
@@ -1637,7 +1663,6 @@ function gameOverNextButtonCheck() {
     sfxCupTap2();
   }
 }
-
 // Check functions End
 
 
@@ -1672,4 +1697,28 @@ function keyReleased() {
   if (keyCode === ESCAPE) {
     state = 'startScreen';
   }
+}
+
+// HELP Screen
+function helpScreen() {
+  // display help screen
+  push();
+  background(bgPopUpButtonLeft); // PopUp and two buttons
+  textSize(32);
+  fill(255);
+
+  textAlign(CENTER, CENTER);
+  text(`If your cup is SMALL, click the coffee once`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
+  text(`If your cup is MEDIUM, click the coffee twice`, width / 2, height / 2 - 32); // subtract font size to be centered higher
+  text(`If your cup is LARGE, click the coffee thrice`, width / 2, height / 2); // neutral center
+  pop();
+
+  // left button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Back`, 164, height - 60); // left button text alignment
+  pop();
 }
