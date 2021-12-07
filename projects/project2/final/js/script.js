@@ -190,6 +190,8 @@ let soundCupTap1; // tap
 let soundCupTap2; // tup
 let soundTap; // finger tap
 
+let soundWrong; // error wrong choice
+
 // Fonts
 let fontBebasNeue;
 let fontOpenSans;
@@ -280,6 +282,8 @@ let cupCheck = false;
 let vibeCount = 0;
 let vibeCountMax = 4;
 
+let displayText;
+
 // -----------------------------------------------------------------------------
 
 /*
@@ -355,6 +359,8 @@ function setup() {
   soundCupTap1 = loadSound('assets/sounds/effects/cup-01.wav'); // tap
   soundCupTap2 = loadSound('assets/sounds/effects/cup-02.wav'); // tup
   soundTap = loadSound('assets/sounds/effects/finger-tap.wav'); // finger tap
+
+  soundWrong = loadSound('assets/sounds/effects/wrong.wav'); // wrong
 }
 /** end of setup(); */
 
@@ -736,7 +742,8 @@ function instructionsScreen11() {
   text(`Complete coffee orders to get money and tip.`, width / 2, height / 2 - 96);
   text(`At the end of the shift, we'll add up what you earned.`, width / 2, height / 2 - 64);
   text(`Your goal is to earn as much as you can each shift.`, width / 2, height / 2 - 32);
-  text(`Just don't take too long or make too many mistakes...`, width / 2, height / 2);
+  text(`Just don't forget what you put in the cup.`, width / 2, height / 2);
+  text(`and don't make too many mistakes...`, width / 2, height / 2 + 32);
   pop();
 
   // right button text
@@ -950,6 +957,7 @@ function serveCup() {
     } else {
       // if the cup passes the vibe check, do everything above, otherwise do everything below
       cupCheck = false
+      sfxWrong();
       vibeCheck();
     }
 
@@ -1122,11 +1130,12 @@ function gameOver() {
     fill(255);
     textFont('BebasNeue-Regular')
     textAlign(CENTER, CENTER);
-    text(`Game Over`, width / 2, height / 2 - 96);
-    text(`You made it to day ` + numLevel, width / 2, height / 2 - 32);
+    text(`Game Over, You're Fired!`, width / 2, height / 2 - 96);
+    text(`Too many mistakes!`, width / 2, height / 2 - 32);
     textSize(32);
     //text(`Orders Completed: ` + totalOrders, width / 2, height / 2 + 32);
-    text(`Final Score: $` + levelTotal, width / 2, height / 2 + 64);
+    text(`You made it to day ` + numLevel, width / 2, height / 2 + 64);
+    text(`Final Score: $` + levelTotal, width / 2, height / 2 + 96);
     pop();
 
     // right button text
@@ -1146,9 +1155,22 @@ function gameOver() {
   function finalCalc() {
     totalOrders = numOrders;
     levelTotal = moneyTotal;
-
     // displaying final number of orders a little tricky and not working, need to create another variable to hold it for longer so that it doesn't take over the current number or add the total needed for the round
   }
+
+  // function displayIngredients(){
+  //   x = random(0, width);
+  //   y = random(0, height);
+  //
+  //   push();
+  //   textSize(16);
+  //   fill(255);
+  //   stroke(0);
+  //   textFont('BebasNeue-Regular')
+  //   textAlign(CENTER, CENTER);
+  //   text(`+1`, x, y) // Right button text alignment
+  //   pop();
+  // }
 
 
 }
@@ -1341,6 +1363,11 @@ function sfxCupTap2() {
 function sfxFingerTap() {
   soundTap.play();
   soundTap.setVolume(3);
+}
+
+function sfxWrong() {
+  soundWrong.play();
+  soundWrong.setVolume(1);
 }
 
 // Audio control end
@@ -1687,9 +1714,10 @@ function gameOverNextButtonCheck() {
 
 // Testing console.log Functions
 function testTester() {
-  console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
+  //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
 
+  console.log(moneyTotal);
 }
 
 // back to menu escape
@@ -1704,13 +1732,15 @@ function helpScreen() {
   // display help screen
   push();
   background(bgPopUpButtonLeft); // PopUp and two buttons
-  textSize(32);
   fill(255);
-
   textAlign(CENTER, CENTER);
+  textSize(64);
+  text(`Tips:`, width / 2, height / 2 - 128); // subtract font size*2 to be centered higher
+  textSize(32);
   text(`If your cup is SMALL, click the coffee once`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
   text(`If your cup is MEDIUM, click the coffee twice`, width / 2, height / 2 - 32); // subtract font size to be centered higher
   text(`If your cup is LARGE, click the coffee thrice`, width / 2, height / 2); // neutral center
+  text(`and try not to forget what's in your cup!`, width / 2, height / 2 + 32); // neutral center
   pop();
 
   // left button text
