@@ -1674,11 +1674,15 @@ function gameOverNextButtonCheck() {
     // if mouse is in the button region and clicked, go to screen
     state = 'creditsScreen';
     sfxCupTap2();
+    newGame();
 
-// reset stats!
-    resetCup();
-    resetMoney();
-    moneyTotal = 0; // full reset here away from resetMoney since it's used each round but this is used ONCE
+    // reset stats!
+    function newGame() {
+      resetCup();
+      resetMoney();
+      moneyTotal = 0; // full reset here away from resetMoney since it's used each round but this is used ONCE
+    }
+
   }
 }
 // Check functions End
