@@ -161,7 +161,20 @@ let creditsButton = {
   x: 0,
   y: 0,
 }
+
 // Sounds
+let bgSoundCafe; // university undertones
+let bgSoundChristmas; // full song
+let bgSoundChristmasLoop; // short loopable
+
+let soundCoffee; // coffee coup
+let soundCupTable; // cup to table
+let soundLiquid; // liquid pours
+let soundSquirt; // squirt noise
+
+let soundCupTap1; // tap
+let soundCupTap2; // tup
+let soundTap; // finger tap
 
 // Fonts
 let fontBebasNeue;
@@ -266,6 +279,11 @@ let vibeCountMax = 4;
 
 /* p5 Function that loads assets */
 function preload() {
+  // Sounds
+  bgSoundCafe = loadSound('assets/sounds/music/university-undertones.mp3'); // university undertones
+  bgSoundChristmas = loadSound('assets/sounds/music/LofiJazzHipHopChristmas.wav'); // full song
+  bgSoundChristmasLoop = loadSound('assets/sounds/music/ChristmasHipHop_Loop.mp3'); // short loopable
+
   // Background Images
   bgTitleScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreenDark.png'); // 600 x 325
   bgStartScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreen.png'); // 600 x 325 w/out buttons
@@ -294,7 +312,17 @@ function preload() {
   smallCup = loadImage('assets/images/Coffee_Background_CART_SmallHighlight.png'); // 209 x 209
   mediumCup = loadImage('assets/images/Coffee_Background_CART_MediumHighlight.png'); // 209 x 209
   largeCup = loadImage('assets/images/Coffee_Background_CART_LargeHighlight.png'); // 209 x 209
-  // Sounds
+
+  // SFX
+  soundCoffee = loadSound('assets/sounds/effects/coffee-in-cup.wav'); // coffee coup
+  soundCupTable = loadSound('assets/sounds/effects/cup-on-table.wav'); // cup to table
+  soundLiquid = loadSound('assets/sounds/effects/pour.wav'); // liquid pours
+  soundSquirt = loadSound('assets/sounds/effects/squirt.wav'); // squirt noise
+
+  soundCupTap1 = loadSound('assets/sounds/effects/cup-01.wav'); // tap
+  soundCupTap2 = loadSound('assets/sounds/effects/cup-02.wav'); // tup
+  soundTap = loadSound('assets/sounds/effects/finger-tap.wav'); // finger tap
+
 
   // Fonts
   fontBebasNeue = loadFont('assets/fonts/BebasNeue-Regular.otf');
@@ -1147,32 +1175,6 @@ function mousePressed() {
 // -----------------------------------------------------------------------------
 
 /*
-███    ███  ██████  ██    ██ ███████ ███████     ██████  ██████   █████   ██████   ██████  ███████ ██████
-████  ████ ██    ██ ██    ██ ██      ██          ██   ██ ██   ██ ██   ██ ██       ██       ██      ██   ██
-██ ████ ██ ██    ██ ██    ██ ███████ █████       ██   ██ ██████  ███████ ██   ███ ██   ███ █████   ██   ██
-██  ██  ██ ██    ██ ██    ██      ██ ██          ██   ██ ██   ██ ██   ██ ██    ██ ██    ██ ██      ██   ██
-██      ██  ██████   ██████  ███████ ███████     ██████  ██   ██ ██   ██  ██████   ██████  ███████ ██████
-
-
-*/
-
-// p5 mouseDragged Start
-function mouseDragged() {
-
-}
-// p5 mouseDragged End
-
-
-
-
-
-
-
-
-
-// -----------------------------------------------------------------------------
-
-/*
 ███    ███  ██████  ██    ██ ███████ ███████     ██████  ███████ ██      ███████  █████  ███████ ███████ ██████
 ████  ████ ██    ██ ██    ██ ██      ██          ██   ██ ██      ██      ██      ██   ██ ██      ██      ██   ██
 ██ ████ ██ ██    ██ ██    ██ ███████ █████       ██████  █████   ██      █████   ███████ ███████ █████   ██   ██
@@ -1199,6 +1201,87 @@ function mouseReleased() {
 // -----------------------------------------------------------------------------
 
 /*
+ █████  ██    ██ ██████  ██  ██████       ██████  ██████  ███    ██ ████████ ██████   ██████  ██
+██   ██ ██    ██ ██   ██ ██ ██    ██     ██      ██    ██ ████   ██    ██    ██   ██ ██    ██ ██
+███████ ██    ██ ██   ██ ██ ██    ██     ██      ██    ██ ██ ██  ██    ██    ██████  ██    ██ ██
+██   ██ ██    ██ ██   ██ ██ ██    ██     ██      ██    ██ ██  ██ ██    ██    ██   ██ ██    ██ ██
+██   ██  ██████  ██████  ██  ██████       ██████  ██████  ██   ████    ██    ██   ██  ██████  ███████
+
+
+*/
+
+// Audio control start
+
+function bgAudio() {
+  bgMusic();
+  bgPassive();
+}
+
+function bgMusic() {
+  // loop song
+  // if (!bgSoundChristmasLoop.isPlaying()){
+  //   bgSoundChristmasLoop.loop();
+  // }
+  // bgSoundChristmasLoop.setVolume(0.1);
+
+  // pick one or the other song
+
+  // full song
+  if (!bgSoundChristmas.isPlaying()) {
+    bgSoundChristmas.loop();
+  }
+  bgSoundChristmas.setVolume(0.08);
+}
+
+function bgPassive() {
+  // university undertones
+  if (!bgSoundCafe.isPlaying()) {
+    bgSoundCafe.loop();
+  }
+  bgSoundCafe.setVolume(0.12);
+}
+
+function sfxCoffee() {
+
+}
+
+function sfxCupToTable() {
+
+}
+
+function sfxLiquid() {
+
+}
+
+function sftSquirt() {
+
+}
+
+function sfxCupTap1() {
+
+}
+
+function sfxCupTap2() {
+
+}
+
+function sfxFingerTap() {
+
+}
+
+// Audio control end
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------
+
+/*
  ██████ ██   ██ ███████  ██████ ██   ██ ███████
 ██      ██   ██ ██      ██      ██  ██  ██
 ██      ███████ █████   ██      █████   ███████
@@ -1213,6 +1296,8 @@ function mouseReleased() {
 function transitionTitleCheck() {
   if (state === 'titleScreen') {
     state = 'startScreen';
+    //bgAudio(); // on user click, start background Audio
+    //NTS
   }
 }
 // Game State Transition Checks End
@@ -1473,5 +1558,5 @@ function gameOverNextButtonCheck() {
 function testTester() {
   //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
-  //rngOrder();
+
 }
