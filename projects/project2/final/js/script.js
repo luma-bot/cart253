@@ -248,6 +248,9 @@ let moneyTotal = 0;
 let levelBonus = 0;
 let levelTotal = 0;
 
+let cupCheck = false;
+let vibeCount = 0;
+let vibeCountMax = 4;
 
 // -----------------------------------------------------------------------------
 
@@ -342,7 +345,6 @@ function calculate() {
   sugarChance = 0;
   chocolateChance = 0;
   vanillaChance = 0;
-
 }
 
 
@@ -404,6 +406,8 @@ function simState() {
     gameScreen();
   } else if (state === 'gameScreenEndLevel') {
     gameScreenEndLevel();
+  } else if (state === 'gameOver') {
+    gameOver();
   }
 }
 // Simulation State Controller End
@@ -847,19 +851,31 @@ function displayLargeCup() {
   pop();
 }
 
-// chefs kiss, cup is served, add to player score
+// chefs kiss, cup is served, the most complicated and most conditions of all the functions, it is THE FUNCTION that runs the game mechanics...
+// serveCup() checks if we are on the correct screen, if the mouse is holding a cup, if there is coffee in the cup, if the mouse is over the correct button
+// and checks if the cup has the right amount of milk, sugar, chocolate, and vanilla, and then checks if there is enough coffee with the right cup selected
+// before being able to execute to the next order and clear the cup in a boolean
 function serveCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && coffee.active === true && mouseX > 1005 && mouseX < 1142 && mouseY > 280 && mouseY < 420) {
-    if(milkChance === milk.count && sugarChance === sugar.count && chocolateChance === chocolate.count && vanillaChance === vanilla.count){
+    if (milkChance === milk.count && sugarChance === sugar.count && chocolateChance === chocolate.count && vanillaChance === vanilla.count) {
       if (selectedCup === 'smallCupSelected' && coffee.count === 1) {
+        cupCheck = true;
         servesUp();
       } else if (selectedCup === 'mediumCupSelected' && coffee.count === 2) {
+        cupCheck = true;
         servesUp();
       } else if (selectedCup === 'largeCupSelected' && coffee.count === 3) {
+        cupCheck = true;
         servesUp();
       }
+    } else {
+      // if the cup passes the vibe check, do everything above, otherwise do everything below
+      cupCheck = false
+      vibeCheck();
     }
 
+    // if all the above is true, serve the coffee, calculate the money, the tip, increase the number of order to the next
+    // reset mouse and cup values, and re-roll the next coffee order
     function servesUp() {
       smallCup.active = false;
       mediumCup.active = false;
@@ -879,9 +895,19 @@ function serveCup() {
       coffeeOrders();
       rngOrder(); // every new order, new rng
     }
-  }
 
-  // add a check to see if the cup has the right amount of coffee
+    // if player FAILS the vibeCheck too many times, game is over...
+    function vibeCheck() {
+      cupCheck = false;
+      vibeCount += 1;
+      console.log('cupCheck: ' + cupCheck);
+
+      if (vibeCount === vibeCountMax) {
+        console.log('GAME OVER');
+        // state = 'gameOver';
+      }
+    }
+  }
 }
 
 // boo made a mistake, remove cup
@@ -906,6 +932,7 @@ function resetCup() {
   vanilla.count = 0;
   subtotal = 0; // reset
   coffee.active = false;
+
   console.log('cup reset');
 }
 
@@ -1365,10 +1392,13 @@ function nextLevel() {
 }
 
 function resetMoney() {
-  let tips = 0;
-  let subtotal = 0;
-  let moneyTotal = 0;
-  let levelBonus = 0;
+  tips = 0;
+  subtotal = 0;
+  moneyTotal = 0;
+  levelBonus = 0;
+
+
+  vibeCount = 0;
 }
 
 // Check functions End
