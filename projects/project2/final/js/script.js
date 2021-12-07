@@ -119,8 +119,8 @@ Resources:
 "use strict";
 
 // Global Variables
-//let state = 'titleScreen'; // starting state
-let state = 'gameScreen'; // test state
+let state = 'titleScreen'; // starting state
+//let state = 'gameScreen'; // test state
 
 let mouseUser = {
   x: 0,
@@ -178,27 +178,13 @@ let mouseCup = {
   hasCup: false,
 }
 
-let cupChance = {
-  small: 25,
-  medium: 50,
-  large: 25,
-}
-
-let milkChance = {
-  pour: 80,
-}
-
-let sugarChance = {
-  pour: 80,
-}
-
-let chocolateChance = {
-  pour: 50,
-}
-
-let vanillaChance = {
-  pour: 30,
-}
+let cupChance;
+let milkChance;
+let sugarChance;
+let chocolateChance;
+let vanillaChance;
+let cupDisplay;
+let requiredCup;
 
 let coffee = {
   count: 0,
@@ -251,8 +237,6 @@ let selectedCup;
 let cupInfo = {
   size: 104.5,
 }
-
-let coffeeOrder;
 
 let numLevel = 1; // start at level 1
 let currentOrders = 0; // start of orders done
@@ -351,6 +335,14 @@ function calculate() {
   smallCup.filled = 0; // 0 of 1
   mediumCup.filled = 0; // 0 of 2
   largeCup.filled = 0; // 0 of 3
+
+  // chance intitiate
+  cupChance = 0;
+  milkChance = 0;
+  sugarChance = 0;
+  chocolateChance = 0;
+  vanillaChance = 0;
+
 }
 
 
@@ -743,7 +735,6 @@ function creditsScreen() {
 // Game Level Information
 function gameLevelScreen() {
   gameLevelDisplay();
-  gameStats();
 }
 
 function gameLevelDisplay() {
@@ -769,10 +760,6 @@ function gameLevelDisplay() {
   pop();
 }
 
-function gameStats() {
-
-}
-
 // -----------------------------------------------------------------------------
 
 // Game Game Time Start
@@ -780,6 +767,8 @@ function gameScreen() {
   gameScreenDisplay();
   constrainMouse();
   levelProgress();
+
+  coffeeOrders();
 }
 // Game Game Time End
 
@@ -881,11 +870,12 @@ function serveCup() {
       moneyTotal = moneyTotal + tips;
       currentOrders += 1;
 
-      console.log('filled' + coffee.count);
+      console.log('filled: ' + coffee.count);
       console.log('serve cup');
       console.log('money total:' + moneyTotal)
       resetCup();
-
+      coffeeOrders();
+      rngOrder(); // every new order, new rng
     }
   }
 
@@ -919,7 +909,7 @@ function resetCup() {
 
 // Tip time
 function getTip() {
-  tips = int(random(1, 5)); // whole number with int
+  tips = int(random(1, 6)); // whole number with int, 1-5 because int
   console.log('tip is: ' + tips);
 }
 
@@ -959,6 +949,55 @@ function gameScreenEndLevel() {
 
 }
 // Game End of Level End
+
+// -----------------------------------------------------------------------------
+
+// Coffee Orders Display and Chance Creation start
+function coffeeOrders() {
+  displayOrder();
+
+  function displayOrder() {
+    // cup chance, most people order a medium, so 50% chance to get a medium
+    // 25% chance to get a smol or tol
+    if (cupChance === 1) {
+      cupDisplay = 'Small';
+      // cup required must equal cup selected
+    } else if (cupChance === 2 || cupChance === 3) {
+      cupDisplay = 'Medium';
+    } else if (cupChance === 4) {
+      cupDisplay = 'Large';
+    }
+
+    push();
+    textSize(32);
+    fill(0);
+    textAlign(LEFT);
+    text(`Order: ` + (currentOrders + 1), width - 220, 80);
+    textSize(16);
+    text(`Size: ` + cupDisplay, width - 220, 102);
+    text(`Milk: ` + milkChance, width - 220, 118);
+    text(`Sugar: ` + sugarChance, width - 220, 134);
+    text(`Chocolate: ` + chocolateChance, width - 220, 150);
+    text(`Vanilla: ` + vanillaChance, width - 220, 166);
+    pop();
+  }
+}
+
+function rngOrder() {
+  // sizeChance();
+  // milkChance();
+  // sugarChance();
+  // chocolateChance();
+  // vanillaChance();
+  cupChance = int(random(1, 5)); // 1 - 4 because int
+  milkChance = int(random(0, 4)); // 0 - 3 triple triple is the max
+  sugarChance = int(random(0, 4)); // 0 - 3 triple triple is the max
+  chocolateChance = int(random(0, 3)); // 0 - 2
+  vanillaChance = int(random(0, 3)); // 0 - 2
+
+}
+// Coffee Orders Display and Chance Creation end
+
 // Game Screen State Start
 
 
@@ -1242,6 +1281,7 @@ function gameIntroToGameGame() {
   if (state === 'gameLevelScreen' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'gameScreen';
+    rngOrder(); // first rng order
   }
 }
 
@@ -1305,7 +1345,7 @@ function levelProgress() {
     levelBonusCalc();
 
     function levelBonusCalc() {
-      levelBonus = int(random(1, 10));
+      levelBonus = int(random(1, 11)); // 1-10 because int
       levelTotal = levelBonus + moneyTotal;
     }
     state = 'gameScreenEndLevel';
@@ -1355,4 +1395,5 @@ function resetMoney() {
 function testTester() {
   //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
+  //rngOrder();
 }
