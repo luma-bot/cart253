@@ -168,6 +168,16 @@ let creditsButton = {
   y: 0,
 }
 
+let soundButton;
+let muteButton;
+let stopButton;
+let playButton;
+let helpButton;
+let homeButton;
+
+let audioButton;
+let musicButton;
+
 // Sounds
 let bgSoundCafe; // university undertones
 let bgSoundChristmas; // full song
@@ -289,11 +299,35 @@ function preload() {
   // Sounds
   bgSoundCafe = loadSound('assets/sounds/music/university-undertones.mp3'); // university undertones
   bgSoundChristmas = loadSound('assets/sounds/music/LofiJazzHipHopChristmas.wav'); // full song
-  bgSoundChristmasLoop = loadSound('assets/sounds/music/ChristmasHipHop_Loop.mp3'); // short loopable
+  //bgSoundChristmasLoop = loadSound('assets/sounds/music/ChristmasHipHop_Loop.mp3'); // short loopable
 
   // Background Images
   bgTitleScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreenDark.png'); // 600 x 325
   bgStartScreen = loadImage('assets/images/Coffee_Background_CART_TitleScreen.png'); // 600 x 325 w/out buttons
+
+  // Assets Images
+  loadingGif = loadImage('assets/images/coffee_loading.gif'); // 1:1
+  startGameButton = loadImage('assets/images/Coffee_Background_CART_StartGameButton.png'); // 188.8 x 75.55
+  instructionsButton = loadImage('assets/images/Coffee_Background_CART_InstructionsButton.png'); // 188.8 x 75.55
+  creditsButton = loadImage('assets/images/Coffee_Background_CART_CreditsButton.png'); // 188.8 x 75.55
+
+  soundButton = loadImage('assets/images/sound.png');
+  playButton = loadImage('assets/images/play.png');
+  homeButton = loadImage('assets/images/home.png');
+  helpButton = loadImage('assets/images/help.png');
+
+  // Fonts
+  fontBebasNeue = loadFont('assets/fonts/BebasNeue-Regular.otf');
+}
+/** end of preload(); */
+
+/* p5 Function that sets up the main components of the simulation */
+function setup() {
+  createCanvas(1200, 650); // double the bg size, adds to the pixelated style, all image sizes must be doubled from the OG size to fit
+  calculate();
+
+  // Image loading after preload
+  // Background Images
   bgPopUpButton2 = loadImage('assets/images/Coffee_Background_CART_PanelScreen2.png'); // 600 x 325 with both Buttons
   bgPopUpButtonLeft = loadImage('assets/images/Coffee_Background_CART_PanelScreenLeft.png'); // 600 x 325 with left button
   bgPopUpButtonRight = loadImage('assets/images/Coffee_Background_CART_PanelScreenRight.png'); // 600 x 325 with right button
@@ -311,14 +345,12 @@ function preload() {
   bgInstOrders = loadImage('assets/images/Coffee_Background_CART_HighlightPostIts.png');
 
   // Assets Images
-  loadingGif = loadImage('assets/images/coffee_loading.gif'); // 1:1
-  startGameButton = loadImage('assets/images/Coffee_Background_CART_StartGameButton.png'); // 188.8 x 75.55
-  instructionsButton = loadImage('assets/images/Coffee_Background_CART_InstructionsButton.png'); // 188.8 x 75.55
-  creditsButton = loadImage('assets/images/Coffee_Background_CART_CreditsButton.png'); // 188.8 x 75.55
-
   smallCup = loadImage('assets/images/Coffee_Background_CART_SmallHighlight.png'); // 209 x 209
   mediumCup = loadImage('assets/images/Coffee_Background_CART_MediumHighlight.png'); // 209 x 209
   largeCup = loadImage('assets/images/Coffee_Background_CART_LargeHighlight.png'); // 209 x 209
+
+  muteButton = loadImage('assets/images/mute.png');
+  stopButton = loadImage('assets/images/stop.png');
 
   // SFX
   soundCoffee = loadSound('assets/sounds/effects/coffee-in-cup.wav'); // coffee coup
@@ -330,17 +362,6 @@ function preload() {
   soundCupTap1 = loadSound('assets/sounds/effects/cup-01.wav'); // tap
   soundCupTap2 = loadSound('assets/sounds/effects/cup-02.wav'); // tup
   soundTap = loadSound('assets/sounds/effects/finger-tap.wav'); // finger tap
-
-
-  // Fonts
-  fontBebasNeue = loadFont('assets/fonts/BebasNeue-Regular.otf');
-}
-/** end of preload(); */
-
-/* p5 Function that sets up the main components of the simulation */
-function setup() {
-  createCanvas(1200, 650); // double the bg size, adds to the pixelated style, all image sizes must be doubled from the OG size to fit
-  calculate();
 }
 /** end of setup(); */
 
@@ -348,6 +369,10 @@ function setup() {
 function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
+
+  if (state != 'titleScreen') {
+    controlsDisplay();
+  }
 
   if (state === 'gameScreen') {
     cursor('grab');
@@ -382,6 +407,20 @@ function calculate() {
   sugarChance = 0;
   chocolateChance = 0;
   vanillaChance = 0;
+}
+
+// menu controls to display
+function controlsDisplay() {
+  musicButton = playButton;
+  audioButton = soundButton;
+
+  push();
+  imageMode(CENTER);
+  image(homeButton, 55, height - 22, 30, 30);
+  image(musicButton, 95, height - 22, 30, 30);
+  image(audioButton, 135, height - 22, 30, 30);
+  image(helpButton, 175, height - 22, 30, 30);
+  pop();
 }
 
 
@@ -1052,8 +1091,10 @@ function coffeeOrders() {
     textSize(32);
     fill(0);
     textAlign(LEFT);
+    textStyle(BOLD);
     text(`Order: ` + (currentOrders + 1), width - 220, 80);
     textSize(16);
+    textStyle(NORMAL);
     text(`Size: ` + cupDisplay, width - 220, 102);
     text(`Milk: ` + milkChance, width - 220, 118);
     text(`Sugar: ` + sugarChance, width - 220, 134);
@@ -1621,7 +1662,14 @@ function gameOverNextButtonCheck() {
 
 // Testing console.log Functions
 function testTester() {
-  //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
+  console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
 
+}
+
+// back to menu escape
+function keyReleased() {
+  if (keyCode === ESCAPE) {
+    state = 'startScreen';
+  }
 }
