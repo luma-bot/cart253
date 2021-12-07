@@ -205,7 +205,7 @@ let startButtonsH = 151.1;
 // Game Logic Variables
 let mouseCup = {
   hasCup: false,
-}
+};
 
 let cupChance;
 let milkChance;
@@ -218,27 +218,27 @@ let requiredCup;
 let coffee = {
   count: 0,
   active: false,
-}
+};
 
 let milk = {
   count: 0,
   cost: 0,
-}
+};
 
 let sugar = {
   count: 0,
   cost: 0,
-}
+};
 
 let chocolate = {
   count: 0,
   cost: 0,
-}
+};
 
 let vanilla = {
   count: 0,
   cost: 0,
-}
+};
 
 // Game Assets Variables
 let smallCup = {
@@ -247,25 +247,29 @@ let smallCup = {
   acive: false,
   cost: 0,
   filled: 0, // needs to be 1
-}
+};
+
 let mediumCup = {
   x: 0,
   y: 0,
   acive: false,
   cost: 0,
   filled: 0, // needs to be 2
-}
+};
+
 let largeCup = {
   x: 0,
   y: 0,
   acive: false,
   cost: 0,
   filled: 0, // needs to be 3
-}
+};
+
 let selectedCup;
+
 let cupInfo = {
   size: 104.5,
-}
+};
 
 let numLevel = 1; // start at level 1
 let currentOrders = 0; // start of orders done
@@ -854,7 +858,6 @@ function gameScreen() {
   gameScreenDisplay();
   constrainMouse();
   levelProgress();
-
   coffeeOrders();
 }
 // Game Game Time End
@@ -1157,22 +1160,6 @@ function gameOver() {
     levelTotal = moneyTotal;
     // displaying final number of orders a little tricky and not working, need to create another variable to hold it for longer so that it doesn't take over the current number or add the total needed for the round
   }
-
-  // function displayIngredients(){
-  //   x = random(0, width);
-  //   y = random(0, height);
-  //
-  //   push();
-  //   textSize(16);
-  //   fill(255);
-  //   stroke(0);
-  //   textFont('BebasNeue-Regular')
-  //   textAlign(CENTER, CENTER);
-  //   text(`+1`, x, y) // Right button text alignment
-  //   pop();
-  // }
-
-
 }
 
 // Game Screen State Start
@@ -1588,8 +1575,11 @@ function gameIntroToGameGame() {
   if (state === 'gameLevelScreen' && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     // if mouse is in the button region and clicked, go to screen
     state = 'gameScreen';
+    calculate();
     rngOrder(); // first rng order
     sfxCupTap2();
+
+    // NOTE THAT CALCULATE HAS TO GO BEFORE RNG ORDER ELSE IT WONT WORK!!!!!!!!
   }
 }
 
@@ -1716,8 +1706,6 @@ function gameOverNextButtonCheck() {
 function testTester() {
   //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
   //console.log(state);
-
-  console.log(moneyTotal);
 }
 
 // back to menu escape
