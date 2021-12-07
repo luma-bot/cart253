@@ -850,12 +850,14 @@ function displayLargeCup() {
 // chefs kiss, cup is served, add to player score
 function serveCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && coffee.active === true && mouseX > 1005 && mouseX < 1142 && mouseY > 280 && mouseY < 420) {
-    if (selectedCup === 'smallCupSelected' && coffee.count === 1) {
-      servesUp();
-    } else if (selectedCup === 'mediumCupSelected' && coffee.count === 2) {
-      servesUp();
-    } else if (selectedCup === 'largeCupSelected' && coffee.count === 3) {
-      servesUp();
+    if(milkChance === milk.count && sugarChance === sugar.count && chocolateChance === chocolate.count && vanillaChance === vanilla.count){
+      if (selectedCup === 'smallCupSelected' && coffee.count === 1) {
+        servesUp();
+      } else if (selectedCup === 'mediumCupSelected' && coffee.count === 2) {
+        servesUp();
+      } else if (selectedCup === 'largeCupSelected' && coffee.count === 3) {
+        servesUp();
+      }
     }
 
     function servesUp() {
