@@ -15,10 +15,13 @@ You are a newly hired barista working at "Good Bean Water". They didn't really g
 Try not to mess up people's orders else they'll get mad. Be quick and efficient, and get those orders out so you can get paid!
 
 Artist Commentary:
-I know that some of the code could be condensed further and I did not use any classes in this project. I was trying them out earlier and still had a lot of difficulty
+I know that some of the code could be condensed further and I did not use many classes or arrays in this project. I was trying them out earlier and still had a lot of difficulty
 in implimenting and figuring out why I was having issues with the classes that I ended up leaving them out and doing it the "long way" so that I wouldn't end up being stuck
 I understand that the better option is to utilize classes and hope I can come back to this project in the future to reimpliment them
 but for now, I hope to have organized it enough so that it would make the most amount of sense with as many comments as I could add.
+But I wanted to impliment a bit of it, but I know I could have better utilized it.
+
+I hope to improve on this project at a future date, and add a difficulty slider, and other game over conditions like a timer.
 
 // -----------------------------------------------------------------------------
 
@@ -127,6 +130,9 @@ Resources:
 // Global Variables
 let state = 'titleScreen'; // starting state
 //let state = 'gameOver'; // test state
+
+//Arrays
+let coffeeArray = []; // array of coffees floating
 
 let mouseUser = {
   x: 0,
@@ -330,6 +336,14 @@ function setup() {
   createCanvas(1200, 650); // double the bg size, adds to the pixelated style, all image sizes must be doubled from the OG size to fit
   calculate();
 
+  // coffeeFloats setup time
+  // Create objects
+  for (let i = 0; i < 20; i++) {
+    coffeeArray.push(new CoffeeClass());
+  }
+
+
+
   // Image loading after preload
   // Background Images
   bgPopUpButton2 = loadImage('assets/images/Coffee_Background_CART_PanelScreen2.png'); // 600 x 325 with both Buttons
@@ -428,8 +442,6 @@ function controlsDisplay() {
 }
 
 
-
-
 // script.js file has large ASCII Headers to make navigation easier when using the minimap plugin on Atom.io
 // and for organizational sakes
 
@@ -512,6 +524,12 @@ function titleScreen() {
   push();
   background(bgTitleScreen); // display cafe background, sized exactly to fit canvas
   imageMode(CENTER);
+
+  // coffee draw
+    for (let i = 0; i < coffeeArray.length; i++) {
+      coffeeArray[i].display();
+    }
+
   image(loadingGif, width / 2, height / 2 - 32, 200, 200);
   textSize(32);
   fill(255);
@@ -983,9 +1001,9 @@ function serveCup() {
       moneyTotal = moneyTotal + tips;
       currentOrders += 1;
 
-      console.log('filled: ' + coffee.count);
-      console.log('serve cup');
-      console.log('money total:' + moneyTotal)
+      //console.log('filled: ' + coffee.count);
+      //console.log('serve cup');
+      //console.log('money total:' + moneyTotal)
       resetCup();
       coffeeOrders();
       rngOrder(); // every new order, new rng
@@ -995,10 +1013,10 @@ function serveCup() {
     function vibeCheck() {
       cupCheck = false;
       vibeCount += 1;
-      console.log('cupCheck: ' + cupCheck);
+      //console.log('cupCheck: ' + cupCheck);
 
       if (vibeCount === vibeCountMax) {
-        console.log('GAME OVER');
+        //console.log('GAME OVER');
         state = 'gameOver';
       }
     }
@@ -1008,7 +1026,7 @@ function serveCup() {
 // boo made a mistake, remove cup
 function discardCup() {
   if (state === 'gameScreen' && mouseCup.hasCup === true && mouseX > 1005 && mouseX < 1142 && mouseY > 456 && mouseY < 594) {
-    console.log('discard cup');
+    //console.log('discard cup');
     sfxLiquid();
     resetCup();
   }
@@ -1035,7 +1053,7 @@ function resetCup() {
 // Tip time
 function getTip() {
   tips = int(random(1, 6)); // whole number with int, 1-5 because int
-  console.log('tip is: ' + tips);
+  //console.log('tip is: ' + tips);
 }
 
 // Game Game Time functions End
@@ -1161,6 +1179,34 @@ function gameOver() {
     levelTotal = moneyTotal;
     // displaying final number of orders a little tricky and not working, need to create another variable to hold it for longer so that it doesn't take over the current number or add the total needed for the round
   }
+}
+
+// -----------------------------------------------------------------------------
+
+// HELP Screen
+function helpScreen() {
+  // display help screen
+  push();
+  background(bgPopUpButtonLeft); // PopUp and two buttons
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(64);
+  text(`Tips:`, width / 2, height / 2 - 128); // subtract font size*2 to be centered higher
+  textSize(32);
+  text(`If your cup is SMALL, click the coffee once`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
+  text(`If your cup is MEDIUM, click the coffee twice`, width / 2, height / 2 - 32); // subtract font size to be centered higher
+  text(`If your cup is LARGE, click the coffee thrice`, width / 2, height / 2); // neutral center
+  text(`and try not to forget what's in your cup!`, width / 2, height / 2 + 32); // neutral center
+  pop();
+
+  // left button text
+  push();
+  textSize(32);
+  fill(255);
+  textFont('BebasNeue-Regular')
+  textAlign(CENTER, CENTER);
+  text(`Back`, 164, height - 60); // left button text alignment
+  pop();
 }
 
 // Game Screen State Start
@@ -1595,7 +1641,7 @@ function coffeeClicked() {
     sfxCoffee();
     coffee.count += 1;
     coffee.active = true;
-    console.log('coffee: ' + coffee.count);
+    //console.log('coffee: ' + coffee.count);
   }
 }
 
@@ -1606,7 +1652,7 @@ function milkClicked() {
     sfxLiquid();
     milk.count += 1;
     subtotal = subtotal + milk.cost;
-    console.log('milk: ' + milk.count);
+    //console.log('milk: ' + milk.count);
   }
 }
 
@@ -1617,7 +1663,7 @@ function sugarClicked() {
     sfxSquirt();
     sugar.count += 1;
     subtotal = subtotal + sugar.cost;
-    console.log('sugar: ' + sugar.count);
+    //console.log('sugar: ' + sugar.count);
   }
 }
 
@@ -1628,7 +1674,7 @@ function chocolateClicked() {
     sfxSquirt();
     chocolate.count += 1;
     subtotal = subtotal + chocolate.cost;
-    console.log('chocolate: ' + chocolate.count);
+    //console.log('chocolate: ' + chocolate.count);
   }
 }
 
@@ -1639,7 +1685,7 @@ function vanillaClicked() {
     sfxSquirt();
     vanilla.count += 1;
     subtotal = subtotal + vanilla.cost;
-    console.log('vanilla: ' + vanilla.count);
+    //console.log('vanilla: ' + vanilla.count);
   }
 }
 // if mouse clicks ingredient location, add ingredient End
@@ -1659,7 +1705,7 @@ function levelProgress() {
 function nextLevel() {
   if (state === 'gameScreenEndLevel' && currentOrders === numOrders && mouseX > 928 && mouseX < 1145 && mouseY > 546 && mouseY < 626) {
     numLevel = numLevel + 1;
-    //calculate();
+    calculate();
     resetMoney();
     state = 'gameLevelScreen';
     sfxCupTap2();
@@ -1691,6 +1737,32 @@ function gameOverNextButtonCheck() {
 }
 // Check functions End
 
+// -----------------------------------------------------------------------------
+
+/*
+ ██████ ██       █████  ███████ ███████ ███████ ███████
+██      ██      ██   ██ ██      ██      ██      ██
+██      ██      ███████ ███████ ███████ █████   ███████
+██      ██      ██   ██      ██      ██ ██           ██
+ ██████ ███████ ██   ██ ███████ ███████ ███████ ███████
+
+
+*/
+// start of classes
+class CoffeeClass {
+  constructor() {
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.size = 50;
+    //this.image =
+  }
+  display() {
+    ellipse(this.x, this.y, this.size, this.size);
+  }
+
+}
+
+// end of classes
 
 
 
@@ -1721,30 +1793,4 @@ function keyReleased() {
   if (keyCode === ESCAPE) {
     state = 'startScreen';
   }
-}
-
-// HELP Screen
-function helpScreen() {
-  // display help screen
-  push();
-  background(bgPopUpButtonLeft); // PopUp and two buttons
-  fill(255);
-  textAlign(CENTER, CENTER);
-  textSize(64);
-  text(`Tips:`, width / 2, height / 2 - 128); // subtract font size*2 to be centered higher
-  textSize(32);
-  text(`If your cup is SMALL, click the coffee once`, width / 2, height / 2 - 64); // subtract font size*2 to be centered higher
-  text(`If your cup is MEDIUM, click the coffee twice`, width / 2, height / 2 - 32); // subtract font size to be centered higher
-  text(`If your cup is LARGE, click the coffee thrice`, width / 2, height / 2); // neutral center
-  text(`and try not to forget what's in your cup!`, width / 2, height / 2 + 32); // neutral center
-  pop();
-
-  // left button text
-  push();
-  textSize(32);
-  fill(255);
-  textFont('BebasNeue-Regular')
-  textAlign(CENTER, CENTER);
-  text(`Back`, 164, height - 60); // left button text alignment
-  pop();
 }
