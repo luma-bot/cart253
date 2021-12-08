@@ -292,8 +292,6 @@ let cupCheck = false;
 let vibeCount = 0;
 let vibeCountMax = 4;
 
-let displayText;
-
 // -----------------------------------------------------------------------------
 
 /*
@@ -341,8 +339,6 @@ function setup() {
   for (let i = 0; i < 20; i++) {
     coffeeArray.push(new CoffeeClass());
   }
-
-
 
   // Image loading after preload
   // Background Images
@@ -527,7 +523,7 @@ function titleScreen() {
 
   // coffee draw
   for (let i = 0; i < coffeeArray.length; i++) {
-
+    coffeeArray[i].move();
     coffeeArray[i].display();
   }
 
@@ -1755,6 +1751,12 @@ class CoffeeClass {
     this.x = random(0, width);
     this.y = random(0, height);
     this.size = 50;
+    this.speed = 5;
+  }
+
+  move() {
+    this.x += random(-this.speed, this.speed);
+    this.y += random(-this.speed, this.speed);
   }
 
   display() {
