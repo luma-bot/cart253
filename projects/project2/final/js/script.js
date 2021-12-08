@@ -526,9 +526,10 @@ function titleScreen() {
   imageMode(CENTER);
 
   // coffee draw
-    for (let i = 0; i < coffeeArray.length; i++) {
-      coffeeArray[i].display();
-    }
+  for (let i = 0; i < coffeeArray.length; i++) {
+
+    coffeeArray[i].display();
+  }
 
   image(loadingGif, width / 2, height / 2 - 32, 200, 200);
   textSize(32);
@@ -1754,10 +1755,14 @@ class CoffeeClass {
     this.x = random(0, width);
     this.y = random(0, height);
     this.size = 50;
-    //this.image =
   }
+
   display() {
-    ellipse(this.x, this.y, this.size, this.size);
+    push();
+    //ellipse(this.x, this.y, this.size, this.size);
+    imageMode(CENTER);
+    image(largeCup, this.x, this.y, this.size, this.size);
+    pop();
   }
 
 }
