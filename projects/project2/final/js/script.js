@@ -373,14 +373,19 @@ function draw() {
   background(51); // default grey background, sized exactly to fit canvas
   simState(); // draws the simulation out
 
+  // Checks if menu controls should be displayed
   if (state === 'startScreen' || state === 'gameScreen') {
     controlsDisplay();
   }
 
+  // checks what mouse to display
   if (state === 'gameScreen') {
     cursor('grab');
+  } else {
+    cursor('default');
   }
 
+  // checks if a cup is in hand, then show a cup in the mouse
   if (smallCup.active === true || mediumCup.active === true || largeCup.active === true) {
     spawnCupToMouse();
   }
@@ -533,7 +538,6 @@ function titleScreen() {
 // Start Screen State Start
 // Description: Displaying the start screen of game with interactive buttons
 function startScreen() {
-
   // startGameButton position
   startGameButton.x = width / 2;
   startGameButton.y = height / 2;
