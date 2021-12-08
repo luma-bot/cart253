@@ -521,7 +521,7 @@ function titleScreen() {
   background(bgTitleScreen); // display cafe background, sized exactly to fit canvas
   imageMode(CENTER);
 
-  // coffee draw
+  // jittery coffee draw
   for (let i = 0; i < coffeeArray.length; i++) {
     coffeeArray[i].move();
     coffeeArray[i].display();
