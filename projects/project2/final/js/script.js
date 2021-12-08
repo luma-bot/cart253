@@ -1710,7 +1710,6 @@ function gameOverNextButtonCheck() {
 // Testing console.log Functions
 function testTester() {
   //console.log('mouseX: ' + mouseX + ' ' + 'mouseY: ' + mouseY);
-  //console.log(state);
 }
 
 // back to menu escape
